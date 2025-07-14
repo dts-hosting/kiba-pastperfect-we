@@ -2,7 +2,6 @@
 .rspec_status
 .yardoc/
 .rubocop-https*
-docs
 data/backup
 data/endpoint/**/*.json
 data/for_import/**/*.csv
