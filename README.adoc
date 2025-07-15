@@ -13,3 +13,9 @@ endif::[]
 = Pastperfect Web Edition ETL
 
 https://github.com/lyrasis/kiba-extend/[`kiba-extend`] project to generate human-analyzable and -usable CSVs from Pastperfect Web Edition tables.
+
+== Config of note
+
+=== Skippable tables
+
+Set to `./data/skippable_tables.txt`. Ideally, add tables that should be skipped in all PP WE instances to this file. Override `:client_skip_tables` from client project if there are additional tables that should be skipped for a specific client project for some reason.

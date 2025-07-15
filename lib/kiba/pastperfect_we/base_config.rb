@@ -18,6 +18,22 @@ module Kiba
           default: File.join(datadir, "working"),
           reader: true
 
+        # @return [String] path to list of skippable table names for any
+        #   PP WE project
+        setting :skippable_tables_path,
+          default: nil,
+          reader: true,
+          constructor: ->(default) do
+            File.join(
+              Gem.loaded_specs["pastperfect_we"].full_gem_path,
+              "data", "skippable_tables.txt"
+            )
+          end
+
+        # @return [Array<String>] table names to be skipped for individual
+        #   client project
+        setting :client_skip_tables, default: [], reader: true
+
         # ----------------------------------------------------------------
         # REQUIRED SETTINGS - Must be defined/overridden in client project
         #   config
