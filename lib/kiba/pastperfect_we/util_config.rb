@@ -22,9 +22,7 @@ module Kiba
         #   project) and Hash value will be the registry namespace the files
         #   are registered in.
         setting :auto_register_dirs,
-          default: {
-            "orig" => "orig"
-          },
+          default: {},
           reader: true
 
         #################################################################
