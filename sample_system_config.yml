@@ -1,0 +1,3 @@
+# path to directory containing orig, working, and other directories for
+#   this project
+datadir: "path_to_/local/directory"
