@@ -16,6 +16,8 @@ module Kiba
           )
         end
 
+        register_orig_files
+        register_preprocess_jobs
         register_files
 
         # # This needs to be added if you are using the IterativeCleanup mixin
@@ -36,6 +38,40 @@ module Kiba
         end
 
         register_non_iterative_cleanup_supplied
+      end
+
+      def register_orig_files
+        Ppwe.registry.namespace("orig") do
+          Ppwe::Table.data.values.each do |filedata|
+            jobkey = filedata[:key]
+
+            register jobkey, {
+              path: filedata[:origpath],
+              supplied: true,
+              tags: %i[orig]
+            }
+          end
+        end
+      end
+
+      def register_preprocess_jobs
+        Ppwe.registry.namespace("preprocess") do
+          Ppwe::Table.data.values.each do |filedata|
+            jobkey = filedata[:key]
+
+            register jobkey, {
+              path: filedata[:preprocesspath],
+              creator: {
+                callee: Ppwe::Jobs::Preprocess,
+                args: {
+                  source: :"orig__#{filedata[:key]}",
+                  dest: :"preprocess__#{jobkey}"
+                }
+              },
+              tags: %i[preprocess]
+            }
+          end
+        end
       end
 
       def register_files
