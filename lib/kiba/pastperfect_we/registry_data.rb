@@ -97,6 +97,15 @@ module Kiba
             register jobkey, jobhash
           end
         end
+
+        Ppwe.registry.namespace("person") do
+          register :combined, {
+            path: File.join(Ppwe.wrkdir, "person_combined.csv"),
+            creator: Ppwe::Jobs::Person::Combined,
+            tags: %i[combined person],
+            lookup_on: Ppwe.lookup_ids["Person"]
+          }
+        end
       end
       private_class_method :register_files
 
