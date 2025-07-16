@@ -24,6 +24,8 @@ module Kiba
             transform Delete::EmptyFields
 
             transform do |row|
+              next row if row.keys.length == 1
+
               chk = row.dup
               chk.shift
               row unless chk.all? { |field, val| val.blank? }
