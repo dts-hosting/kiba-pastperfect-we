@@ -56,20 +56,20 @@ module Kiba
 
       def register_preprocess_jobs
         Ppwe.registry.namespace("preprocess") do
-          Ppwe::Table.data.values.each do |filedata|
+          Ppwe::Table.data.each do |name, filedata|
             jobkey = filedata[:key]
-
-            register jobkey, {
+            jobhash = {
               path: filedata[:preprocesspath],
               creator: {
                 callee: Ppwe::Jobs::Preprocess,
-                args: {
-                  source: :"orig__#{filedata[:key]}",
-                  dest: :"preprocess__#{jobkey}"
-                }
+                args: {source: :"orig__#{filedata[:key]}",
+                       dest: :"preprocess__#{jobkey}"}
               },
-              tags: %i[preprocess]
-            }
+              tags: %i[preprocess],
+              lookup_on: Ppwe.lookup_ids[name]
+            }.compact
+
+            register jobkey, jobhash
           end
         end
       end
