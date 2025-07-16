@@ -76,6 +76,27 @@ module Kiba
 
       def register_files
         puts "Registering `register_files` entries from Ppwe" if Ppwe.debug?
+
+        Ppwe.registry.namespace("prep") do
+          Ppwe::Table.data.each do |name, filedata|
+            jobmod = Ppwe::Jobs::Prep.constants.find { |c| c == name.to_sym }
+            next unless jobmod
+
+            jobkey = filedata[:key]
+            jobhash = {
+              path: File.join(Ppwe.wrkdir, "#{jobkey}_prep.csv"),
+              creator: {
+                callee: "Ppwe::Jobs::Prep::#{jobmod}".constantize,
+                args: {source: :"preprocess__#{filedata[:key]}",
+                       dest: :"prep__#{jobkey}"}
+              },
+              tags: [:prep, jobkey.to_sym],
+              lookup_on: Ppwe.lookup_ids[name]
+            }.compact
+
+            register jobkey, jobhash
+          end
+        end
       end
       private_class_method :register_files
 
