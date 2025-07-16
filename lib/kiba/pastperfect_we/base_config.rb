@@ -39,6 +39,11 @@ module Kiba
             "DictionaryItem" => :id
           },
           reader: true
+
+        setting :boolean_yes_no_mapping,
+          default: {"0" => "no", "1" => "yes"},
+          reader: true
+
         # ----------------------------------------------------------------
         # REQUIRED SETTINGS - Must be defined/overridden in client project
         #   config
