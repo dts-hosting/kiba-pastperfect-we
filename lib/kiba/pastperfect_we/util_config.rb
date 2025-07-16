@@ -71,8 +71,12 @@ module Kiba
       # @param jobkey [Symbol]
       # @return [Array<Symbol>]
       def headers_for(jobkey)
-        path = Ppwe.registry.resolve(jobkey).path
-        return [] unless File.exist?(path)
+        return [] if Ppwe.blank_jobs.include?(jobkey)
+        return [] unless job_output?(jobkey)
+
+        job = Ppwe.registry.resolve(jobkey)
+        path = job.path
+        Kiba::Extend::Command::Run.job(jobkey) unless File.exist?(path)
 
         `head -n 1 #{path}`.chomp
           .split(",")
