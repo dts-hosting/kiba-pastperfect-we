@@ -1,0 +1,14 @@
+= CSV Creation
+:toc:
+
+== Introduction
+
+This documents the table relations that should be used to form PastPerfect records from exported MS SQL tables.
+
+== Names
+. Copy Person.csv and rename person_combined.csv
+. Add biographical info from PersonBiographicalInformation.csv to end of person_combined.csv.
+.. Select * from bios based on Person.Id = PersonBiographicalInformation.Id.
+. Add URLs from Url.csv based on PersonUrl.csv to end of person_combined.csv
+.. It doesn't look like in this case any person has more than one URL, but may need to combine in future.
+.. Select * from Url.csv based on join table (Person.Id = PersonUrl.PersonId, Url.Id = PersonUrl.UrlId)
