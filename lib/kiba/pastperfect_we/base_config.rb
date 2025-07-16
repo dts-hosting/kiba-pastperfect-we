@@ -36,7 +36,9 @@ module Kiba
 
         setting :lookup_ids,
           default: {
-            "DictionaryItem" => :id
+            "DictionaryItem" => :id,
+            "Person" => :id,
+            "PersonBiographicalInformation" => :id
           },
           reader: true
 
