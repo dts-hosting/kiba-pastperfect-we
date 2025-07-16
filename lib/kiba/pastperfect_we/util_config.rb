@@ -60,6 +60,7 @@ module Kiba
       end
 
       # @param jobkey [Symbol]
+      # @return [Boolean]
       def job_output?(jobkey)
         return false if Ppwe.blank_jobs.include?(jobkey)
 
