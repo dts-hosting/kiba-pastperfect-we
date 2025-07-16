@@ -1,9 +1,6 @@
--o docs
+-o doc
 --readme README.adoc
---title 'FWM Migration Documentation'
+--title 'Kiba-Pastperfect_we Documentation'
 --charset utf-8
 --no-private
 --markup asciidoc
---tag decision:"DECISION"
---tag outputtype:"OUTPUT TYPE"
---tag manual:"MANUAL WORK"
