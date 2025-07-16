@@ -34,6 +34,11 @@ module Kiba
         #   client project
         setting :client_skip_tables, default: [], reader: true
 
+        setting :lookup_ids,
+          default: {
+            "DictionaryItem" => :id
+          },
+          reader: true
         # ----------------------------------------------------------------
         # REQUIRED SETTINGS - Must be defined/overridden in client project
         #   config
