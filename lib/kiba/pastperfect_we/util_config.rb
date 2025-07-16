@@ -76,12 +76,26 @@ module Kiba
 
         job = Ppwe.registry.resolve(jobkey)
         path = job.path
-        Kiba::Extend::Command::Run.job(jobkey) unless File.exist?(path)
 
         `head -n 1 #{path}`.chomp
           .split(",")
           .map(&:to_sym)
       end
+
+      # @param jobkey [Symbol]
+      # @param drop [Array<Symbol>] fields in addition to any lookup key to drop
+      # @return [Array<Symbol>]
+      def mergeable_headers_for(jobkey, drop: [])
+        all = headers_for(jobkey) - drop
+        lkupkey = lookup_on_for(jobkey)
+        return all unless lkupkey
+
+        all - [lkupkey]
+      end
+
+      # @param jobkey [Symbol]
+      # @return [Symbol]
+      def lookup_on_for(jobkey) = Ppwe.registry.resolve(jobkey).lookup_on
     end
   end
 end
