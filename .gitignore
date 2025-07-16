@@ -9,3 +9,4 @@ data/working/**/*.csv
 **/*.csv#
 **/.DS_Store
 /system_config.yml
+/doc/
