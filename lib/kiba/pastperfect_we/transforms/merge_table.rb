@@ -17,13 +17,16 @@ module Kiba
         # @param drop_fields [Array<Symbol] fields NOT to merge from the source
         #   table. NOTE: known/registered ID fields and created/modified by/date
         #   fields are automatically excluded
+        # @param merged_field_prefix [nil, String] added to each merged-in field
         # @param opts [nil, Hash] of additional kiba-extend
         #   Merge::MultiRowLookup parameters to pass through. The following
         #   parameters cannot be passed through: lookup, keycolumn, fieldmap
-        def initialize(source:, join_column:, drop_fields: [], opts: nil)
+        def initialize(source:, join_column:, drop_fields: [],
+          merged_field_prefix: nil, opts: nil)
           @source = source
           @join_column = join_column
           @drop = drop_fields
+          @prefix = merged_field_prefix
           @opts = opts
           @lookup = Ppwe.get_lookup(
             jobkey: source, column: Ppwe.lookup_on_for(source)
@@ -38,7 +41,8 @@ module Kiba
 
         private
 
-        attr_reader :source, :join_column, :drop, :opts, :lookup, :merger
+        attr_reader :source, :join_column, :drop, :prefix, :opts, :lookup,
+          :merger
 
         def build_merge_transform_opts
           base = {
@@ -52,10 +56,13 @@ module Kiba
         end
 
         def build_merge_map
-          Ppwe.mergeable_headers_for(
+          result = Ppwe.mergeable_headers_for(
             source, drop: drop
           ).map { |field| [field, field] }
             .to_h
+          return result unless prefix
+
+          result.transform_keys { |key| "#{prefix}_#{key}" }
         end
 
         def clean_opts
