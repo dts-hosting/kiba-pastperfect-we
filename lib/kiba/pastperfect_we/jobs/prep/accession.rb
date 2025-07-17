@@ -11,8 +11,7 @@ module Kiba
             Kiba::Extend::Jobs::Job.new(
               files: {
                 source: source,
-                destination: dest,
-                lookup: :preprocess__dictionary_item
+                destination: dest
 
               },
               transformer: xforms
