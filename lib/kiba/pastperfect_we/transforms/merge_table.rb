@@ -53,7 +53,7 @@ module Kiba
 
         def build_merge_map
           Ppwe.mergeable_headers_for(
-            :prep__person_biographical_information, drop: drop
+            source, drop: drop
           ).map { |field| [field, field] }
             .to_h
         end
