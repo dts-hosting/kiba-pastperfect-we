@@ -26,12 +26,10 @@ module Kiba
                 source: :isdeceased,
                 mapping: Ppwe.boolean_yes_no_mapping
 
-              transform Clean::RegexpFindReplaceFieldVals,
+              transform Ppwe::Transforms::CrSplitter,
                 fields: %i[nicknames education titlesandhonors relationships
                   placesofresidence employerandoccupation publications
-                  affiliations spouses children],
-                find: /(%CR%)+/,
-                replace: "|"
+                  affiliations spouses children]
             end
           end
         end
