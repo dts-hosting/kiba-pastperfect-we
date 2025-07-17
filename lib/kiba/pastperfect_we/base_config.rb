@@ -38,7 +38,9 @@ module Kiba
           default: {
             "DictionaryItem" => :id,
             "Person" => :id,
-            "PersonBiographicalInformation" => :id
+            "PersonBiographicalInformation" => :id,
+            "User" => :userid,
+            "UserRole" => :id
           },
           reader: true
 
