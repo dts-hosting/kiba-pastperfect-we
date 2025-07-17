@@ -39,6 +39,7 @@ module Kiba
             "DictionaryItem" => :id,
             "Person" => :id,
             "PersonBiographicalInformation" => :id,
+            "PersonUrl" => :personid,
             "Url" => :id,
             "User" => :userid,
             "UserRole" => :id
