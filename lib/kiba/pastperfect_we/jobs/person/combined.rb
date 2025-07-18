@@ -28,6 +28,7 @@ module Kiba
               transform Ppwe::Transforms::MergeTable,
                 source: :prep__person_biographical_information,
                 join_column: :id,
+                delete_join_column: false,
                 drop_fields: %i[maritalstatus],
                 opts: {null_placeholder: "FOO",
                        constantmap: {biomerged: "y"}}
