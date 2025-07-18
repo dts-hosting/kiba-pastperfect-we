@@ -20,10 +20,6 @@ module Kiba
 
           def xforms
             Kiba.job_segment do
-              # OLIVIA - We realistically are not going to be migrating/caring
-              #   about what user added a URL value to the database. I have put
-              #   this here as an example of how you'd do this lookup. Feel free
-              #   to remove this, and remove the :prep__user lookup above
               transform Merge::MultiRowLookup,
                 lookup: prep__user,
                 keycolumn: :useraddedid,
