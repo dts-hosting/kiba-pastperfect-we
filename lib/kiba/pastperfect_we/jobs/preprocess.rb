@@ -8,29 +8,32 @@ module Kiba
       module Preprocess
         module_function
 
-        def job(source:, dest:)
+        def job(source:, dest:, tablename:)
           Kiba::Extend::Jobs::Job.new(
             files: {
               source: source,
               destination: dest
 
             },
-            transformer: xforms
+            transformer: xforms(tablename)
           )
         end
 
-        def xforms
+        def xforms(tablename)
           Kiba.job_segment do
             transform Delete::EmptyFields
 
             transform Delete::Fields, fields: Ppwe::Preprocess.delete_fields
 
-            transform do |row|
-              next row if row.keys.length == 1
+            unless Ppwe::Preprocess.keep_id_only_field_populated_tables
+                .include?(tablename)
+              transform do |row|
+                next row if row.keys.length == 1
 
-              chk = row.dup
-              chk.shift
-              row unless chk.all? { |field, val| val.blank? }
+                chk = row.dup
+                chk.shift
+                row unless chk.all? { |field, val| val.blank? }
+              end
             end
           end
         end
