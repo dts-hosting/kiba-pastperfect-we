@@ -87,7 +87,7 @@ module Kiba
       # @param drop [Array<Symbol>] fields in addition to any lookup key to drop
       # @return [Array<Symbol>]
       def mergeable_headers_for(jobkey, drop: [])
-        all = headers_for(jobkey) - drop
+        all = headers_for(jobkey) - [drop].flatten
         lkupkey = lookup_on_for(jobkey)
         return all unless lkupkey
 
