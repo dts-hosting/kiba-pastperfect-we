@@ -63,7 +63,8 @@ module Kiba
               creator: {
                 callee: Ppwe::Jobs::Preprocess,
                 args: {source: :"orig__#{filedata[:key]}",
-                       dest: :"preprocess__#{jobkey}"}
+                       dest: :"preprocess__#{jobkey}",
+                       tablename: name}
               },
               tags: [:preprocess, jobkey.to_sym],
               lookup_on: Ppwe.lookup_column_for(name)
