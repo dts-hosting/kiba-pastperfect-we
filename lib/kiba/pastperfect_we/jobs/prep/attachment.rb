@@ -1,0 +1,41 @@
+# frozen_string_literal: true
+
+module Kiba
+  module PastperfectWe
+    module Jobs
+      module Prep
+        module Attachment
+          module_function
+
+          def job(source:, dest:)
+            Kiba::Extend::Jobs::Job.new(
+              files: {
+                source: source,
+                destination: dest
+              },
+              transformer: xforms
+            )
+          end
+
+          def xforms
+            Kiba.job_segment do
+              transform Ppwe::Transforms::DictionaryLookup,
+                fields: %i[museumid]
+
+              transform Ppwe::Transforms::MergeTable,
+                source: :prep__file_object,
+                join_column: :fileobjectid
+
+              transform Delete::Fields,
+                fields: %i[dateadded useraddedid]
+
+              transform Replace::FieldValueWithStaticMapping,
+                source: :ispublicaccess,
+                mapping: Ppwe.boolean_yes_no_mapping
+            end
+          end
+        end
+      end
+    end
+  end
+end
