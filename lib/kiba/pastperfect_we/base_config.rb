@@ -34,23 +34,15 @@ module Kiba
         #   client project
         setting :client_skip_tables, default: [], reader: true
 
+        # @return [Hash{String=>Symbol}] keys are original PP table names or
+        #   constant values derived from them; values are the default field
+        #   from each table that should be used as :lookup_on value in
+        #   registry entries for jobs
         setting :lookup_ids,
           default: {
-            "Accession" => :id,
-            "AccessionInstructionsAndOtherInformation" => :id,
-            "AccessionInsuranceInformation" => :id,
-            "AccessionShippingInformation" => :id,
-            "Activity" => :id,
-            "Attachment" => :id,
-            "DictionaryItem" => :id,
-            "FileObject" => :id,
-            "Person" => :id,
             "PersonAttachment" => :personid,
-            "PersonBiographicalInformation" => :id,
             "PersonUrl" => :personid,
-            "Url" => :id,
-            "User" => :userid,
-            "UserRole" => :id
+            "User" => :userid
           },
           reader: true
 
