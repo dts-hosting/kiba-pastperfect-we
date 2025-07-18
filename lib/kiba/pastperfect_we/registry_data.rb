@@ -65,7 +65,7 @@ module Kiba
                 args: {source: :"orig__#{filedata[:key]}",
                        dest: :"preprocess__#{jobkey}"}
               },
-              tags: %i[preprocess],
+              tags: [:preprocess, jobkey.to_sym],
               lookup_on: Ppwe.lookup_column_for(name)
             }.compact
 
