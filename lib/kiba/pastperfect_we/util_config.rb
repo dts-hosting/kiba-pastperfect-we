@@ -94,6 +94,13 @@ module Kiba
         all - [lkupkey]
       end
 
+      # Used to find the field that should be set as lookup_on value when
+      #   initially creating a registry entry for a job
+      # @param tablename [String]
+      # @return [Symbol]
+      def lookup_column_for(tablename) = Ppwe.lookup_ids.fetch(tablename, :id)
+
+      # Used to find the lookup_on value of a job's registry entry
       # @param jobkey [Symbol]
       # @return [Symbol]
       def lookup_on_for(jobkey) = Ppwe.registry.resolve(jobkey).lookup_on

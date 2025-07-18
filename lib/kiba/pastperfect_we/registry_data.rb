@@ -66,7 +66,7 @@ module Kiba
                        dest: :"preprocess__#{jobkey}"}
               },
               tags: %i[preprocess],
-              lookup_on: Ppwe.lookup_ids[name]
+              lookup_on: Ppwe.lookup_column_for(name)
             }.compact
 
             register jobkey, jobhash
@@ -91,7 +91,7 @@ module Kiba
                        dest: :"prep__#{jobkey}"}
               },
               tags: [:prep, jobkey.to_sym],
-              lookup_on: Ppwe.lookup_ids[name]
+              lookup_on: Ppwe.lookup_column_for(name)
             }.compact
 
             register jobkey, jobhash
@@ -103,7 +103,7 @@ module Kiba
             path: File.join(Ppwe.wrkdir, "person_combined.csv"),
             creator: Ppwe::Jobs::Person::Combined,
             tags: %i[combined person],
-            lookup_on: Ppwe.lookup_ids["Person"]
+            lookup_on: Ppwe.lookup_column_for("Person")
           }
         end
       end
