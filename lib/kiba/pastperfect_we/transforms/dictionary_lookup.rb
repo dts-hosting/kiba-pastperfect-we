@@ -5,11 +5,11 @@ module Kiba
     module Transforms
       class DictionaryLookup
         def initialize(fields:)
-          @fields = fields
+          @fields = [fields].flatten
           @lookup = Ppwe.get_lookup(
             jobkey: :preprocess__dictionary_item, column: :id
           )
-          @mergers = fields.map do |field|
+          @mergers = @fields.map do |field|
             [field, build_merge_transform(field)]
           end.to_h
         end
