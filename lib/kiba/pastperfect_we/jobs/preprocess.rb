@@ -23,6 +23,8 @@ module Kiba
           Kiba.job_segment do
             transform Delete::EmptyFields
 
+            transform Delete::Fields, fields: Ppwe::Preprocess.delete_fields
+
             transform do |row|
               next row if row.keys.length == 1
 
