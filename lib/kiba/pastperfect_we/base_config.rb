@@ -36,6 +36,12 @@ module Kiba
 
         setting :lookup_ids,
           default: {
+            "Accession" => :id,
+            "AccessionInstructionsAndOtherInformation" => :id,
+            "AccessionInsuranceInformation" => :id,
+            "AccessionShippingInformation" => :id,
+            "Activity" => :id,
+            "Attachment" => :id,
             "DictionaryItem" => :id,
             "Person" => :id,
             "PersonBiographicalInformation" => :id,
