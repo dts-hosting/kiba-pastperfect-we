@@ -43,6 +43,7 @@ module Kiba
             "Activity" => :id,
             "Attachment" => :id,
             "DictionaryItem" => :id,
+            "FileObject" => :id,
             "Person" => :id,
             "PersonBiographicalInformation" => :id,
             "PersonUrl" => :personid,
