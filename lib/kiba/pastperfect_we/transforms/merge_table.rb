@@ -14,6 +14,8 @@ module Kiba
         # @param source [Symbol] job key for merge source table
         # @param join_column [Symbol] field in calling/target table containing
         #   value to match against lookup_on column in source table
+        # @param delete_join_column [Boolean] whether to delete the join column
+        #   after joining
         # @param drop_fields [Array<Symbol] fields NOT to merge from the source
         #   table. NOTE: known/registered ID fields and created/modified by/date
         #   fields are automatically excluded
@@ -21,10 +23,11 @@ module Kiba
         # @param opts [nil, Hash] of additional kiba-extend
         #   Merge::MultiRowLookup parameters to pass through. The following
         #   parameters cannot be passed through: lookup, keycolumn, fieldmap
-        def initialize(source:, join_column:, drop_fields: [],
-          merged_field_prefix: nil, opts: nil)
+        def initialize(source:, join_column:, delete_join_column: true,
+          drop_fields: [], merged_field_prefix: nil, opts: nil)
           @source = source
           @join_column = join_column
+          @delete = delete_join_column
           @drop = drop_fields
           @prefix = merged_field_prefix
           @opts = opts
@@ -36,13 +39,14 @@ module Kiba
 
         def process(row)
           merger.process(row)
+          row.delete(join_column) if delete
           row
         end
 
         private
 
-        attr_reader :source, :join_column, :drop, :prefix, :opts, :lookup,
-          :merger
+        attr_reader :source, :join_column, :delete, :drop, :prefix, :opts,
+          :lookup, :merger
 
         def build_merge_transform_opts
           base = {
