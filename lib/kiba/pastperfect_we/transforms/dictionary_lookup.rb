@@ -9,11 +9,15 @@ module Kiba
           @lookup = Ppwe.get_lookup(
             jobkey: :preprocess__dictionary_item, column: :id
           )
-          @mergers = fields.map { |field| build_merge_transform(field) }
+          @mergers = fields.map do |field|
+            [field, build_merge_transform(field)]
+          end.to_h
         end
 
         def process(row)
-          mergers.each { |merger| merger.process(row) }
+          mergers.each do |field, merger|
+            merger.process(row) if row.key?(field)
+          end
           fields.each { |field| row.delete(field) }
           row
         end
