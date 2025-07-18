@@ -23,7 +23,6 @@ module Kiba
                 source: :prep__url,
                 join_column: :urlid,
                 merged_field_prefix: "url"
-              transform Delete::Fields, fields: :urlid
             end
           end
         end
