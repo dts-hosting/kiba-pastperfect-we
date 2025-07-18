@@ -12,7 +12,10 @@ module Kiba
               files: {
                 source: :prep__person,
                 destination: :person__combined,
-                lookup: :prep__person_url
+                lookup: %i[
+                  prep__person_url
+                  prep__person_attachment
+                ]
               },
               transformer: xforms
             )
@@ -20,11 +23,6 @@ module Kiba
 
           def xforms
             Kiba.job_segment do
-              # OLIVIA
-              # This job definition clearly shows the distinction I was trying
-              #   to make in our meeting today about MergeTable (for merging in
-              #   all or most of a table) vs. Merge::MultiRowLookup (for merging
-              #   in just a few fields)
               transform Ppwe::Transforms::MergeTable,
                 source: :prep__person_biographical_information,
                 join_column: :id,
@@ -32,6 +30,18 @@ module Kiba
                 drop_fields: %i[maritalstatus],
                 opts: {null_placeholder: "FOO",
                        constantmap: {biomerged: "y"}}
+
+              transform Ppwe::Transforms::MergeTable,
+                source: :prep__person_attachment,
+                join_column: :id,
+                delete_join_column: false,
+                drop_fields: :id,
+                merged_field_prefix: "attachment"
+
+              transform Count::MatchingRowsInLookup,
+                lookup: prep__person_attachment,
+                keycolumn: :id,
+                targetfield: :attachment_count
 
               transform Merge::MultiRowLookup,
                 lookup: prep__person_url,
