@@ -45,6 +45,7 @@ module Kiba
             "DictionaryItem" => :id,
             "FileObject" => :id,
             "Person" => :id,
+            "PersonAttachment" => :personid,
             "PersonBiographicalInformation" => :id,
             "PersonUrl" => :personid,
             "Url" => :id,
