@@ -21,8 +21,7 @@ module Kiba
             Kiba.job_segment do
               transform Ppwe::Transforms::MergeTable,
                 source: :prep__activity,
-                join_column: :activityid,
-                merged_field_prefix: "activity"
+                join_column: :activityid
             end
           end
         end
