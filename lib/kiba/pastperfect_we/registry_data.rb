@@ -107,6 +107,7 @@ module Kiba
             lookup_on: Ppwe.lookup_column_for("Accession")
           }
         end
+
         Ppwe.registry.namespace("person") do
           register :combined, {
             path: File.join(Ppwe.wrkdir, "person_combined.csv"),

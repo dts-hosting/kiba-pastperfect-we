@@ -32,6 +32,12 @@ module Kiba
                 opts: {null_placeholder: "FOO"}
 
               transform Ppwe::Transforms::MergeTable,
+                source: :preprocess__accession_shipping_information,
+                join_column: :id,
+                delete_join_column: false,
+                opts: {null_placeholder: "FOO"}
+
+              transform Ppwe::Transforms::MergeTable,
                 source: :prep__accession_activities,
                 join_column: :id,
                 drop_fields: :id,
