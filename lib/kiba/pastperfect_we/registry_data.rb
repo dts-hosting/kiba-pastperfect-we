@@ -99,6 +99,14 @@ module Kiba
           end
         end
 
+        Ppwe.registry.namespace("accession") do
+          register :combined, {
+            path: File.join(Ppwe.wrkdir, "accession_combined.csv"),
+            creator: Ppwe::Jobs::Accession::Combined,
+            tags: %i[combined accession],
+            lookup_on: Ppwe.lookup_column_for("Accession")
+          }
+        end
         Ppwe.registry.namespace("person") do
           register :combined, {
             path: File.join(Ppwe.wrkdir, "person_combined.csv"),
