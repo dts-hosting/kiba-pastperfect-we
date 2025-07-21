@@ -40,6 +40,9 @@ module Kiba
         #   registry entries for jobs
         setting :lookup_ids,
           default: {
+            "AccessionActivities" => :accessionid,
+            "AccessionAttachment" => :accessionid,
+            "AccessionDonors" => :accessionid,
             "PersonAttachment" => :personid,
             "PersonUrl" => :personid,
             "User" => :userid
