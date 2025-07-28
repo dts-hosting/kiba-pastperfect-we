@@ -43,6 +43,10 @@ module Kiba
             "AccessionActivities" => :accessionid,
             "AccessionAttachment" => :accessionid,
             "AccessionDonors" => :accessionid,
+            "ContactActivities" => :contactid,
+            "ContactAttachments" => :contactid,
+            "ContactListRecords" => :contactid,
+            "ContactUrls" => :contactid,
             "PersonAttachment" => :personid,
             "PersonUrl" => :personid,
             "User" => :userid

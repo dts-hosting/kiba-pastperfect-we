@@ -12,7 +12,10 @@ module Kiba
               files: {
                 source: source,
                 destination: dest,
-                lookup: :preprocess__contact
+                lookup: %i[
+                  preprocess__contact
+                  prep__user
+                ]
               },
               transformer: xforms
             )
@@ -28,13 +31,21 @@ module Kiba
                 transform Replace::FieldValueWithStaticMapping,
                   source: field,
                   mapping: Ppwe.boolean_yes_no_mapping
-
-                transform Merge::MultiRowLookup,
-                  lookup: preprocess__contact,
-                  keycolumn: :spouseid,
-                  fieldmap: {spouse: :fullname}
-                transform Delete::Fields, fields: :spouseid
               end
+
+              transform Merge::MultiRowLookup,
+                lookup: preprocess__contact,
+                keycolumn: :spouseid,
+                fieldmap: {spouse: :fullname}
+
+              transform Delete::Fields, fields: :spouseid
+
+              transform Merge::MultiRowLookup,
+                lookup: prep__user,
+                keycolumn: :createdbyuserid,
+                fieldmap: {createdby: :fullname}
+
+              transform Delete::Fields, fields: :createdbyuserid
             end
           end
         end

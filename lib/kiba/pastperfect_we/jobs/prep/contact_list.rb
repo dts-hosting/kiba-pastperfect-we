@@ -4,7 +4,7 @@ module Kiba
   module PastperfectWe
     module Jobs
       module Prep
-        module Accession
+        module ContactList
           module_function
 
           def job(source:, dest:)
@@ -12,10 +12,7 @@ module Kiba
               files: {
                 source: source,
                 destination: dest,
-                lookup: %i[
-                  preprocess__contact
-                  prep__user
-                ]
+                lookup: :prep__user
               },
               transformer: xforms
             )
@@ -24,10 +21,9 @@ module Kiba
           def xforms
             Kiba.job_segment do
               transform Ppwe::Transforms::DictionaryLookup,
-                fields: %i[statusid receivedasid interumlocationid receivedbyid
-                  accessionedbyid renewedbyid]
+                fields: :listcategoryid
 
-              %i[displayrestrictedflagforcatalogitems isremoved].each do |field|
+              %i[isprivate islocked isremoved].each do |field|
                 transform Replace::FieldValueWithStaticMapping,
                   source: field,
                   mapping: Ppwe.boolean_yes_no_mapping
@@ -35,16 +31,13 @@ module Kiba
 
               transform Merge::MultiRowLookup,
                 lookup: prep__user,
-                keycolumn: :createdbyuserid,
-                fieldmap: {createdby: :fullname}
-
-              transform Merge::MultiRowLookup,
-                lookup: prep__user,
-                keycolumn: :statusbyuserid,
-                fieldmap: {statusby: :fullname}
+                keycolumn: :listmanagerid,
+                fieldmap: {listmanager: :fullname}
 
               transform Delete::Fields,
-                fields: %i[statusbyuserid createdbyuserid]
+                fields: :listmanagerid
+
+              transform Delete::EmptyFields
             end
           end
         end
