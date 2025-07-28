@@ -61,6 +61,19 @@ module Kiba
           default: {"0" => "no", "1" => "yes"},
           reader: true
 
+        # @return [Array<String>] names of tables that get custom
+        #   fields merged into them. The default value includes all
+        #   such tables known for PPWE. When this setting is called,
+        #   the constructor removes those where there isn't a
+        #   corresponding CustomField table for the client.
+        setting :tables_with_custom_fields,
+          default: %w[Accession CatalogItem Contact Person Site],
+          reader: true,
+          constructor: ->(default) do
+            default.select do |base|
+              Ppwe::Table.tablenames.include?("#{base}CustomField")
+            end
+          end
         # ----------------------------------------------------------------
         # REQUIRED SETTINGS - Must be defined/overridden in client project
         #   config
