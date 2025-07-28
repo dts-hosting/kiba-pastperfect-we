@@ -117,6 +117,26 @@ module Kiba
           }
         end
 
+        Ppwe.registry.namespace("dictionary") do
+          register :filters, {
+            path: File.join(Ppwe.wrkdir, "dictionary_filters.csv"),
+            creator: Ppwe::Jobs::Dictionary::Filters,
+            tags: %i[dictionary],
+            lookup_on: :dictionaryid
+          }
+          register :usage, {
+            path: File.join(Ppwe.wrkdir, "dictionary_usage.csv"),
+            creator: Ppwe::Jobs::Dictionary::Usage,
+            tags: %i[dictionary],
+            lookup_on: :dictionaryid
+          }
+          register :unused_items, {
+            path: File.join(Ppwe.wrkdir, "dictionary_unused_items.csv"),
+            creator: Ppwe::Jobs::Dictionary::UnusedItems,
+            tags: %i[dictionary]
+          }
+        end
+
         Ppwe.registry.namespace("person") do
           register :combined, {
             path: File.join(Ppwe.wrkdir, "person_combined.csv"),
