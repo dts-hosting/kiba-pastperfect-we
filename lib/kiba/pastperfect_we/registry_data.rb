@@ -79,24 +79,13 @@ module Kiba
         puts "Registering `register_files` entries from Ppwe" if Ppwe.debug?
 
         Ppwe.registry.namespace("prep") do
-          Ppwe::Table.data.each do |name, filedata|
-            jobmod = Ppwe::Jobs::Prep.constants.find { |c| c == name.to_sym }
-            next unless jobmod
+          Ppwe::Table.data
+            .each do |name, filedata|
+              entry = Ppwe::RegistryData.prep_job_hash(name, filedata)
+              next unless entry
 
-            jobkey = filedata[:key]
-            jobhash = {
-              path: File.join(Ppwe.wrkdir, "#{jobkey}_prep.csv"),
-              creator: {
-                callee: "Ppwe::Jobs::Prep::#{jobmod}".constantize,
-                args: {source: :"preprocess__#{filedata[:key]}",
-                       dest: :"prep__#{jobkey}"}
-              },
-              tags: [:prep, jobkey.to_sym],
-              lookup_on: Ppwe.lookup_column_for(name)
-            }.compact
-
-            register jobkey, jobhash
-          end
+              register(*entry)
+            end
         end
 
         Ppwe.registry.namespace("accession") do
@@ -166,6 +155,25 @@ module Kiba
         end
       end
       private_class_method :register_dir_files
+
+      def prep_job_hash(name, filedata)
+        jobmod = Ppwe::Jobs::Prep.constants.find { |c| c == name.to_sym }
+        return unless jobmod
+
+        [
+          filedata[:key],
+          {
+            path: File.join(Ppwe.wrkdir, "#{filedata[:key]}_prep.csv"),
+            creator: {
+              callee: "Ppwe::Jobs::Prep::#{jobmod}".constantize,
+              args: {source: :"preprocess__#{filedata[:key]}",
+                     dest: :"prep__#{filedata[:key]}"}
+            },
+            tags: [:prep, filedata[:key].to_sym],
+            lookup_on: Ppwe.lookup_column_for(name)
+          }.compact
+        ]
+      end
 
       def register_non_iterative_cleanup_supplied
         if Ppwe.debug?
