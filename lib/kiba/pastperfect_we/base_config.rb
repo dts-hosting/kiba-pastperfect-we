@@ -42,13 +42,17 @@ module Kiba
           default: {
             "AccessionActivities" => :accessionid,
             "AccessionAttachment" => :accessionid,
+            "AccessionCustomField" => :accessionid,
             "AccessionDonors" => :accessionid,
+            "CatalogItemCustomField" => :catalogitemid,
             "ContactActivities" => :contactid,
             "ContactAttachments" => :contactid,
+            "ContactCustomField" => :contactid,
             "ContactListRecords" => :contactid,
             "ContactUrls" => :contactid,
             "PersonAttachment" => :personid,
             "PersonUrl" => :personid,
+            "SiteCustomField" => :siteid,
             "User" => :userid
           },
           reader: true
