@@ -66,7 +66,7 @@ module Kiba
             .to_h
           return result unless prefix
 
-          result.transform_keys { |key| "#{prefix}_#{key}" }
+          result.transform_keys { |key| :"#{prefix}_#{key}" }
         end
 
         def clean_opts
