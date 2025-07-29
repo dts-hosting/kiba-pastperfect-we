@@ -14,7 +14,7 @@ module Kiba
                 destination: dest,
                 lookup: :preprocess__user_role
               },
-              transformer: xforms
+              transformer: Ppwe::Prep.get_xforms(self)
             )
           end
 
