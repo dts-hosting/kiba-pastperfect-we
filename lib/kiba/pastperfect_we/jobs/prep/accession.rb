@@ -44,7 +44,7 @@ module Kiba
                 fieldmap: {statusby: :fullname}
 
               transform Delete::Fields,
-                fields: %i[statusbyuserid createdbyuserid]
+                fields: %i[statusbyuserid createdbyuserid flagid]
             end
           end
         end

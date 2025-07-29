@@ -22,20 +22,17 @@ module Kiba
               transform Ppwe::Transforms::MergeTable,
                 source: :prep__accession_instructions_and_other_information,
                 join_column: :id,
-                delete_join_column: false,
-                opts: {null_placeholder: Ppwe.nullvalue}
+                delete_join_column: false
 
               transform Ppwe::Transforms::MergeTable,
                 source: :prep__accession_insurance_information,
                 join_column: :id,
-                delete_join_column: false,
-                opts: {null_placeholder: Ppwe.nullvalue}
+                delete_join_column: false
 
               transform Ppwe::Transforms::MergeTable,
                 source: :preprocess__accession_shipping_information,
                 join_column: :id,
-                delete_join_column: false,
-                opts: {null_placeholder: Ppwe.nullvalue}
+                delete_join_column: false
 
               transform Ppwe::Transforms::MergeTable,
                 source: :prep__accession_donors,
