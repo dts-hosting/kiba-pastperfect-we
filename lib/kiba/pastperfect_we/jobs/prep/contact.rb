@@ -45,7 +45,7 @@ module Kiba
                 keycolumn: :createdbyuserid,
                 fieldmap: {createdby: :fullname}
 
-              transform Delete::Fields, fields: :createdbyuserid
+              transform Delete::Fields, fields: %i[createdbyuserid flagid]
             end
           end
         end
