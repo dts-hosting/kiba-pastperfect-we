@@ -14,7 +14,7 @@ module Kiba
                 destination: dest,
                 lookup: :prep__attachment
               },
-              transformer: xforms
+              transformer: Ppwe::Prep.get_xforms(self)
             )
           end
 
