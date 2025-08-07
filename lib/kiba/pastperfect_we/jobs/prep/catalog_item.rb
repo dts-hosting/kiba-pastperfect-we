@@ -4,7 +4,7 @@ module Kiba
   module PastperfectWe
     module Jobs
       module Prep
-        module Contact
+        module CatalogItem
           module_function
 
           def job(source:, dest:)
@@ -13,8 +13,8 @@ module Kiba
                 source: source,
                 destination: dest,
                 lookup: %i[
-                  preprocess__contact
                   prep__user
+                  prep__accession
                 ]
               },
               transformer: Ppwe::Prep.get_xforms(self)
@@ -24,19 +24,25 @@ module Kiba
           def xforms
             Kiba.job_segment do
               transform Ppwe::Transforms::DictionaryLookup,
-                fields: %i[groupid]
+                fields: %i[disposalmethodid statusid collectionid othernameid
+                  deaccessionauthorizedbyuserid catalogedbyid]
 
-              %i[isdocent isemployee isstudent isvolunteer isremoved
-                isalist isblist iscollectiondonor].each do |field|
+              %i[isremoved isdefault deaccessioned ispublicaccess itemonloan
+                isitemonexhibit].each do |field|
                 transform Replace::FieldValueWithStaticMapping,
                   source: field,
                   mapping: Ppwe.boolean_yes_no_mapping
               end
 
               transform Merge::MultiRowLookup,
-                lookup: preprocess__contact,
-                keycolumn: :spouseid,
-                fieldmap: {spouse: :fullname}
+                lookup: prep__accession,
+                keycolumn: :accessionid,
+                fieldmap: {accession_title: :title}
+
+              transform Ppwe::Transforms::MergeTable,
+                source: :prep__lexicon_item,
+                join_column: :itemnameid,
+                merged_field_prefix: "catalog_lexicon_item"
 
               transform Ppwe::Transforms::MergeTable,
                 source: :prep__flag,
@@ -49,8 +55,13 @@ module Kiba
                 keycolumn: :createdbyuserid,
                 fieldmap: {createdby: :fullname}
 
+              transform Merge::MultiRowLookup,
+                lookup: prep__user,
+                keycolumn: :statusbyuserid,
+                fieldmap: {statusby: :fullname}
+
               transform Delete::Fields,
-                fields: %i[spouseidcreatedbyuserid flagid]
+                fields: %i[statusbyuserid createdbyuserid]
             end
           end
         end

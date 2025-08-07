@@ -1,0 +1,62 @@
+# frozen_string_literal: true
+
+module Kiba
+  module PastperfectWe
+    module Jobs
+      module Prep
+        module LexiconItem
+          module_function
+
+          def job(source:, dest:)
+            Kiba::Extend::Jobs::Job.new(
+              files: {
+                source: source,
+                destination: dest,
+                lookup: %i[
+                  prep__user
+                ]
+              },
+              transformer: Ppwe::Prep.get_xforms(self)
+            )
+          end
+
+          def xforms
+            Kiba.job_segment do
+              transform Ppwe::Transforms::DictionaryLookup,
+                fields: %i[disposalmethodid statusid collectionid othernameid
+                  deaccessionauthorizedbyuserid catalogedbyid]
+
+              %i[isstandard	isdeleted].each do |field|
+                transform Replace::FieldValueWithStaticMapping,
+                  source: field,
+                  mapping: Ppwe.boolean_yes_no_mapping
+              end
+
+              transform Ppwe::Transforms::MergeTable,
+                source: :prep__category,
+                join_column: :categoryid,
+                drop_fields: :id,
+                merged_field_prefix: "category"
+
+              transform Ppwe::Transforms::MergeTable,
+                source: :prep__classification,
+                join_column: :classificationid,
+                drop_fields: %i[id category category_name category_definition
+                  category_issystemcategory],
+                merged_field_prefix: "classification"
+
+              transform Ppwe::Transforms::MergeTable,
+                source: :prep__sub_classification,
+                join_column: :subclassificationid,
+                drop_fields: %i[id classification classification_name
+                  classification_definition classification_category_name
+                  classification_category_definition
+                  classification_category_issystemcategory],
+                merged_field_prefix: "subclassification"
+            end
+          end
+        end
+      end
+    end
+  end
+end
