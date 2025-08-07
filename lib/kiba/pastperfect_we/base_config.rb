@@ -45,6 +45,7 @@ module Kiba
             "AccessionCustomField" => :accessionid,
             "AccessionDonors" => :accessionid,
             "CatalogItemCustomField" => :catalogitemid,
+            "CatalogItemLexicon" => :catalogitemid,
             "ContactActivities" => :contactid,
             "ContactAddressAndPhoneNumbers" => :contactid,
             "ContactAttachments" => :contactid,

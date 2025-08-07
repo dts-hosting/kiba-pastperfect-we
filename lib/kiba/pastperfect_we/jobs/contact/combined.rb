@@ -65,13 +65,6 @@ module Kiba
                 join_column: :id,
                 delete_join_column: false,
                 drop_fields: %i[id url_useradded]
-
-              transform Ppwe::Transforms::MergeTable,
-                source: :prep__flag,
-                join_column: :flagid,
-                delete_join_column: false,
-                opts: {null_placeholder: Ppwe.nullvalue},
-                merged_field_prefix: "flag"
             end
           end
         end
