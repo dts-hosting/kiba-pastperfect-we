@@ -42,7 +42,7 @@ module Kiba
               transform Ppwe::Transforms::MergeTable,
                 source: :prep__lexicon_item,
                 join_column: :itemnameid,
-                merged_field_prefix: "catalog_lexicon_item"
+                merged_field_prefix: "lexicon_item"
 
               transform Ppwe::Transforms::MergeTable,
                 source: :prep__flag,
@@ -61,7 +61,7 @@ module Kiba
                 fieldmap: {statusby: :fullname}
 
               transform Delete::Fields,
-                fields: %i[statusbyuserid createdbyuserid]
+                fields: %i[statusbyuserid createdbyuserid flagid]
             end
           end
         end
