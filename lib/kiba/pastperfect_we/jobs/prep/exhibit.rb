@@ -4,7 +4,7 @@ module Kiba
   module PastperfectWe
     module Jobs
       module Prep
-        module ConditionReport
+        module Exhibit
           module_function
 
           def job(source:, dest:)
@@ -24,14 +24,13 @@ module Kiba
           def xforms
             Kiba.job_segment do
               transform Ppwe::Transforms::DictionaryLookup,
-                fields: %i[conditionid reporttypeid conservatorid
-                  createdbyuserid]
+                fields: %i[curatorid installerid datasetid]
 
-              transform Merge::MultiRowLookup,
-                lookup: prep__catalog_item,
-                keycolumn: :catalogitemid,
-                fieldmap: {catalog_item_itemidnormalized: :itemidnormalized,
-                           catalog_item_objectname: :lexicon_item_objectname}
+              %i[isremoved iscurrent ispublicaccess].each do |field|
+                transform Replace::FieldValueWithStaticMapping,
+                  source: field,
+                  mapping: Ppwe.boolean_yes_no_mapping
+              end
             end
           end
         end
