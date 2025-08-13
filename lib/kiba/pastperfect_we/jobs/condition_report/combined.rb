@@ -29,32 +29,32 @@ module Kiba
               transform Merge::MultiRowLookup,
                 lookup: prep__condition_report_cleanliness_state,
                 keycolumn: :id,
-                fieldmap: {state_of_cleanliness: :dictionaryitem,
-                           state_of_cleanliness_desc: :dictionaryitem_desc}
+                fieldmap: {cleanlinessstate: :dictionaryitem,
+                           cleanlinessstate_desc: :dictionaryitem_desc}
 
               transform Merge::MultiRowLookup,
                 lookup: prep__condition_report_materials_condition,
                 keycolumn: :id,
-                fieldmap: {condition_of_materials: :dictionaryitem,
-                           condition_of_materials_desc: :dictionaryitem_desc}
+                fieldmap: {materialscondition: :dictionaryitem,
+                           materialscondition_desc: :dictionaryitem_desc}
 
               transform Merge::MultiRowLookup,
                 lookup: prep__condition_report_parts_condition,
                 keycolumn: :id,
-                fieldmap: {condition_of_parts: :dictionaryitem,
-                           condition_of_parts_desc: :dictionaryitem_desc}
+                fieldmap: {partscondition: :dictionaryitem,
+                           partscondition_desc: :dictionaryitem_desc}
 
               transform Merge::MultiRowLookup,
                 lookup: prep__condition_report_structure_condition,
                 keycolumn: :id,
-                fieldmap: {condition_of_structure: :dictionaryitem,
-                           condition_of_structure_desc: :dictionaryitem_desc}
+                fieldmap: {structurecondition: :dictionaryitem,
+                           structurecondition_desc: :dictionaryitem_desc}
 
               transform Merge::MultiRowLookup,
                 lookup: prep__condition_report_surface_condition,
                 keycolumn: :id,
-                fieldmap: {condition_of_surface: :dictionaryitem,
-                           condition_of_surface_desc: :dictionaryitem_desc}
+                fieldmap: {surfacecondition: :dictionaryitem,
+                           surfacecondition_desc: :dictionaryitem_desc}
             end
           end
         end

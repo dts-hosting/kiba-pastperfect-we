@@ -4,7 +4,7 @@ module Kiba
   module PastperfectWe
     module Jobs
       module Prep
-        module ExhibitCatalogItems
+        module LoanCatalogItems
           module_function
 
           def job(source:, dest:)
@@ -20,7 +20,7 @@ module Kiba
           def xforms
             Kiba.job_segment do
               transform Replace::FieldValueWithStaticMapping,
-                source: :onexhibit,
+                source: :isreturned,
                 mapping: Ppwe.boolean_yes_no_mapping
             end
           end

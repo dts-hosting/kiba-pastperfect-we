@@ -4,14 +4,15 @@ module Kiba
   module PastperfectWe
     module Jobs
       module Prep
-        module ExhibitCatalogItems
+        module Loan
           module_function
 
           def job(source:, dest:)
             Kiba::Extend::Jobs::Job.new(
               files: {
                 source: source,
-                destination: dest
+                destination: dest,
+                lookup: %i[]
               },
               transformer: Ppwe::Prep.get_xforms(self)
             )
@@ -19,9 +20,14 @@ module Kiba
 
           def xforms
             Kiba.job_segment do
-              transform Replace::FieldValueWithStaticMapping,
-                source: :onexhibit,
-                mapping: Ppwe.boolean_yes_no_mapping
+              transform Ppwe::Transforms::DictionaryLookup,
+                fields: %i[renewedbyid datasetid]
+
+              %i[isremoved isreturned].each do |field|
+                transform Replace::FieldValueWithStaticMapping,
+                  source: field,
+                  mapping: Ppwe.boolean_yes_no_mapping
+              end
             end
           end
         end
