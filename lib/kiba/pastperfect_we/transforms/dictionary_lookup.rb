@@ -5,13 +5,19 @@ module Kiba
     module Transforms
       # @param fields [Symbol, Array<Symbol>] fields containing ids to be
       #   looked up in DictionaryItem table
-      # @param merge_desc [Boolean] whether to merge the description field value
-      #   from DictionaryItem table along with the title field value
+      # @param merge_desc [nil, Boolean] whether to merge the description field
+      #   value from DictionaryItem table along with the title field value
+      # @param lookup [nil, Hash] only send this a Hash if you are writing a
+      #   test of this transform!
       class DictionaryLookup
-        def initialize(fields:, merge_desc: false)
+        def initialize(fields:, merge_desc: nil, lookup: nil)
           @fields = [fields].flatten
-          @merge_desc = merge_desc
-          @lookup = Ppwe.get_lookup(
+          @merge_desc = if merge_desc.nil?
+            Ppwe.merge_dictionary_item_descriptions
+          else
+            merge_desc
+          end
+          @lookup = lookup || Ppwe.get_lookup(
             jobkey: :preprocess__dictionary_item, column: :id
           )
           @mergers = @fields.map do |field|
