@@ -165,6 +165,15 @@ module Kiba
           }
         end
 
+        Ppwe.registry.namespace("loan_catalog_items") do
+          register :combined, {
+            path: File.join(Ppwe.wrkdir, "loan_catalog_items_combined.csv"),
+            creator: Ppwe::Jobs::LoanCatalogItems::Combined,
+            tags: %i[combined loan_catalog_items],
+            lookup_on: Ppwe.lookup_column_for("loan_catalog_items")
+          }
+        end
+
         Ppwe.registry.namespace("person") do
           register :combined, {
             path: File.join(Ppwe.wrkdir, "person_combined.csv"),
