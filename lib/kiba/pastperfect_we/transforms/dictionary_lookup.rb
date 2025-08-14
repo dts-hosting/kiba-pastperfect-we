@@ -3,9 +3,14 @@
 module Kiba
   module PastperfectWe
     module Transforms
+      # @param fields [Symbol, Array<Symbol>] fields containing ids to be
+      #   looked up in DictionaryItem table
+      # @param merge_desc [Boolean] whether to merge the description field value
+      #   from DictionaryItem table along with the title field value
       class DictionaryLookup
-        def initialize(fields:)
+        def initialize(fields:, merge_desc: false)
           @fields = [fields].flatten
+          @merge_desc = merge_desc
           @lookup = Ppwe.get_lookup(
             jobkey: :preprocess__dictionary_item, column: :id
           )
@@ -24,17 +29,22 @@ module Kiba
 
         private
 
-        attr_reader :fields, :lookup, :mergers
+        attr_reader :fields, :merge_desc, :lookup, :mergers
 
         def build_merge_transform(field)
+          fieldmap = build_fieldmap(field)
           Merge::MultiRowLookup.new(
             lookup: lookup,
             keycolumn: field,
-            fieldmap: {
-              field_base_name(field) => :title,
-              field_desc_name(field) => :description
-            }
+            fieldmap: fieldmap
           )
+        end
+
+        def build_fieldmap(field)
+          base = {field_base_name(field) => :title}
+          return base unless merge_desc
+
+          base.merge({field_desc_name(field) => :description})
         end
 
         def field_base_name(field) = field.to_s.delete_suffix("id").to_sym
