@@ -35,6 +35,8 @@ module Kiba
                 row unless chk.all? { |field, val| val.blank? }
               end
             end
+
+            transform Ppwe::Transforms::DeleteTimestamps
           end
         end
       end
