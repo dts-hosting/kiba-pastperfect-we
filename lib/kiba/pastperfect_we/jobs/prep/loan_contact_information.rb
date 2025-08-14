@@ -4,7 +4,7 @@ module Kiba
   module PastperfectWe
     module Jobs
       module Prep
-        module Loan
+        module LoanContactInformation
           module_function
 
           def job(source:, dest:)
