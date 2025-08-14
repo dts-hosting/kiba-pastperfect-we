@@ -30,6 +30,20 @@ module Kiba
             )
           end
 
+        # @return [Boolean] project-wide setting for whether
+        #   DictionaryLookup transform should merge the ~description~
+        #   field value along with the ~title~ field value from
+        #   DictionaryItem table. Override in a client project by
+        #   adding the following to its config:
+        #
+        #   ~~~~
+        #   Kiba::PastperfectWe.config
+        #     .merge_dictionary_item_descriptions = true
+        #   ~~~~
+        setting :merge_dictionary_item_descriptions,
+          default: false,
+          reader: true
+
         # @return [Array<String>] table names to be skipped for individual
         #   client project
         setting :client_skip_tables, default: [], reader: true
