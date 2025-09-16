@@ -33,6 +33,10 @@ module Kiba
                   mapping: Ppwe.boolean_yes_no_mapping
               end
 
+              transform Replace::FieldValueWithStaticMapping,
+                source: :accessiontype,
+                mapping: Ppwe::Enums.accession_type
+
               transform Merge::MultiRowLookup,
                 lookup: prep__user,
                 keycolumn: :createdbyuserid,
