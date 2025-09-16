@@ -28,6 +28,22 @@ module Kiba
                   mapping: Ppwe.boolean_yes_no_mapping
               end
 
+              %i[primaryphonenumbertypeid secondaryphonenumbertypeid
+                otherphonenumber1typeid
+                otherphonenumber2typeid].each do |field|
+                numfield = field.to_s.delete_suffix("typeid").to_sym
+                transform Delete::FieldValueConditional,
+                  fields: field,
+                  lambda: ->(val, row) { row[numfield].blank? }
+
+                transform Replace::FieldValueWithStaticMapping,
+                  source: field,
+                  mapping: Ppwe::Enums.phone_number_type,
+                  target: field.to_s.delete_suffix("id").to_sym,
+                  delete_source: true,
+                  fallback_val: nil
+              end
+
               transform Delete::EmptyFields
             end
           end
