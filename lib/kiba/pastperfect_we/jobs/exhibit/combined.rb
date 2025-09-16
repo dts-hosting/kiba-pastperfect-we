@@ -21,7 +21,7 @@ module Kiba
           def xforms
             Kiba.job_segment do
               transform Ppwe::Transforms::MergeTable,
-                source: :preprocess__exhibit_insurance_information,
+                source: :prep__exhibit_insurance_information,
                 join_column: :id,
                 delete_join_column: false
 
