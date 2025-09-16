@@ -30,7 +30,7 @@ module Kiba
               end
 
               transform Ppwe::Transforms::MergeTable,
-                source: :preprocess__loan_insurance_information,
+                source: :prep__loan_insurance_information,
                 join_column: :id,
                 delete_join_column: false
 
