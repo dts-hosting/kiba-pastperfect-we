@@ -2,8 +2,7 @@
 
 source "https://rubygems.org"
 
-gem "kiba-extend", "~> 4.2.0", github: "lyrasis/kiba-extend",
-  branch: "main"
+gem "kiba-extend", github: "lyrasis/kiba-extend", branch: "main"
 
 group :test do
   gem "almost_standard", github: "kspurgin/almost_standard", branch: "main"
