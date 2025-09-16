@@ -30,7 +30,7 @@ module Kiba
                 delete_join_column: false
 
               transform Ppwe::Transforms::MergeTable,
-                source: :preprocess__accession_shipping_information,
+                source: :prep__accession_shipping_information,
                 join_column: :id,
                 delete_join_column: false
 
