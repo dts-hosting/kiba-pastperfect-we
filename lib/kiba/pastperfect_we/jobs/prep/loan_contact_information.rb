@@ -22,6 +22,21 @@ module Kiba
             Kiba.job_segment do
               transform Ppwe::Transforms::DictionaryLookup,
                 fields: :countryid
+
+              %i[primaryphonenumbertype secondaryphonenumbertype
+                otherphonenumbertype].each do |field|
+                numfield = field.to_s.delete_suffix("type").to_sym
+                transform Delete::FieldValueConditional,
+                  fields: field,
+                  lambda: ->(val, row) { row[numfield].blank? }
+
+                transform Replace::FieldValueWithStaticMapping,
+                  source: field,
+                  mapping: Ppwe::Enums.phone_number_type,
+                  # target: field.to_s.delete_suffix("id").to_sym,
+                  delete_source: false,
+                  fallback_val: nil
+              end
             end
           end
         end
