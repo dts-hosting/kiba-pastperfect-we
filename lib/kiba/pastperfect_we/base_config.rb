@@ -58,6 +58,7 @@ module Kiba
             "AccessionAttachment" => :accessionid,
             "AccessionCustomField" => :accessionid,
             "AccessionDonors" => :accessionid,
+            "AccessionShippingInformation" => :accessionid,
             "CatalogItemCustomField" => :catalogitemid,
             "CatalogItemLexicon" => :catalogitemid,
             "ConditionReportCleanlinessState" => :reportid,

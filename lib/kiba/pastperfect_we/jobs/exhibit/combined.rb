@@ -12,14 +12,7 @@ module Kiba
               files: {
                 source: :prep__exhibit,
                 destination: :exhibit__combined,
-                lookup: %i[
-                  prep__condition_report_cleanliness_state
-                  prep__condition_report_materials_condition
-                  prep__condition_report_parts_condition
-                  prep__condition_report_structure_condition
-                  prep__condition_report_surface_condition
-                  prep__exhibit_url
-                ]
+                lookup: %i[]
               },
               transformer: xforms
             )
