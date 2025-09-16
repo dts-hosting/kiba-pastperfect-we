@@ -11,7 +11,8 @@ module Kiba
       def get_xforms(mod)
         [
           mod.xforms,
-          custom_field_merge_xforms(mod.to_s.split("::").last)
+          custom_field_merge_xforms(mod.to_s.split("::").last),
+          final_xforms
         ].compact
       end
 
@@ -21,6 +22,11 @@ module Kiba
         Kiba.job_segment do
           transform Ppwe::Transforms::CustomFieldMerger,
             parent_table: table
+        end
+      end
+
+      def final_xforms
+        Kiba.job_segment do
           transform Delete::EmptyFields
         end
       end
