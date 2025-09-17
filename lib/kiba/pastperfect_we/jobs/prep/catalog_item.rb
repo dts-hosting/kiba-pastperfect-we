@@ -27,6 +27,13 @@ module Kiba
                 fields: %i[disposalmethodid statusid collectionid othernameid
                   deaccessionauthorizedbyuserid catalogedbyid]
 
+              transform Clean::RegexpFindReplaceFieldVals,
+                fields: %i[yearrangefrom yearrangeto
+                  numberofcatalogitemattachments
+                  numberofcatalogitemimages],
+                find: /^0$/,
+                replace: ""
+
               # I want to keep the id value and the mapped human-readable value
               #   because programmatic splitting on item type will be easier
               #   based on the id value
