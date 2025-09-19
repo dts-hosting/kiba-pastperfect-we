@@ -12,7 +12,10 @@ module Kiba
               files: {
                 source: source,
                 destination: dest,
-                lookup: :prep__person
+                lookup: %i[
+                  prep__person
+                  prep__site
+                ]
               },
               transformer: Ppwe::Prep.get_xforms(self)
             )
@@ -20,19 +23,24 @@ module Kiba
 
           def xforms
             Kiba.job_segment do
+              transform Ppwe::Transforms::DictionaryLookup,
+                fields: %i[eventid multilevelid]
+
               transform Merge::MultiRowLookup,
                 lookup: prep__person,
                 keycolumn: :creatorid,
                 fieldmap: {creator_name: :fullname}
 
-              %i[siteid	eventid multilevelid].each do |field|
-                transform Replace::FieldValueWithStaticMapping,
-                  source: field,
-                  mapping: Ppwe.boolean_yes_no_mapping
+              transform Merge::MultiRowLookup,
+                lookup: prep__site,
+                keycolumn: :siteid,
+                fieldmap: {sitename: :sitename}
 
-                transform Delete::Fields,
-                  fields: :creatorid
-              end
+              transform Delete::Fields,
+                fields: :creatorid
+
+              transform Ppwe::Transforms::CrSplitter,
+                fields: :creatoraddedentry
             end
           end
         end
