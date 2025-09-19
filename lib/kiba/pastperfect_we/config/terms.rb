@@ -21,7 +21,7 @@ module Kiba
 
       setting :term_types,
         reader: true,
-        default: %i[location misc name place subject]
+        default: %i[collection language location misc name place subject]
 
       # @return [Hash<String => Symbol>] keys are table names; values are the
       #   fields from PREP jobs that contain the "term-like" values merged into
