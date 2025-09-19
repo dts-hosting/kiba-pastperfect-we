@@ -82,7 +82,9 @@ module Kiba
           Ppwe::Table.data
             .reject { |key, _val| key.end_with?("CustomField") }
             .each do |name, filedata|
-              entry = Ppwe::RegistryData.regular_prep_job_hash(name, filedata)
+              entry = Ppwe::RegistryData.create_regular_prep_job_hash(
+                name, filedata
+              )
               next unless entry
 
               register(*entry)
@@ -204,23 +206,31 @@ module Kiba
       end
       private_class_method :register_dir_files
 
-      def regular_prep_job_hash(name, filedata)
+      def create_regular_prep_job_hash(name, filedata)
         jobmod = Ppwe::Jobs::Prep.constants.find { |c| c == name.to_sym }
         return unless jobmod
 
         [
           filedata[:key],
-          {
-            path: File.join(Ppwe.wrkdir, "#{filedata[:key]}_prep.csv"),
-            creator: {
-              callee: "Ppwe::Jobs::Prep::#{jobmod}".constantize,
-              args: {source: :"preprocess__#{filedata[:key]}",
-                     dest: :"prep__#{filedata[:key]}"}
-            },
-            tags: [:prep, filedata[:key].to_sym],
-            lookup_on: Ppwe.lookup_column_for(name)
-          }.compact
+          regular_prep_job_hash(jobmod, name, filedata)
         ]
+      end
+
+      def regular_prep_job_hash(jobmod, name, filedata)
+        result = {
+          path: File.join(Ppwe.wrkdir, "#{filedata[:key]}_prep.csv"),
+          creator: {
+            callee: "Ppwe::Jobs::Prep::#{jobmod}".constantize,
+            args: {source: :"preprocess__#{filedata[:key]}",
+                   dest: :"prep__#{filedata[:key]}"}
+          },
+          tags: [:prep, filedata[:key].to_sym],
+          lookup_on: Ppwe.lookup_column_for(name)
+        }.compact
+        return result unless Ppwe::Prep.dest_special_opts.key?(name)
+
+        result[:dest_special_opts] = Ppwe::Prep.dest_special_opts[name]
+        result
       end
 
       def custom_field_prep_job_hash(name, filedata)
