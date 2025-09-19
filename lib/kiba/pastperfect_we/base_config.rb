@@ -63,6 +63,7 @@ module Kiba
             "CatalogItemLexicon" => :catalogitemid,
             "CatalogItemHistory" => :catalogitemid,
             "CatalogItemHistoryMaterial" => :catalogitemid,
+            "CatalogItemHistoryOrigin" => :catalogitemid,
             "ConditionReportCleanlinessState" => :reportid,
             "ConditionReportImage" => :conditionreportid,
             "ConditionReportMaterialsCondition" => :reportid,
