@@ -62,6 +62,7 @@ module Kiba
             "CatalogItemCustomField" => :catalogitemid,
             "CatalogItemLexicon" => :catalogitemid,
             "CatalogItemHistory" => :catalogitemid,
+            "CatalogItemHistoryMaterial" => :catalogitemid,
             "ConditionReportCleanlinessState" => :reportid,
             "ConditionReportImage" => :conditionreportid,
             "ConditionReportMaterialsCondition" => :reportid,
