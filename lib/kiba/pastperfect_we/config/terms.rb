@@ -48,6 +48,11 @@ module Kiba
             {table: "ArchiveIdentity", field: :creatoraddedentry}
           ]
         }
+
+      # Custom fields containing terms. Format is same as for :loose_fields.
+      #   Override in client project if they have custom fields.
+      # @return [Hash] where keys are term_types values
+      setting :custom_fields, reader: true, default: {}
     end
   end
 end
