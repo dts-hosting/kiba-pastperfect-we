@@ -7,6 +7,15 @@ module Kiba
 
       extend Dry::Configurable
 
+      # Used to add initial headers to dynamically build registry entries
+      #   for prep jobs
+      # @return [Hash{String => Hash{:initial_headers => Array<Symbol>}}]
+      setting :dest_special_opts,
+        reader: true,
+        default: {
+          "CatalogItem" => {initial_headers: %i[id itemtypeid itemtype]}
+        }
+
       # @param mod [Module] calling this method
       def get_xforms(mod)
         [
