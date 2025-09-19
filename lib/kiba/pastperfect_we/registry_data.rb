@@ -109,6 +109,12 @@ module Kiba
             tags: %i[combined accession],
             lookup_on: Ppwe.lookup_column_for("Accession")
           }
+          register :item_type_lookup, {
+            path: File.join(Ppwe.wrkdir, "accession_item_type_lookup.csv"),
+            creator: Ppwe::Jobs::Accession::ItemTypeLookup,
+            tags: %i[combined accession],
+            lookup_on: :accessionid
+          }
         end
 
         Ppwe.registry.namespace("catalog_item") do
