@@ -56,6 +56,13 @@ module Kiba
         "3" => "work",
         "4" => "fax"
       }
+
+      # @return [Hash{String=>String}] Used in LexiconItem.objectnametypeid
+      setting :object_name_type, reader: true, default: {
+        "0" => "primary",
+        "1" => "secondary",
+        "2" => "tertiary"
+      }
     end
   end
 end

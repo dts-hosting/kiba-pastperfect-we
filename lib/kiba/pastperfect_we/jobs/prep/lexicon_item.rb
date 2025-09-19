@@ -26,11 +26,16 @@ module Kiba
                 fields: %i[disposalmethodid statusid collectionid othernameid
                   deaccessionauthorizedbyuserid catalogedbyid]
 
-              %i[isstandard	isdeleted].each do |field|
+              %i[isstandard isdeleted].each do |field|
                 transform Replace::FieldValueWithStaticMapping,
                   source: field,
                   mapping: Ppwe.boolean_yes_no_mapping
               end
+
+              transform Replace::FieldValueWithStaticMapping,
+                source: :objectnametypeid,
+                mapping: Ppwe::Enums.object_name_type,
+                target: :objectnametype
 
               transform Ppwe::Transforms::MergeTable,
                 source: :prep__category,
