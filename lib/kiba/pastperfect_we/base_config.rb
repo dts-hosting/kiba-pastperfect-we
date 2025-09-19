@@ -61,6 +61,7 @@ module Kiba
             "AccessionShippingInformation" => :accessionid,
             "CatalogItemCustomField" => :catalogitemid,
             "CatalogItemLexicon" => :catalogitemid,
+            "CatalogItemHistory" => :catalogitemid,
             "ConditionReportCleanlinessState" => :reportid,
             "ConditionReportImage" => :conditionreportid,
             "ConditionReportMaterialsCondition" => :reportid,
