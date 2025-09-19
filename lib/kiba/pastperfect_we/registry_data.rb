@@ -111,6 +111,18 @@ module Kiba
           }
         end
 
+        Ppwe.registry.namespace("catalog_item") do
+          register :history, {
+            path: File.join(Ppwe.wrkdir, "catalog_item_history.csv"),
+            creator: Ppwe::Jobs::CatalogItem::History,
+            tags: %i[combined catalog_item],
+            lookup_on: Ppwe.lookup_column_for("CatalogItemHistory"),
+            dest_special_opts: {
+              initial_headers: %i[catalogitemid itemtypeid itemid]
+            }
+          }
+        end
+
         Ppwe.registry.namespace("condition_report") do
           register :combined, {
             path: File.join(Ppwe.wrkdir, "condition_report_combined.csv"),
