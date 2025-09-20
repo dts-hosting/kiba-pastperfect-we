@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "dry/monads"
+require "dry/monads/do"
 require "kiba/extend"
 require "yaml"
 require "zeitwerk"
