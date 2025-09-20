@@ -11,7 +11,8 @@ module Kiba
             Kiba::Extend::Jobs::Job.new(
               files: {
                 source: :prep__accession,
-                destination: :accession__combined
+                destination: :accession__combined,
+                lookup: :accession__item_type_lookup
               },
               transformer: xforms
             )
@@ -60,6 +61,11 @@ module Kiba
                 delete_join_column: false,
                 opts: {null_placeholder: Ppwe.nullvalue},
                 merged_field_prefix: "flag"
+
+              transform Merge::MultiRowLookup,
+                lookup: accession__item_type_lookup,
+                keycolumn: :id,
+                fieldmap: {Ppwe::Splitting.item_type_field => :itemtype}
             end
           end
         end
