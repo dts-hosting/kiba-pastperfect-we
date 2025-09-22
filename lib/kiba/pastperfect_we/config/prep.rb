@@ -13,7 +13,7 @@ module Kiba
       setting :dest_special_opts,
         reader: true,
         default: {
-          "CatalogItem" => {initial_headers: %i[id itemtypeid itemtype]},
+          "CatalogItem" => {initial_headers: %i[id itemtype]},
           "LexiconItem" => {initial_headers: %i[
             id objectname objectnametype
           ]}
