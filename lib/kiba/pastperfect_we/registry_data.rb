@@ -203,6 +203,18 @@ module Kiba
           }
         end
 
+        Ppwe.registry.namespace("location") do
+          register :prefixed, {
+            path: File.join(Ppwe.wrkdir, "location_prefixed.csv"),
+            creator: Ppwe::Jobs::Location::Prefixed,
+            tags: %i[location],
+            lookup_on: Ppwe.lookup_column_for("location"),
+            desc: "Merges field names from CatalogItemLocationFieldNames "\
+              "in as value prefixes and adds a :location column combining "\
+              "prefixed values into one value for merging"
+          }
+        end
+
         Ppwe.registry.namespace("person") do
           register :combined, {
             path: File.join(Ppwe.wrkdir, "person_combined.csv"),
