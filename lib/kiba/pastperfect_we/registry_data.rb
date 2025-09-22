@@ -121,10 +121,10 @@ module Kiba
           register :history, {
             path: File.join(Ppwe.wrkdir, "catalog_item_history.csv"),
             creator: Ppwe::Jobs::CatalogItem::History,
-            tags: %i[combined catalog_item],
+            tags: %i[combined catalog_item history],
             lookup_on: Ppwe.lookup_column_for("CatalogItemHistory"),
             dest_special_opts: {
-              initial_headers: %i[catalogitemid itemtypeid itemid]
+              initial_headers: %i[id itemtype itemid]
             }
           }
         end

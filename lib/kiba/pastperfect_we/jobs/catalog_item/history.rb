@@ -20,7 +20,7 @@ module Kiba
           def xforms
             Kiba.job_segment do
               transform Delete::FieldsExcept,
-                fields: %i[id itemtype itemtypeid itemid]
+                fields: %i[id itemtype itemid]
 
               drop_fields = %i[id position]
               transform Ppwe::Transforms::MergeTable,
