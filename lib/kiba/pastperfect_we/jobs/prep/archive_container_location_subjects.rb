@@ -4,7 +4,7 @@ module Kiba
   module PastperfectWe
     module Jobs
       module Prep
-        module ArchiveContainerLocationSubject
+        module ArchiveContainerLocationSubjects
           module_function
 
           def job(source:, dest:)
