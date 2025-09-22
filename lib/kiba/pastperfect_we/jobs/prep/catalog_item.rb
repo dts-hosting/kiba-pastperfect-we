@@ -34,15 +34,9 @@ module Kiba
                 find: /^0$/,
                 replace: ""
 
-              # I want to keep the id value and the mapped human-readable value
-              #   because programmatic splitting on item type will be easier
-              #   based on the id value
-              transform Rename::Field, from: :itemtype, to: :itemtypeid
               transform Replace::FieldValueWithStaticMapping,
-                source: :itemtypeid,
+                source: :itemtype,
                 mapping: Ppwe::Enums.item_type,
-                target: :itemtype,
-                delete_source: false,
                 fallback_val: nil
 
               %i[isremoved isdefault deaccessioned ispublicaccess itemonloan
