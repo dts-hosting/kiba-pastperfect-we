@@ -67,6 +67,7 @@ module Kiba
             "CatalogItemHistoryOrigin" => :catalogitemid,
             "CatalogItemHistoryPlaceFound" => :catalogitemid,
             "CatalogItemPhoto" => :catalogitemid,
+            "CatalogItemPhotoMedium" => :catalogitemid,
             "ConditionReportCleanlinessState" => :reportid,
             "ConditionReportImage" => :conditionreportid,
             "ConditionReportMaterialsCondition" => :reportid,
