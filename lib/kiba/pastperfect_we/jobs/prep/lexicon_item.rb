@@ -22,7 +22,7 @@ module Kiba
 
           def xforms
             Kiba.job_segment do
-              %i[isstandard isdeleted].each do |field|
+              %i[isremoved isstandard isdeleted].each do |field|
                 transform Replace::FieldValueWithStaticMapping,
                   source: field,
                   mapping: Ppwe.boolean_yes_no_mapping
