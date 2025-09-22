@@ -24,11 +24,11 @@ module Kiba
       setting :item_type_mapping,
         reader: true,
         default: {
-          "1" => :cspace,
-          "2" => :drop,
-          "3" => :aspace,
-          "4" => :drop,
-          "5" => :deaccessioned,
+          "object" => :cspace,
+          "photo" => :drop,
+          "archives" => :aspace,
+          "library" => :drop,
+          "deaccessioned" => :deaccessioned,
           nil => :no_associated_items
         }
 

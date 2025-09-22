@@ -10,7 +10,7 @@ module Kiba
           def job
             Kiba::Extend::Jobs::Job.new(
               files: {
-                source: :preprocess__catalog_item,
+                source: :prep__catalog_item,
                 destination: :accession__item_type_lookup
               },
               transformer: xforms
