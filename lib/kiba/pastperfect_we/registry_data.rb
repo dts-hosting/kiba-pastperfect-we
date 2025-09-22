@@ -127,6 +127,15 @@ module Kiba
               initial_headers: %i[id itemtype itemid]
             }
           }
+          register :photo, {
+            path: File.join(Ppwe.wrkdir, "catalog_item_photo.csv"),
+            creator: Ppwe::Jobs::CatalogItem::Photo,
+            tags: %i[combined catalog_item photo],
+            lookup_on: Ppwe.lookup_column_for("CatalogItemPhoto"),
+            dest_special_opts: {
+              initial_headers: %i[id itemtype itemid]
+            }
+          }
         end
 
         Ppwe.registry.namespace("condition_report") do
