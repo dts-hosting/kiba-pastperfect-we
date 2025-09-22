@@ -30,6 +30,10 @@ module Kiba
             )
           end
 
+        # @return [:review, :migration] controls how some values are
+        #   handled
+        setting :mode, reader: true, default: :review
+
         # @return [Boolean] project-wide setting for whether
         #   DictionaryLookup transform should merge the ~description~
         #   field value along with the ~title~ field value from
