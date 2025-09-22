@@ -34,16 +34,26 @@ module Kiba
 
           agg = Ppwe::Splitting.targets
             .map do |target|
+              file_path = File.join(
+                Ppwe::Splitting.dir_path, target.to_s, file_name(target)
+              )
               [
                 target, {
-                  writer: CSV.open(File.join(
-                    Ppwe::Splitting.dir_path, target.to_s, file_name(target)
-                  ), "w", headers: headers, write_headers: true),
+                  file_path: file_path,
+                  writer: CSV.open(
+                    file_path, "w", headers: headers, write_headers: true
+                  ),
                   ct: 0
                 }
               ]
             end.to_h
           _result = yield do_split(agg)
+
+          agg.values.each do |val|
+            next unless val[:ct] == 0
+
+            FileUtils.rm_f(val[:file_path])
+          end
 
           stats = agg.map { |k, v| "  #{k}: #{v[:ct]} rows" }
             .join("\n")
