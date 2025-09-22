@@ -49,7 +49,7 @@ module Kiba
               transform Merge::MultiRowLookup,
                 lookup: prep__accession,
                 keycolumn: :accessionid,
-                fieldmap: {accession_title: :title}
+                fieldmap: {accessionnumber: :number}
 
               transform Ppwe::Transforms::MergeTable,
                 source: :prep__lexicon_item,
