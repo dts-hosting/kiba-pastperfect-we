@@ -51,17 +51,6 @@ module Kiba
                 keycolumn: :accessionid,
                 fieldmap: {accessionnumber: :number}
 
-              transform Ppwe::Transforms::MergeTable,
-                source: :prep__lexicon_item,
-                join_column: :itemnameid,
-                merged_field_prefix: "lexicon_item"
-
-              transform Ppwe::Transforms::MergeTable,
-                source: :prep__flag,
-                join_column: :flagid,
-                delete_join_column: false,
-                merged_field_prefix: "flag"
-
               transform Merge::MultiRowLookup,
                 lookup: prep__user,
                 keycolumn: :createdbyuserid,
