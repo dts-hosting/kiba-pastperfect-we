@@ -23,6 +23,8 @@ module Kiba
         end
 
         def call
+          Kiba::Extend::Utils::PreJobTask.call if mode == :single
+
           reg_entry = yield registered_job
           @src_path = reg_entry.path
           _chk_output = yield has_output
