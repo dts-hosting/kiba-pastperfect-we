@@ -156,6 +156,19 @@ module Kiba
                   deaccessioned isremoved]
             }
           }
+          register :id_name_class, {
+            path: File.join(dir, "catalog_item_id_name_class.csv"),
+            creator: Ppwe::Jobs::CatalogItem::IdNameClass,
+            tags: %i[combined catalog_item],
+            lookup_on: :catalogitemid,
+            dest_special_opts: {
+              initial_headers: init_hdrs +
+                %i[alternativeitemid oldnumber
+                  objectname objectname2 objectname3
+                  othername othernames
+                  accessionid]
+            }
+          }
           register :history, {
             path: File.join(dir, "catalog_item_history.csv"),
             creator: Ppwe::Jobs::CatalogItem::History,
