@@ -165,6 +165,19 @@ module Kiba
               initial_headers: init_hdrs
             }
           }
+          register :deaccession_and_removal, {
+            path: File.join(dir, "catalog_item_deaccession_and_removal.csv"),
+            creator: Ppwe::Jobs::CatalogItem::DeaccessionAndRemoval,
+            tags: %i[combined catalog_item],
+            lookup_on: :catalogitemid,
+            dest_special_opts: {
+              initial_headers: init_hdrs + %i[
+                deaccessioned deaccessiondate deaccessionreasonnotes
+                deaccessionauthorizedbyuser isremoved removaldate
+                disposaldate disposalmethod
+              ]
+            }
+          }
           register :history, {
             path: File.join(dir, "catalog_item_history.csv"),
             creator: Ppwe::Jobs::CatalogItem::History,
