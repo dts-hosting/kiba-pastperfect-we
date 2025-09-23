@@ -118,31 +118,46 @@ module Kiba
         end
 
         Ppwe.registry.namespace("catalog_item") do
+          dir = if Ppwe.mode == :migration
+            Ppwe.wrkdir
+          else
+            File.join(Ppwe.datadir, "for_review")
+          end
+          init_hdrs = %i[catalogitemid itemtype itemid]
           register :archaeology, {
-            path: File.join(Ppwe.wrkdir, "catalog_item_archaeology.csv"),
+            path: File.join(dir, "catalog_item_archaeology.csv"),
             creator: Ppwe::Jobs::CatalogItem::Archaeology,
             tags: %i[combined catalog_item archaeology],
             lookup_on: Ppwe.lookup_column_for("CatalogItemArchaeology"),
             dest_special_opts: {
-              initial_headers: %i[id itemtype itemid]
+              initial_headers: init_hdrs
+            }
+          }
+          register :base, {
+            path: File.join(Ppwe.wrkdir, "catalog_item_base.csv"),
+            creator: Ppwe::Jobs::CatalogItem::Base,
+            tags: %i[combined catalog_item],
+            lookup_on: Ppwe.lookup_column_for("CatalogItemBase"),
+            dest_special_opts: {
+              initial_headers: init_hdrs
             }
           }
           register :history, {
-            path: File.join(Ppwe.wrkdir, "catalog_item_history.csv"),
+            path: File.join(dir, "catalog_item_history.csv"),
             creator: Ppwe::Jobs::CatalogItem::History,
             tags: %i[combined catalog_item history],
             lookup_on: Ppwe.lookup_column_for("CatalogItemHistory"),
             dest_special_opts: {
-              initial_headers: %i[id itemtype itemid]
+              initial_headers: init_hdrs
             }
           }
           register :photo, {
-            path: File.join(Ppwe.wrkdir, "catalog_item_photo.csv"),
+            path: File.join(dir, "catalog_item_photo.csv"),
             creator: Ppwe::Jobs::CatalogItem::Photo,
             tags: %i[combined catalog_item photo],
             lookup_on: Ppwe.lookup_column_for("CatalogItemPhoto"),
             dest_special_opts: {
-              initial_headers: %i[id itemtype itemid]
+              initial_headers: init_hdrs
             }
           }
         end

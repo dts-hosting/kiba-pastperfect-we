@@ -10,7 +10,7 @@ module Kiba
           def job
             Kiba::Extend::Jobs::Job.new(
               files: {
-                source: :prep__catalog_item,
+                source: :catalog_item__base,
                 destination: :catalog_item__history
               },
               transformer: xforms
@@ -19,28 +19,25 @@ module Kiba
 
           def xforms
             Kiba.job_segment do
-              transform Delete::FieldsExcept,
-                fields: %i[id itemtype itemid]
-
               drop_fields = %i[id position]
               transform Ppwe::Transforms::MergeTable,
                 source: :prep__catalog_item_history,
-                join_column: :id,
+                join_column: :catalogitemid,
                 delete_join_column: false,
                 drop_fields: drop_fields
               transform Ppwe::Transforms::MergeTable,
                 source: :prep__catalog_item_history_material,
-                join_column: :id,
+                join_column: :catalogitemid,
                 delete_join_column: false,
                 drop_fields: drop_fields
               transform Ppwe::Transforms::MergeTable,
                 source: :prep__catalog_item_history_origin,
-                join_column: :id,
+                join_column: :catalogitemid,
                 delete_join_column: false,
                 drop_fields: drop_fields
               transform Ppwe::Transforms::MergeTable,
                 source: :prep__catalog_item_history_place_found,
-                join_column: :id,
+                join_column: :catalogitemid,
                 delete_join_column: false,
                 drop_fields: drop_fields
 

@@ -10,7 +10,7 @@ module Kiba
           def job
             Kiba::Extend::Jobs::Job.new(
               files: {
-                source: :prep__catalog_item,
+                source: :catalog_item__base,
                 destination: :catalog_item__archaeology,
                 lookup: :prep__catalog_item_archaeology_material
               },
@@ -20,16 +20,13 @@ module Kiba
 
           def xforms
             Kiba.job_segment do
-              transform Delete::FieldsExcept,
-                fields: %i[id itemtype itemid]
-
               transform Ppwe::Transforms::MergeTable,
                 source: :prep__catalog_item_archaeology,
-                join_column: :id,
+                join_column: :catalogitemid,
                 delete_join_column: false
               transform Merge::MultiRowLookup,
                 lookup: prep__catalog_item_archaeology_material,
-                keycolumn: :id,
+                keycolumn: :catalogitemid,
                 fieldmap: {material: :material},
                 sorter: Lookup::RowSorter.new(on: :position, as: :to_i)
 
