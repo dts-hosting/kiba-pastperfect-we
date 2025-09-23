@@ -54,6 +54,25 @@ module Kiba
                   classification_category_definition
                   classification_category_issystemcategory],
                 merged_field_prefix: "subclassification"
+
+              if Ppwe.mode == :review
+                getter =
+                  Kiba::Extend::Transforms::Helpers::FieldValueGetter.new(
+                  fields: %i[tertiary secondary primary
+                    subclassification_name
+                    classification_name
+                    category_name]
+                )
+                transform do |row|
+                  term = row[:objectname]
+                  hier = getter.call(row)
+                    .reject { |k, v| v == term }
+                    .values
+                    .join(" < ")
+                  row[:objectname] = [term, hier].join(" < ")
+                  row
+                end
+              end
             end
           end
         end
