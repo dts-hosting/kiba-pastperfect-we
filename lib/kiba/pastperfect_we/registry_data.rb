@@ -165,6 +165,15 @@ module Kiba
               initial_headers: init_hdrs
             }
           }
+          register :history, {
+            path: File.join(dir, "catalog_item_history.csv"),
+            creator: Ppwe::Jobs::CatalogItem::History,
+            tags: %i[combined catalog_item history],
+            lookup_on: Ppwe.lookup_column_for("CatalogItemHistory"),
+            dest_special_opts: {
+              initial_headers: init_hdrs
+            }
+          }
           register :id_name_class, {
             path: File.join(dir, "catalog_item_id_name_class.csv"),
             creator: Ppwe::Jobs::CatalogItem::IdNameClass,
@@ -176,15 +185,6 @@ module Kiba
                   objectname objectname2 objectname3
                   othername othernames
                   accessionid]
-            }
-          }
-          register :history, {
-            path: File.join(dir, "catalog_item_history.csv"),
-            creator: Ppwe::Jobs::CatalogItem::History,
-            tags: %i[combined catalog_item history],
-            lookup_on: Ppwe.lookup_column_for("CatalogItemHistory"),
-            dest_special_opts: {
-              initial_headers: init_hdrs
             }
           }
           register :photo, {
