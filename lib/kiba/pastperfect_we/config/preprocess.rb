@@ -21,7 +21,7 @@ module Kiba
       #   delete rows where there are multiple fields, but only the first
       #   field is populated
       setting :keep_id_only_field_populated_tables,
-        default: %w[Flag],
+        default: %w[CatalogItemArchive Flag],
         reader: true
     end
   end
