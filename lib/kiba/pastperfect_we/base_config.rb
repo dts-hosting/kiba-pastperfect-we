@@ -34,6 +34,10 @@ module Kiba
         #   handled
         setting :mode, reader: true, default: :review
 
+        # @return [Symbol] name of field into which target systems/other
+        #   disposition will be mapped in :review mode output
+        setting :review_target_field, reader: true, default: :targetsystems
+
         # @return [Boolean] project-wide setting for whether
         #   DictionaryLookup transform should merge the ~description~
         #   field value along with the ~title~ field value from
