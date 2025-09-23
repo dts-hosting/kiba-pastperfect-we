@@ -25,10 +25,10 @@ module Kiba
         reader: true,
         default: {
           "object" => :cspace,
-          "photo" => :drop,
+          "photo" => :none,
           "archives" => :aspace,
-          "library" => :drop,
-          "deaccessioned" => :deaccessioned,
+          "library" => :none,
+          "deaccessioned" => :unknown,
           nil => :no_associated_items
         }
 
@@ -40,7 +40,7 @@ module Kiba
       #   split target from being applied
       setting :weak_targets,
         reader: true,
-        default: %i[drop no_associated_items]
+        default: %i[none no_associated_items unknown]
     end
   end
 end
