@@ -21,14 +21,22 @@ module Kiba
 
         def xforms(tablename)
           Kiba.job_segment do
-            transform Delete::EmptyFields
-
             transform Delete::Fields, fields: Ppwe::Preprocess.delete_fields
+
+            transform Clean::RegexpFindReplaceFieldVals,
+              fields: :all,
+              find: /^0\.00$/,
+              replace: ""
+            transform Clean::RegexpFindReplaceFieldVals,
+              fields: :all,
+              find: /^\.0+$/,
+              replace: ""
+            transform Delete::EmptyFields
 
             unless Ppwe::Preprocess.keep_id_only_field_populated_tables
                 .include?(tablename)
               transform do |row|
-                next row if row.keys.length == 1
+                next if row.keys.length == 1
 
                 chk = row.dup
                 chk.shift
