@@ -151,7 +151,7 @@ module Kiba
               initial_headers: init_hdrs +
                 %i[objectname title description
                   creationdate yearrangefrom yearrangeto
-                  dimensionsummary collection accessionnumber
+                  dimensions itemcount collection accessionnumber
                   status homelocation templocation
                   deaccessioned isremoved]
             }

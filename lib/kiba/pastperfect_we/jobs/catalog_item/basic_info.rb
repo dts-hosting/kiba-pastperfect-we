@@ -12,7 +12,10 @@ module Kiba
               files: {
                 source: :prep__catalog_item,
                 destination: :catalog_item__basic_info,
-                lookup: :prep__catalog_item_location
+                lookup: %i[
+                  prep__catalog_item_dimensions
+                  prep__catalog_item_location
+                ]
               },
               transformer: xforms
             )
@@ -24,7 +27,7 @@ module Kiba
                 fields: %i[id itemtype itemid
                   objectname title description
                   creationdate yearrangefrom yearrangeto
-                  dimensionsummary collection accessionnumber
+                  collection accessionnumber
                   status deaccessioned isremoved]
               transform Rename::Field, from: :id, to: :catalogitemid
 
@@ -34,6 +37,15 @@ module Kiba
                   keycolumn: :catalogitemid,
                   fieldmap: {field => field}
               end
+
+              transform Merge::MultiRowLookup,
+                lookup: prep__catalog_item_dimensions,
+                keycolumn: :catalogitemid,
+                fieldmap: {dimensions: :details}
+              transform Merge::MultiRowLookup,
+                lookup: prep__catalog_item_dimensions,
+                keycolumn: :catalogitemid,
+                fieldmap: {itemcount: :count}
             end
           end
         end
