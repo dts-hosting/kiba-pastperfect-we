@@ -118,6 +118,15 @@ module Kiba
         end
 
         Ppwe.registry.namespace("catalog_item") do
+          register :archaeology, {
+            path: File.join(Ppwe.wrkdir, "catalog_item_archaeology.csv"),
+            creator: Ppwe::Jobs::CatalogItem::Archaeology,
+            tags: %i[combined catalog_item archaeology],
+            lookup_on: Ppwe.lookup_column_for("CatalogItemArchaeology"),
+            dest_special_opts: {
+              initial_headers: %i[id itemtype itemid]
+            }
+          }
           register :history, {
             path: File.join(Ppwe.wrkdir, "catalog_item_history.csv"),
             creator: Ppwe::Jobs::CatalogItem::History,
