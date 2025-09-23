@@ -282,7 +282,7 @@ module Kiba
               args: {source: :"preprocess__#{filedata[:key]}",
                      dest: :"prep__#{filedata[:key]}"}
             },
-            tags: [:prep, filedata[:key].to_sym],
+            tags: [:prep, filedata[:key].to_sym, :customfields],
             lookup_on: Ppwe.lookup_column_for(name)
           }.compact
         ]
