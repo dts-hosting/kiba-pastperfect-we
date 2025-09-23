@@ -21,7 +21,9 @@ module Kiba
           def get_lookups
             return [] if Ppwe.mode == :migration
 
-            %i[prep__user prep__accession]
+            %i[prep__accession
+              prep__lexicon_item
+              prep__user]
           end
 
           def xforms
@@ -64,6 +66,12 @@ module Kiba
                   lookup: prep__user,
                   keycolumn: :statusbyuserid,
                   fieldmap: {statusby: :fullname}
+
+                transform Merge::MultiRowLookup,
+                  lookup: prep__lexicon_item,
+                  keycolumn: :itemnameid,
+                  fieldmap: {objectname: :objectname}
+                transform Rename::Field, from: :itemnameid, to: :lexiconitemid
 
                 transform Delete::Fields,
                   fields: %i[statusbyuserid createdbyuserid]
