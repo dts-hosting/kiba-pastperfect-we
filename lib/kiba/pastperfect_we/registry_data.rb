@@ -142,6 +142,20 @@ module Kiba
               initial_headers: init_hdrs
             }
           }
+          register :basic_info, {
+            path: File.join(dir, "catalog_item_basic_info.csv"),
+            creator: Ppwe::Jobs::CatalogItem::BasicInfo,
+            tags: %i[combined catalog_item],
+            lookup_on: :catalogitemid,
+            dest_special_opts: {
+              initial_headers: init_hdrs +
+                %i[objectname title description
+                  creationdate yearrangefrom yearrangeto
+                  dimensionsummary collection accessionnumber
+                  status homelocation templocation
+                  deaccessioned isremoved]
+            }
+          }
           register :history, {
             path: File.join(dir, "catalog_item_history.csv"),
             creator: Ppwe::Jobs::CatalogItem::History,
