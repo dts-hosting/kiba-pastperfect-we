@@ -156,10 +156,19 @@ module Kiba
                   deaccessioned isremoved]
             }
           }
+          register :custom_field_data, {
+            path: File.join(dir, "catalog_item_custom_field_data.csv"),
+            creator: Ppwe::Jobs::CatalogItem::CustomFieldData,
+            tags: %i[combined catalog_item customfields],
+            lookup_on: :catalogitemid,
+            dest_special_opts: {
+              initial_headers: init_hdrs
+            }
+          }
           register :id_name_class, {
             path: File.join(dir, "catalog_item_id_name_class.csv"),
             creator: Ppwe::Jobs::CatalogItem::IdNameClass,
-            tags: %i[combined catalog_item],
+            tags: %i[combined catalog_item lexicon],
             lookup_on: :catalogitemid,
             dest_special_opts: {
               initial_headers: init_hdrs +
