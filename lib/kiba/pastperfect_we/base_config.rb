@@ -64,6 +64,7 @@ module Kiba
             "AccessionDonors" => :accessionid,
             "AccessionShippingInformation" => :accessionid,
             "CatalogItemAppraisal" => :catalogitemid,
+            "CatalogItemArchaeology" => :catalogitemid,
             "CatalogItemCustomField" => :catalogitemid,
             "CatalogItemLexicon" => :catalogitemid,
             "CatalogItemHistory" => :catalogitemid,
