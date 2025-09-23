@@ -12,13 +12,16 @@ module Kiba
               files: {
                 source: source,
                 destination: dest,
-                lookup: %i[
-                  prep__user
-                  prep__accession
-                ]
+                lookup: get_lookups
               },
               transformer: Ppwe::Prep.get_xforms(self)
             )
+          end
+
+          def get_lookups
+            return [] if Ppwe.mode == :migration
+
+            %i[prep__user prep__accession]
           end
 
           def xforms
@@ -46,23 +49,25 @@ module Kiba
                   mapping: Ppwe.boolean_yes_no_mapping
               end
 
-              transform Merge::MultiRowLookup,
-                lookup: prep__accession,
-                keycolumn: :accessionid,
-                fieldmap: {accessionnumber: :number}
+              if Ppwe.mode == :review
+                transform Merge::MultiRowLookup,
+                  lookup: prep__accession,
+                  keycolumn: :accessionid,
+                  fieldmap: {accessionnumber: :number}
 
-              transform Merge::MultiRowLookup,
-                lookup: prep__user,
-                keycolumn: :createdbyuserid,
-                fieldmap: {createdby: :fullname}
+                transform Merge::MultiRowLookup,
+                  lookup: prep__user,
+                  keycolumn: :createdbyuserid,
+                  fieldmap: {createdby: :fullname}
 
-              transform Merge::MultiRowLookup,
-                lookup: prep__user,
-                keycolumn: :statusbyuserid,
-                fieldmap: {statusby: :fullname}
+                transform Merge::MultiRowLookup,
+                  lookup: prep__user,
+                  keycolumn: :statusbyuserid,
+                  fieldmap: {statusby: :fullname}
 
-              transform Delete::Fields,
-                fields: %i[statusbyuserid createdbyuserid flagid]
+                transform Delete::Fields,
+                  fields: %i[statusbyuserid createdbyuserid]
+              end
             end
           end
         end
