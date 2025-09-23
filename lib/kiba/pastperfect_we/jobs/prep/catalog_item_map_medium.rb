@@ -21,9 +21,7 @@ module Kiba
             Kiba.job_segment do
               transform Ppwe::Transforms::DictionaryLookup,
                 fields: %i[dictionaryitemid]
-
-              transform Delete::Fields,
-                fields: :position
+              transform Rename::Field, from: :dictionaryitem, to: :medium
             end
           end
         end
