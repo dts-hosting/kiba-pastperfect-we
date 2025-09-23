@@ -66,6 +66,7 @@ module Kiba
                 lookup: accession__item_type_lookup,
                 keycolumn: :id,
                 fieldmap: {Ppwe::Splitting.item_type_field => :itemtype}
+              transform Ppwe::Transforms::ReviewTargetFieldMerger
             end
           end
         end
