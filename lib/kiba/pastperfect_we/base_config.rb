@@ -70,6 +70,7 @@ module Kiba
             "CatalogItemHistoryMaterial" => :catalogitemid,
             "CatalogItemHistoryOrigin" => :catalogitemid,
             "CatalogItemHistoryPlaceFound" => :catalogitemid,
+            "CatalogItemMultilevelLinking" => :catalogitemid,
             "CatalogItemLocation" => :catalogitemid,
             "CatalogItemPhoto" => :catalogitemid,
             "CatalogItemPhotoMedium" => :catalogitemid,
