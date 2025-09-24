@@ -23,13 +23,11 @@ module Kiba
 
           def xforms
             Kiba.job_segment do
-              transform Delete::FieldsExcept,
-                fields: %i[id itemtype itemid
-                  objectname title description
-                  creationdate yearrangefrom yearrangeto
-                  collection accessionnumber
-                  status deaccessioned isremoved]
               transform Rename::Field, from: :id, to: :catalogitemid
+
+              transform Delete::FieldsExcept,
+                fields: Ppwe::CatalogItem.base_fields +
+                  Ppwe::CatalogItem.basic_info_fields
 
               %i[homelocation templocation].each do |field|
                 transform Merge::MultiRowLookup,

@@ -19,6 +19,8 @@ module Kiba
 
           def xforms
             Kiba.job_segment do
+              transform Rename::Field, from: :id, to: :catalogitemid
+
               content_fields = %i[
                 reason_surveyed marking/cat_no glove_type ohio_county
                 collection_rank naamcc_mission ohc_mission prevalence
@@ -28,8 +30,8 @@ module Kiba
                 backlog_processing_time complexity
               ]
               transform Delete::FieldsExcept,
-                fields: %i[id itemtype itemid] + content_fields
-              transform Rename::Field, from: :id, to: :catalogitemid
+                fields: Ppwe::CatalogItem.base_fields + content_fields
+
               transform FilterRows::AnyFieldsPopulated,
                 action: :keep,
                 fields: content_fields
