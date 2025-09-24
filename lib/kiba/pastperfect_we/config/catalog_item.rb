@@ -30,6 +30,17 @@ module Kiba
           deaccessioned isremoved]
 
       # @return [Array<Symbol>] fields from :prep__catalog_item
+      #   included in :catalog_item__audit_and_system_info; list in
+      #   order you wish fields to appear in output file
+      setting :audit_and_system_info_fields,
+        reader: true,
+        default: %i[itemidnormalized defaulttab
+          accessionid createddate createdby catalogdate catalogedby
+          statusdate statusby numberofcatalogitemattachments
+          numberofcatalogitemimages isdefault ispublicaccess url url_dateadded
+          url_ispublicaccess url_displayname url_addedby]
+
+      # @return [Array<Symbol>] fields from :prep__catalog_item
       #   included in :catalog_item__deaccession_and_removal; list in
       #   order you wish fields to appear in output file
       setting :deaccession_and_removal_fields,
@@ -45,8 +56,7 @@ module Kiba
         reader: true,
         default: %i[alternativeitemid oldnumber
           objectname objectname2 objectname3
-          othername othernames
-          accessionid]
+          othername othernames]
     end
   end
 end
