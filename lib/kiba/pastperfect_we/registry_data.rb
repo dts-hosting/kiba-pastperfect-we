@@ -127,14 +127,14 @@ module Kiba
           else
             File.join(Ppwe.datadir, "for_review")
           end
-          init_hdrs = %i[catalogitemid itemtype itemid]
+
           register :archaeology, {
             path: File.join(dir, "catalog_item_archaeology.csv"),
             creator: Ppwe::Jobs::CatalogItem::Archaeology,
             tags: %i[combined catalog_item archaeology],
             lookup_on: Ppwe.lookup_column_for("CatalogItemArchaeology"),
             dest_special_opts: {
-              initial_headers: init_hdrs
+              initial_headers: Ppwe::CatalogItem.base_fields
             }
           }
           register :base, {
@@ -143,7 +143,7 @@ module Kiba
             tags: %i[combined catalog_item],
             lookup_on: Ppwe.lookup_column_for("CatalogItemBase"),
             dest_special_opts: {
-              initial_headers: init_hdrs
+              initial_headers: Ppwe::CatalogItem.base_fields
             }
           }
           register :basic_info, {
@@ -152,12 +152,8 @@ module Kiba
             tags: %i[combined catalog_item],
             lookup_on: :catalogitemid,
             dest_special_opts: {
-              initial_headers: init_hdrs +
-                %i[objectname title description
-                  creationdate yearrangefrom yearrangeto
-                  dimensions itemcount collection accessionnumber
-                  status homelocation templocation
-                  deaccessioned isremoved]
+              initial_headers: Ppwe::CatalogItem.base_fields +
+                Ppwe::CatalogItem.basic_info_fields
             }
           }
           register :custom_field_data, {
@@ -166,7 +162,7 @@ module Kiba
             tags: %i[combined catalog_item customfields],
             lookup_on: :catalogitemid,
             dest_special_opts: {
-              initial_headers: init_hdrs
+              initial_headers: Ppwe::CatalogItem.base_fields
             }
           }
           register :deaccession_and_removal, {
@@ -175,11 +171,8 @@ module Kiba
             tags: %i[combined catalog_item],
             lookup_on: :catalogitemid,
             dest_special_opts: {
-              initial_headers: init_hdrs + %i[
-                deaccessioned deaccessiondate deaccessionreasonnotes
-                deaccessionauthorizedbyuser isremoved removaldate
-                disposaldate disposalmethod
-              ]
+              initial_headers: Ppwe::CatalogItem.base_fields +
+                Ppwe::CatalogItem.deaccession_and_removal_fields
             }
           }
           register :history, {
@@ -188,7 +181,7 @@ module Kiba
             tags: %i[combined catalog_item history],
             lookup_on: Ppwe.lookup_column_for("CatalogItemHistory"),
             dest_special_opts: {
-              initial_headers: init_hdrs
+              initial_headers: Ppwe::CatalogItem.base_fields
             }
           }
           register :id_name_class, {
@@ -197,11 +190,8 @@ module Kiba
             tags: %i[combined catalog_item lexicon],
             lookup_on: :catalogitemid,
             dest_special_opts: {
-              initial_headers: init_hdrs +
-                %i[alternativeitemid oldnumber
-                  objectname objectname2 objectname3
-                  othername othernames
-                  accessionid]
+              initial_headers: Ppwe::CatalogItem.base_fields +
+                Ppwe::CatalogItem.id_name_class_fields
             }
           }
           register :photo, {
@@ -210,7 +200,7 @@ module Kiba
             tags: %i[combined catalog_item photo],
             lookup_on: Ppwe.lookup_column_for("CatalogItemPhoto"),
             dest_special_opts: {
-              initial_headers: init_hdrs
+              initial_headers: Ppwe::CatalogItem.base_fields
             }
           }
         end
