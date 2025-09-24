@@ -221,6 +221,15 @@ module Kiba
               initial_headers: Ppwe::CatalogItem.base_fields
             }
           }
+          register :subject_info, {
+            path: File.join(dir, "catalog_item_subject_info.csv"),
+            creator: Ppwe::Jobs::CatalogItem::SubjectInfo,
+            tags: %i[combined catalog_item subject_info],
+            lookup_on: :catalogitemid,
+            dest_special_opts: {
+              initial_headers: Ppwe::CatalogItem.base_fields
+            }
+          }
         end
 
         Ppwe.registry.namespace("condition_report") do
