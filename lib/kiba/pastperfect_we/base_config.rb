@@ -87,6 +87,7 @@ module Kiba
             "CatalogItemPhotoMedium" => :catalogitemid,
             "CatalogItemSubjects" => :catalogitemid,
             "CatalogItemTags" => :catalogitemid,
+            "CatalogItemUrl" => :catalogitemid,
             "ConditionReportCleanlinessState" => :reportid,
             "ConditionReportImage" => :conditionreportid,
             "ConditionReportMaterialsCondition" => :reportid,
