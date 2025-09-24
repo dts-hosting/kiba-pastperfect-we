@@ -203,6 +203,15 @@ module Kiba
               initial_headers: Ppwe::CatalogItem.base_fields
             }
           }
+          register :music, {
+            path: File.join(dir, "catalog_item_music.csv"),
+            creator: Ppwe::Jobs::CatalogItem::Music,
+            tags: %i[combined catalog_item music],
+            lookup_on: Ppwe.lookup_column_for("CatalogItemMusic"),
+            dest_special_opts: {
+              initial_headers: Ppwe::CatalogItem.base_fields
+            }
+          }
           register :photo, {
             path: File.join(dir, "catalog_item_photo.csv"),
             creator: Ppwe::Jobs::CatalogItem::Photo,
