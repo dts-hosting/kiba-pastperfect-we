@@ -12,28 +12,38 @@ module Kiba
               files: {
                 source: source,
                 destination: dest,
-                lookup: :prep__user
+                lookup: get_lookups
               },
               transformer: Ppwe::Prep.get_xforms(self)
             )
           end
 
+          def get_lookups
+            return [] if Ppwe.mode == :migration
+
+            [:prep__user]
+          end
+
           def xforms
             Kiba.job_segment do
-              transform Merge::MultiRowLookup,
-                lookup: prep__user,
-                keycolumn: :useraddedid,
-                fieldmap: {useradded: :fullname}
-
-              transform Delete::Fields,
-                fields: %i[dateadded useraddedid]
-
-              transform Ppwe::Transforms::DictionaryLookup,
-                fields: %i[]
-
               transform Replace::FieldValueWithStaticMapping,
                 source: :ispublicaccess,
                 mapping: Ppwe.boolean_yes_no_mapping
+
+              if Ppwe.mode == :review
+                transform Merge::MultiRowLookup,
+                  lookup: prep__user,
+                  keycolumn: :useraddedid,
+                  fieldmap: {useradded: :fullname}
+
+                transform Delete::Fields,
+                  fields: %i[useraddedid]
+              end
+
+              transform Rename::Fields, fieldmap: {
+                name: :url,
+                useradded: :addedby
+              }
             end
           end
         end
