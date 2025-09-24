@@ -194,6 +194,15 @@ module Kiba
                 Ppwe::CatalogItem.id_name_class_fields
             }
           }
+          register :map, {
+            path: File.join(dir, "catalog_item_map.csv"),
+            creator: Ppwe::Jobs::CatalogItem::Map,
+            tags: %i[combined catalog_item map],
+            lookup_on: Ppwe.lookup_column_for("CatalogItemMap"),
+            dest_special_opts: {
+              initial_headers: Ppwe::CatalogItem.base_fields
+            }
+          }
           register :photo, {
             path: File.join(dir, "catalog_item_photo.csv"),
             creator: Ppwe::Jobs::CatalogItem::Photo,
