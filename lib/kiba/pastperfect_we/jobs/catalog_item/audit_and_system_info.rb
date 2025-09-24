@@ -1,0 +1,43 @@
+# frozen_string_literal: true
+
+module Kiba
+  module PastperfectWe
+    module Jobs
+      module CatalogItem
+        module AuditAndSystemInfo
+          module_function
+
+          def job
+            Kiba::Extend::Jobs::Job.new(
+              files: {
+                source: :prep__catalog_item,
+                destination: :catalog_item__audit_and_system_info
+              },
+              transformer: xforms
+            )
+          end
+
+          def xforms
+            Kiba.job_segment do
+              transform Rename::Field, from: :id, to: :catalogitemid
+
+              transform Delete::FieldsExcept,
+                fields: Ppwe::CatalogItem.base_fields +
+                  Ppwe::CatalogItem.audit_and_system_info_fields
+
+              transform Ppwe::Transforms::MergeTable,
+                source: :prep__catalog_item_url,
+                join_column: :catalogitemid,
+                delete_join_column: false,
+                drop_fields: %i[id]
+
+              transform FilterRows::AnyFieldsPopulated,
+                action: :keep,
+                fields: Ppwe::CatalogItem.audit_and_system_info_fields
+            end
+          end
+        end
+      end
+    end
+  end
+end

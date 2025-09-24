@@ -156,6 +156,16 @@ module Kiba
                 Ppwe::CatalogItem.basic_info_fields
             }
           }
+          register :audit_and_system_info, {
+            path: File.join(dir, "catalog_item_audit_and_system_info.csv"),
+            creator: Ppwe::Jobs::CatalogItem::AuditAndSystemInfo,
+            tags: %i[combined catalog_item],
+            lookup_on: :catalogitemid,
+            dest_special_opts: {
+              initial_headers: Ppwe::CatalogItem.base_fields +
+                Ppwe::CatalogItem.audit_and_system_info_fields
+            }
+          }
           register :custom_field_data, {
             path: File.join(dir, "catalog_item_custom_field_data.csv"),
             creator: Ppwe::Jobs::CatalogItem::CustomFieldData,
