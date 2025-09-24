@@ -39,11 +39,6 @@ module Kiba
                 find: /^0$/,
                 replace: ""
 
-              transform Replace::FieldValueWithStaticMapping,
-                source: :itemtype,
-                mapping: Ppwe::Enums.item_type,
-                fallback_val: nil
-
               %i[isremoved isdefault deaccessioned ispublicaccess itemonloan
                 isitemonexhibit].each do |field|
                 transform Replace::FieldValueWithStaticMapping,
@@ -52,6 +47,13 @@ module Kiba
               end
 
               if Ppwe.mode == :review
+                transform Replace::FieldValueWithStaticMapping,
+                  source: :itemtype,
+                  mapping: Ppwe::Enums.item_type,
+                  fallback_val: nil
+
+                transform Ppwe::Transforms::ReviewTargetFieldMerger
+
                 transform Merge::MultiRowLookup,
                   lookup: prep__accession,
                   keycolumn: :accessionid,
