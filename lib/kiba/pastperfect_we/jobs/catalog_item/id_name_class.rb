@@ -19,17 +19,20 @@ module Kiba
 
           def xforms
             Kiba.job_segment do
-              transform Delete::FieldsExcept,
-                fields: %i[id itemtype itemid
-                  alternativeitemid oldnumber
-                  objectname othername
-                  accessionid]
               transform Rename::Field, from: :id, to: :catalogitemid
+
+              transform Delete::FieldsExcept,
+                fields: Ppwe::CatalogItem.base_fields +
+                  Ppwe::CatalogItem.id_name_class_fields
 
               transform Ppwe::Transforms::MergeTable,
                 source: :prep__catalog_item_lexicon,
                 join_column: :catalogitemid,
                 delete_join_column: false
+
+              transform FilterRows::AnyFieldsPopulated,
+                action: :keep,
+                fields: Ppwe::CatalogItem.id_name_class_fields
             end
           end
         end

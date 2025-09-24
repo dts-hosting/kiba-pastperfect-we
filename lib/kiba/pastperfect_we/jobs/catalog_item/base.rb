@@ -19,9 +19,9 @@ module Kiba
 
           def xforms
             Kiba.job_segment do
-              transform Delete::FieldsExcept,
-                fields: %i[id itemtype itemid]
               transform Rename::Field, from: :id, to: :catalogitemid
+              transform Delete::FieldsExcept,
+                fields: Ppwe::CatalogItem.base_fields
             end
           end
         end
