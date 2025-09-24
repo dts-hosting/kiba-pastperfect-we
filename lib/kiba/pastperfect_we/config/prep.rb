@@ -14,6 +14,7 @@ module Kiba
         reader: true,
         default: {
           "CatalogItem" => {initial_headers: %i[id itemtype]},
+          "CatalogItemUrl" => {initial_headers: %i[id catalogitemid url]},
           "LexiconItem" => {initial_headers: %i[
             id objectname objectnametype
           ]}
