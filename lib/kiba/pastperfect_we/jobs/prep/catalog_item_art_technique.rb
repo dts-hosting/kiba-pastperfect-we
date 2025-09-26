@@ -26,9 +26,6 @@ module Kiba
               transform Rename::Field,
                 from: :dictionaryitem,
                 to: :technique
-
-              transform Delete::Fields,
-                fields: %i[position id]
             end
           end
         end
