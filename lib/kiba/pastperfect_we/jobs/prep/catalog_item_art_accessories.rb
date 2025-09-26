@@ -25,9 +25,6 @@ module Kiba
               transform Rename::Field,
                 from: :dictionaryitem,
                 to: :accessories
-
-              transform Delete::Fields,
-                fields: %i[position id]
             end
           end
         end
