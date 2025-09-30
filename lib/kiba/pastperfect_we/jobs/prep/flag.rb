@@ -21,7 +21,9 @@ module Kiba
             Kiba.job_segment do
               transform Ppwe::Transforms::DictionaryLookup,
                 fields: :reasonid
-              transform Delete::EmptyFields
+              transform FilterRows::AnyFieldsPopulated,
+                action: :keep,
+                fields: %i[date details reason]
             end
           end
         end
