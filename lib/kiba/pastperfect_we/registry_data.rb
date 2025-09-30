@@ -332,6 +332,11 @@ module Kiba
             creator: Ppwe::Jobs::Review::Site,
             tags: %i[review site]
           }
+          register :user, {
+            path: File.join(dir, "user.csv"),
+            creator: Ppwe::Jobs::Review::User,
+            tags: %i[review user]
+          }
         end
       end
       private_class_method :register_files
