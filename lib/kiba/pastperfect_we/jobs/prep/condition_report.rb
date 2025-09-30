@@ -24,11 +24,15 @@ module Kiba
                 fields: %i[conditionid reporttypeid conservatorid
                   createdbyuserid]
 
+              mapping = Ppwe::CatalogItem.base_fields
+                .map { |field| [field, field] }
+                .to_h
+              mapping.delete(:catalogitemid)
+
               transform Merge::MultiRowLookup,
                 lookup: prep__catalog_item,
                 keycolumn: :catalogitemid,
-                fieldmap: {catalog_item_itemidnormalized: :itemidnormalized,
-                           catalog_item_objectname: :lexicon_item_objectname}
+                fieldmap: mapping
             end
           end
         end
