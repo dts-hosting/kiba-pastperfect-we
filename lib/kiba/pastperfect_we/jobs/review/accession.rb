@@ -3,19 +3,25 @@
 module Kiba
   module PastperfectWe
     module Jobs
-      module Accession
-        module Combined
+      module Review
+        module Accession
           module_function
 
           def job
             Kiba::Extend::Jobs::Job.new(
               files: {
                 source: :prep__accession,
-                destination: :accession__combined,
+                destination: :review__accession,
                 lookup: :accession__item_type_lookup
               },
-              transformer: xforms
+              transformer: [xforms, Ppwe::Review.final_xforms].compact
             )
+          end
+
+          def init_headers
+            acc_hdrs = %i[id accessiontype number]
+            acc_hdrs << Ppwe.review_target_field if Ppwe.mode == :review
+            acc_hdrs
           end
 
           def xforms
