@@ -103,16 +103,6 @@ module Kiba
         end
 
         Ppwe.registry.namespace("accession") do
-          combined_hdrs = %i[id accessiontype number]
-          combined_hdrs << Ppwe.review_target_field if Ppwe.mode == :review
-
-          register :combined, {
-            path: File.join(Ppwe.wrkdir, "accession_combined.csv"),
-            creator: Ppwe::Jobs::Accession::Combined,
-            tags: %i[combined accession],
-            lookup_on: Ppwe.lookup_column_for("Accession"),
-            dest_special_opts: {initial_headers: combined_hdrs}
-          }
           register :item_type_lookup, {
             path: File.join(Ppwe.wrkdir, "accession_item_type_lookup.csv"),
             creator: Ppwe::Jobs::Accession::ItemTypeLookup,
@@ -312,6 +302,15 @@ module Kiba
 
         Ppwe.registry.namespace("review") do
           dir = File.join(Ppwe.datadir, "for_review")
+
+          register :accession, {
+            path: File.join(dir, "accession.csv"),
+            creator: Ppwe::Jobs::Review::Accession,
+            tags: %i[review accession],
+            dest_special_opts: {
+              initial_headers: Ppwe::Jobs::Review::Accession.init_headers
+            }
+          }
           register :contact, {
             path: File.join(dir, "contact.csv"),
             creator: Ppwe::Jobs::Review::Contact,
