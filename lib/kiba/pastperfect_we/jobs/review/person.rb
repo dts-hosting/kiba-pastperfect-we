@@ -3,15 +3,15 @@
 module Kiba
   module PastperfectWe
     module Jobs
-      module Person
-        module Combined
+      module Review
+        module Person
           module_function
 
           def job
             Kiba::Extend::Jobs::Job.new(
               files: {
                 source: :prep__person,
-                destination: :person__combined,
+                destination: :review__person,
                 lookup: %i[
                   prep__person_url
                   prep__person_attachment
@@ -23,20 +23,15 @@ module Kiba
 
           def xforms
             Kiba.job_segment do
+              transform Ppwe::Transforms::DeleteTermSourceIndication,
+                table: "Person"
+              transform Delete::Fields,
+                fields: %i[createddate createdbyuserid]
+
               transform Ppwe::Transforms::MergeTable,
                 source: :prep__person_biographical_information,
                 join_column: :id,
-                delete_join_column: false,
-                drop_fields: %i[maritalstatus],
-                opts: {null_placeholder: "FOO",
-                       constantmap: {biomerged: "y"}}
-
-              transform Ppwe::Transforms::MergeTable,
-                source: :prep__person_attachment,
-                join_column: :id,
-                delete_join_column: false,
-                drop_fields: :id,
-                merged_field_prefix: "attachment"
+                delete_join_column: false
 
               transform Count::MatchingRowsInLookup,
                 lookup: prep__person_attachment,
