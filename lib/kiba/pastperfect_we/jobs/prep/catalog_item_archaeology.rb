@@ -34,7 +34,7 @@ module Kiba
                 transform Merge::MultiRowLookup,
                   lookup: prep__site,
                   keycolumn: :siteid,
-                  fieldmap: {sitename: :sitename}
+                  fieldmap: {sitename: Ppwe::Terms.table_config["Site"]}
 
                 transform Delete::Fields,
                   fields: %i[siteid]

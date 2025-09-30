@@ -62,12 +62,12 @@ module Kiba
                 transform Merge::MultiRowLookup,
                   lookup: prep__user,
                   keycolumn: :createdbyuserid,
-                  fieldmap: {createdby: :fullname}
+                  fieldmap: {createdby: Ppwe::Terms.table_config["User"]}
 
                 transform Merge::MultiRowLookup,
                   lookup: prep__user,
                   keycolumn: :statusbyuserid,
-                  fieldmap: {statusby: :fullname}
+                  fieldmap: {statusby: Ppwe::Terms.table_config["User"]}
 
                 transform Merge::MultiRowLookup,
                   lookup: prep__lexicon_item,

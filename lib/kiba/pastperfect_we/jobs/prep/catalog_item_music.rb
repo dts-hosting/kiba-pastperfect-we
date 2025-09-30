@@ -29,7 +29,7 @@ module Kiba
               transform Merge::MultiRowLookup,
                 lookup: prep__person,
                 keycolumn: :primaryartistid,
-                fieldmap: {primaryartist: :fullname}
+                fieldmap: {primaryartist: Ppwe::Terms.table_config["Person"]}
 
               transform Delete::Fields,
                 fields: %i[primaryartistid]

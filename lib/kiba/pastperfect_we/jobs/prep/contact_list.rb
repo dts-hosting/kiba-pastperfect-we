@@ -32,7 +32,7 @@ module Kiba
               transform Merge::MultiRowLookup,
                 lookup: prep__user,
                 keycolumn: :listmanagerid,
-                fieldmap: {listmanager: :fullname}
+                fieldmap: {listmanager: Ppwe::Terms.table_config["User"]}
 
               transform Delete::Fields,
                 fields: :listmanagerid
