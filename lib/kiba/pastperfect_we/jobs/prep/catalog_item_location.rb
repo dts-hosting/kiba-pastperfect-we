@@ -47,7 +47,7 @@ module Kiba
                   transform Merge::MultiRowLookup,
                     lookup: location__prefixed,
                     keycolumn: :"#{base}id",
-                    fieldmap: {"#{base}": :location}
+                    fieldmap: {"#{base}": Ppwe::Terms.table_config["Location"]}
                   transform Delete::Fields,
                     fields: :"#{base}id"
                 end
