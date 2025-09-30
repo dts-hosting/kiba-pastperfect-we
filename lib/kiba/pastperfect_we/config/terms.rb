@@ -21,6 +21,7 @@ module Kiba
         default: {
           "Contact" => :fullname,
           "LexiconItem" => :objectname,
+          "Location" => :location,
           "Person" => :fullname,
           "Site" => :sitenumberandname,
           "User" => :fullname
