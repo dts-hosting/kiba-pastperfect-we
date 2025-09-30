@@ -131,7 +131,7 @@ module Kiba
           register :archaeology, {
             path: File.join(dir, "catalog_item_archaeology.csv"),
             creator: Ppwe::Jobs::CatalogItem::Archaeology,
-            tags: %i[combined catalog_item archaeology],
+            tags: %i[review catalog_item archaeology],
             lookup_on: Ppwe.lookup_column_for("CatalogItemArchaeology"),
             dest_special_opts: {
               initial_headers: Ppwe::CatalogItem.base_fields
@@ -140,7 +140,7 @@ module Kiba
           register :base, {
             path: File.join(Ppwe.wrkdir, "catalog_item_base.csv"),
             creator: Ppwe::Jobs::CatalogItem::Base,
-            tags: %i[combined catalog_item],
+            tags: %i[review catalog_item],
             lookup_on: Ppwe.lookup_column_for("CatalogItemBase"),
             dest_special_opts: {
               initial_headers: Ppwe::CatalogItem.base_fields
@@ -149,7 +149,7 @@ module Kiba
           register :basic_info, {
             path: File.join(dir, "catalog_item_basic_info.csv"),
             creator: Ppwe::Jobs::CatalogItem::BasicInfo,
-            tags: %i[combined catalog_item],
+            tags: %i[review catalog_item],
             lookup_on: :catalogitemid,
             dest_special_opts: {
               initial_headers: Ppwe::CatalogItem.base_fields +
@@ -159,7 +159,7 @@ module Kiba
           register :audit_and_system_info, {
             path: File.join(dir, "catalog_item_audit_and_system_info.csv"),
             creator: Ppwe::Jobs::CatalogItem::AuditAndSystemInfo,
-            tags: %i[combined catalog_item],
+            tags: %i[review catalog_item],
             lookup_on: :catalogitemid,
             dest_special_opts: {
               initial_headers: Ppwe::CatalogItem.base_fields +
@@ -169,7 +169,7 @@ module Kiba
           register :custom_field_data, {
             path: File.join(dir, "catalog_item_custom_field_data.csv"),
             creator: Ppwe::Jobs::CatalogItem::CustomFieldData,
-            tags: %i[combined catalog_item customfields],
+            tags: %i[review catalog_item customfields],
             lookup_on: :catalogitemid,
             dest_special_opts: {
               initial_headers: Ppwe::CatalogItem.base_fields
@@ -178,7 +178,7 @@ module Kiba
           register :deaccession_and_removal, {
             path: File.join(dir, "catalog_item_deaccession_and_removal.csv"),
             creator: Ppwe::Jobs::CatalogItem::DeaccessionAndRemoval,
-            tags: %i[combined catalog_item],
+            tags: %i[review catalog_item],
             lookup_on: :catalogitemid,
             dest_special_opts: {
               initial_headers: Ppwe::CatalogItem.base_fields +
@@ -188,7 +188,7 @@ module Kiba
           register :history, {
             path: File.join(dir, "catalog_item_history.csv"),
             creator: Ppwe::Jobs::CatalogItem::History,
-            tags: %i[combined catalog_item history],
+            tags: %i[review catalog_item history],
             lookup_on: Ppwe.lookup_column_for("CatalogItemHistory"),
             dest_special_opts: {
               initial_headers: Ppwe::CatalogItem.base_fields
@@ -197,7 +197,7 @@ module Kiba
           register :id_name_class, {
             path: File.join(dir, "catalog_item_id_name_class.csv"),
             creator: Ppwe::Jobs::CatalogItem::IdNameClass,
-            tags: %i[combined catalog_item lexicon],
+            tags: %i[review catalog_item lexicon],
             lookup_on: :catalogitemid,
             dest_special_opts: {
               initial_headers: Ppwe::CatalogItem.base_fields +
@@ -207,7 +207,7 @@ module Kiba
           register :map, {
             path: File.join(dir, "catalog_item_map.csv"),
             creator: Ppwe::Jobs::CatalogItem::Map,
-            tags: %i[combined catalog_item map],
+            tags: %i[review catalog_item map],
             lookup_on: Ppwe.lookup_column_for("CatalogItemMap"),
             dest_special_opts: {
               initial_headers: Ppwe::CatalogItem.base_fields
@@ -216,7 +216,7 @@ module Kiba
           register :music, {
             path: File.join(dir, "catalog_item_music.csv"),
             creator: Ppwe::Jobs::CatalogItem::Music,
-            tags: %i[combined catalog_item music],
+            tags: %i[review catalog_item music],
             lookup_on: Ppwe.lookup_column_for("CatalogItemMusic"),
             dest_special_opts: {
               initial_headers: Ppwe::CatalogItem.base_fields
@@ -225,7 +225,7 @@ module Kiba
           register :photo, {
             path: File.join(dir, "catalog_item_photo.csv"),
             creator: Ppwe::Jobs::CatalogItem::Photo,
-            tags: %i[combined catalog_item photo],
+            tags: %i[review catalog_item photo],
             lookup_on: Ppwe.lookup_column_for("CatalogItemPhoto"),
             dest_special_opts: {
               initial_headers: Ppwe::CatalogItem.base_fields
@@ -234,7 +234,7 @@ module Kiba
           register :subject_info, {
             path: File.join(dir, "catalog_item_subject_info.csv"),
             creator: Ppwe::Jobs::CatalogItem::SubjectInfo,
-            tags: %i[combined catalog_item subject_info],
+            tags: %i[review catalog_item subject_info],
             lookup_on: :catalogitemid,
             dest_special_opts: {
               initial_headers: Ppwe::CatalogItem.base_fields
