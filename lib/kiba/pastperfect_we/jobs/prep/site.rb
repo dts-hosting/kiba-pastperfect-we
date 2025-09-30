@@ -33,6 +33,9 @@ module Kiba
                 target: :sitenumberandname,
                 delete_sources: false,
                 delim: ": "
+
+              transform Ppwe::Transforms::AddTermSourceIndication,
+                table: "Site"
             end
           end
         end
