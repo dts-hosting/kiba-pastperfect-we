@@ -305,7 +305,12 @@ module Kiba
           register :condition_report, {
             path: File.join(dir, "condition_report.csv"),
             creator: Ppwe::Jobs::Review::ConditionReport,
-            tags: %i[review condition_report]
+            tags: %i[review condition_report],
+            dest_special_opts: {
+              initial_headers: %i[
+                id catalogitemid itemid itemtype targetsystems
+              ]
+            }
           }
           register :contact, {
             path: File.join(dir, "contact.csv"),
