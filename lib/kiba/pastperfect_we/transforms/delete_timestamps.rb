@@ -7,7 +7,7 @@ module Kiba
       #   will be deleted. If nil, timestamps will be removed from fields whose
       #   names end with "date"
       class DeleteTimestamps
-        TIMESTAMP_PATTERN = / \d{2}:\d{2}:\d{2}(?:\.\d{3}| [AP]M)?$/
+        TIMESTAMP_PATTERN = / \d{2}:\d{2}:\d{2}(?:\.\d{3,}| [AP]M)?$/
 
         def initialize(fields: nil)
           @fields_identified = fields ? true : false
