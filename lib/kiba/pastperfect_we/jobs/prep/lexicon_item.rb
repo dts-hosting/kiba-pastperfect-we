@@ -69,6 +69,8 @@ module Kiba
                   row[:objectname] = [term, hier].join(" < ")
                   row
                 end
+                transform Ppwe::Transforms::AddTermSourceIndication,
+                  table: "LexiconItem"
               end
             end
           end
