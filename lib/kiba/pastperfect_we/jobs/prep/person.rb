@@ -20,6 +20,9 @@ module Kiba
 
           def xforms
             Kiba.job_segment do
+              transform Ppwe::Transforms::AddTermSourceIndication,
+                table: "Person"
+
               transform Ppwe::Transforms::DictionaryLookup,
                 fields: %i[roleid]
 
