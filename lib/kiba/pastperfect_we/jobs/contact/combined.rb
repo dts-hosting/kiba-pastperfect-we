@@ -23,6 +23,12 @@ module Kiba
 
           def xforms
             Kiba.job_segment do
+              transform Ppwe::Transforms::DeleteTermSourceIndication,
+                table: "Contact"
+              transform Ppwe::Transforms::DeleteTermSourceIndication,
+                table: "Contact",
+                term_src: :spouse
+
               transform Ppwe::Transforms::MergeTable,
                 source: :prep__contact_biographical_info,
                 join_column: :id,
