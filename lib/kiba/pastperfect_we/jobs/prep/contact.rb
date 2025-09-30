@@ -23,6 +23,9 @@ module Kiba
 
           def xforms
             Kiba.job_segment do
+              transform Ppwe::Transforms::AddTermSourceIndication,
+                table: "Contact"
+
               transform Ppwe::Transforms::DictionaryLookup,
                 fields: %i[groupid]
 
@@ -48,6 +51,12 @@ module Kiba
                 lookup: prep__user,
                 keycolumn: :createdbyuserid,
                 fieldmap: {createdby: Ppwe::Terms.table_config["User"]}
+
+              transform CombineValues::FromFieldsWithDelimiter,
+                sources: %i[spouse spouseid],
+                target: :spouse,
+                delete_sources: false,
+                delim: "#{Ppwe::Terms.term_source_prefix}Contact."
 
               transform Delete::Fields,
                 fields: %i[spouseid createdbyuserid flagid]
