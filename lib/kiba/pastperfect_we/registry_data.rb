@@ -310,15 +310,6 @@ module Kiba
           }
         end
 
-        Ppwe.registry.namespace("person") do
-          register :combined, {
-            path: File.join(Ppwe.wrkdir, "person_combined.csv"),
-            creator: Ppwe::Jobs::Person::Combined,
-            tags: %i[combined person],
-            lookup_on: Ppwe.lookup_column_for("Person")
-          }
-        end
-
         Ppwe.registry.namespace("review") do
           dir = File.join(Ppwe.datadir, "for_review")
           register :contact, {
@@ -330,6 +321,11 @@ module Kiba
             path: File.join(dir, "lexicon_item.csv"),
             creator: Ppwe::Jobs::Review::LexiconItem,
             tags: %i[review lexicon_item]
+          }
+          register :person, {
+            path: File.join(dir, "person.csv"),
+            creator: Ppwe::Jobs::Review::Person,
+            tags: %i[review person]
           }
         end
       end
