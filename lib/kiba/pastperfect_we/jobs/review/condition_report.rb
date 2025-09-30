@@ -20,41 +20,25 @@ module Kiba
                   prep__condition_report_surface_condition
                 ]
               },
-              transformer: xforms
+              transformer: [xforms, Ppwe::Review.final_xforms].compact
             )
           end
 
           def xforms
             Kiba.job_segment do
-              transform Merge::MultiRowLookup,
-                lookup: prep__condition_report_cleanliness_state,
-                keycolumn: :id,
-                fieldmap: {cleanlinessstate: :dictionaryitem,
-                           cleanlinessstate_desc: :dictionaryitem_desc}
-
-              transform Merge::MultiRowLookup,
-                lookup: prep__condition_report_materials_condition,
-                keycolumn: :id,
-                fieldmap: {materialscondition: :dictionaryitem,
-                           materialscondition_desc: :dictionaryitem_desc}
-
-              transform Merge::MultiRowLookup,
-                lookup: prep__condition_report_parts_condition,
-                keycolumn: :id,
-                fieldmap: {partscondition: :dictionaryitem,
-                           partscondition_desc: :dictionaryitem_desc}
-
-              transform Merge::MultiRowLookup,
-                lookup: prep__condition_report_structure_condition,
-                keycolumn: :id,
-                fieldmap: {structurecondition: :dictionaryitem,
-                           structurecondition_desc: :dictionaryitem_desc}
-
-              transform Merge::MultiRowLookup,
-                lookup: prep__condition_report_surface_condition,
-                keycolumn: :id,
-                fieldmap: {surfacecondition: :dictionaryitem,
-                           surfacecondition_desc: :dictionaryitem_desc}
+              {
+                prep__condition_report_cleanliness_state: :cleanlinessstate,
+                prep__condition_report_materials_condition: :materialscondition,
+                prep__condition_report_parts_condition: :partscondition,
+                prep__condition_report_structure_condition: :structurecondition,
+                prep__condition_report_surface_condition: :surfacecondition
+              }.each do |lkup, field|
+                transform Merge::MultiRowLookup,
+                  lookup: send(lkup),
+                  keycolumn: :id,
+                  fieldmap: {field => field},
+                  sorter: Lookup::RowSorter.new(on: :position, as: :to_i)
+              end
             end
           end
         end
