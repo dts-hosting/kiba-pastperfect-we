@@ -27,6 +27,12 @@ module Kiba
 
               transform Ppwe::Transforms::DictionaryLookup,
                 fields: %i[countryid]
+
+              transform CombineValues::FromFieldsWithDelimiter,
+                sources: %i[sitenumber sitename],
+                target: :sitenumberandname,
+                delete_sources: false,
+                delim: ": "
             end
           end
         end
