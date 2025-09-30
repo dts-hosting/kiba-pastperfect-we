@@ -62,13 +62,6 @@ module Kiba
                 keycolumn: :id,
                 targetfield: :attachment_count
 
-              transform Ppwe::Transforms::MergeTable,
-                source: :prep__flag,
-                join_column: :flagid,
-                delete_join_column: false,
-                opts: {null_placeholder: Ppwe.nullvalue},
-                merged_field_prefix: "flag"
-
               transform Merge::MultiRowLookup,
                 lookup: accession__item_type_lookup,
                 keycolumn: :id,
