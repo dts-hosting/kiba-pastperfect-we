@@ -12,7 +12,10 @@ module Kiba
               files: {
                 source: :prep__accession,
                 destination: :review__accession,
-                lookup: :accession__item_type_lookup
+                lookup: %i[
+                  accession__item_type_lookup
+                  prep__accession_attachment
+                ]
               },
               transformer: [xforms, Ppwe::Review.final_xforms].compact
             )
@@ -54,12 +57,10 @@ module Kiba
                 delete_join_column: false,
                 merged_field_prefix: "activity"
 
-              transform Ppwe::Transforms::MergeTable,
-                source: :prep__accession_attachment,
-                join_column: :id,
-                delete_join_column: false,
-                drop_fields: :id,
-                merged_field_prefix: "attachment"
+              transform Count::MatchingRowsInLookup,
+                lookup: prep__accession_attachment,
+                keycolumn: :id,
+                targetfield: :attachment_count
 
               transform Ppwe::Transforms::MergeTable,
                 source: :prep__flag,
