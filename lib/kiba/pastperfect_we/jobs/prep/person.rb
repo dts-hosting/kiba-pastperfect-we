@@ -21,7 +21,7 @@ module Kiba
           def xforms
             Kiba.job_segment do
               transform Ppwe::Transforms::DictionaryLookup,
-                fields: %i[museumid roleid]
+                fields: %i[roleid]
 
               %i[iscreator ispublicaccess isremoved].each do |field|
                 transform Replace::FieldValueWithStaticMapping,
