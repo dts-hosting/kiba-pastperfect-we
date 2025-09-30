@@ -16,6 +16,7 @@ module Kiba
         constructor: ->(default) do
           Kiba.job_segment do
             transform Ppwe::Transforms::ReviewFinalizer
+            transform Delete::EmptyFields
           end
         end
     end
