@@ -50,7 +50,7 @@ module Kiba
                 fieldmap: {createdby: :fullname}
 
               transform Delete::Fields,
-                fields: %i[spouseidcreatedbyuserid flagid]
+                fields: %i[spouseid createdbyuserid flagid]
             end
           end
         end
