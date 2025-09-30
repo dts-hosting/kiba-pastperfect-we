@@ -232,15 +232,6 @@ module Kiba
           }
         end
 
-        Ppwe.registry.namespace("condition_report") do
-          register :combined, {
-            path: File.join(Ppwe.wrkdir, "condition_report_combined.csv"),
-            creator: Ppwe::Jobs::ConditionReport::Combined,
-            tags: %i[combined condition_report],
-            lookup_on: Ppwe.lookup_column_for("ConditionReport")
-          }
-        end
-
         Ppwe.registry.namespace("dictionary") do
           register :filters, {
             path: File.join(Ppwe.wrkdir, "dictionary_filters.csv"),
@@ -310,6 +301,11 @@ module Kiba
             dest_special_opts: {
               initial_headers: Ppwe::Jobs::Review::Accession.init_headers
             }
+          }
+          register :condition_report, {
+            path: File.join(dir, "condition_report.csv"),
+            creator: Ppwe::Jobs::Review::ConditionReport,
+            tags: %i[review condition_report]
           }
           register :contact, {
             path: File.join(dir, "contact.csv"),

@@ -3,15 +3,15 @@
 module Kiba
   module PastperfectWe
     module Jobs
-      module ConditionReport
-        module Combined
+      module Review
+        module ConditionReport
           module_function
 
           def job
             Kiba::Extend::Jobs::Job.new(
               files: {
                 source: :prep__condition_report,
-                destination: :condition_report__combined,
+                destination: :review__condition_report,
                 lookup: %i[
                   prep__condition_report_cleanliness_state
                   prep__condition_report_materials_condition
