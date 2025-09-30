@@ -324,8 +324,12 @@ module Kiba
           register :contact, {
             path: File.join(dir, "contact.csv"),
             creator: Ppwe::Jobs::Review::Contact,
-            tags: %i[review contact],
-            lookup_on: Ppwe.lookup_column_for("Contact")
+            tags: %i[review contact]
+          }
+          register :lexicon_item, {
+            path: File.join(dir, "lexicon_item.csv"),
+            creator: Ppwe::Jobs::Review::LexiconItem,
+            tags: %i[review lexicon_item]
           }
         end
       end
