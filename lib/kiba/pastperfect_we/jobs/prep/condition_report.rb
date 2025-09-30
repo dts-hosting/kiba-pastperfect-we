@@ -12,10 +12,7 @@ module Kiba
               files: {
                 source: source,
                 destination: dest,
-                lookup: %i[
-                  prep__catalog_item
-                  prep__condition_report_cleanliness_state
-                ]
+                lookup: :prep__catalog_item
               },
               transformer: Ppwe::Prep.get_xforms(self)
             )
