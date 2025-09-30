@@ -13,7 +13,7 @@ module Kiba
                 source: :prep__catalog_item,
                 destination: :catalog_item__id_name_class
               },
-              transformer: xforms
+              transformer: [xforms, Ppwe::Review.final_xforms].compact
             )
           end
 

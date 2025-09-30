@@ -13,7 +13,7 @@ module Kiba
                 source: :prep__lexicon_item,
                 destination: :review__lexicon_item
               },
-              transformer: xforms
+              transformer: [xforms, Ppwe::Review.final_xforms].compact
             )
           end
 

@@ -17,7 +17,7 @@ module Kiba
                   prep__contact_attachments
                 ]
               },
-              transformer: xforms
+              transformer: [xforms, Ppwe::Review.final_xforms].compact
             )
           end
 

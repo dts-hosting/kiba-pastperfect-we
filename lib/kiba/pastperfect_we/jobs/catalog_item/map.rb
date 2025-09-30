@@ -14,7 +14,7 @@ module Kiba
                 destination: :catalog_item__map,
                 lookup: :prep__catalog_item_map_medium
               },
-              transformer: xforms
+              transformer: [xforms, Ppwe::Review.final_xforms].compact
             )
           end
 

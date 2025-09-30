@@ -13,7 +13,7 @@ module Kiba
                 source: :prep__site,
                 destination: :review__site
               },
-              transformer: xforms
+              transformer: [xforms, Ppwe::Review.final_xforms].compact
             )
           end
 
