@@ -12,6 +12,19 @@ module Kiba
       setting :term_source_prefix,
         reader: true,
         default: " termsrc:"
+
+      # @return [Hash<String => Symbol>] keys are table names; values are the
+      #   fields from PREP jobs that contain the "term-like" values merged into
+      #   other tables
+      setting :table_config,
+        reader: true,
+        default: {
+          "Contact" => :fullname,
+          "LexiconItem" => :objectname,
+          "Person" => :fullname,
+          "Site" => :sitenumberandname,
+          "User" => :fullname
+        }
     end
   end
 end
