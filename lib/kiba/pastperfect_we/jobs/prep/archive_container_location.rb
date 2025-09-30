@@ -23,7 +23,7 @@ module Kiba
               transform Merge::MultiRowLookup,
                 lookup: prep__person,
                 keycolumn: :creatorid,
-                fieldmap: {creator_name: :fullname}
+                fieldmap: {creator_name: Ppwe::Terms.table_config["Person"]}
 
               transform Replace::FieldValueWithStaticMapping,
                 source: :ispublicaccess,

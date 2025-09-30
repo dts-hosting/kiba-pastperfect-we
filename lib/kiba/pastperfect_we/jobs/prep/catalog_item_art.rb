@@ -29,17 +29,17 @@ module Kiba
               transform Merge::MultiRowLookup,
                 lookup: prep__person,
                 keycolumn: :creatorid,
-                fieldmap: {creator: :fullname}
+                fieldmap: {creator: Ppwe::Terms.table_config["Person"]}
 
               transform Merge::MultiRowLookup,
                 lookup: prep__person,
                 keycolumn: :creator2id,
-                fieldmap: {creator2: :fullname}
+                fieldmap: {creator2: Ppwe::Terms.table_config["Person"]}
 
               transform Merge::MultiRowLookup,
                 lookup: prep__person,
                 keycolumn: :creator3id,
-                fieldmap: {creator3: :fullname}
+                fieldmap: {creator3: Ppwe::Terms.table_config["Person"]}
 
               transform Delete::Fields,
                 fields: %i[creatorid creator2id creator3id]

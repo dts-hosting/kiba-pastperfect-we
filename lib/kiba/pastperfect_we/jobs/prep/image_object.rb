@@ -27,7 +27,7 @@ module Kiba
               transform Merge::MultiRowLookup,
                 lookup: prep__user,
                 keycolumn: :createdbyid,
-                fieldmap: {createdby: :fullname}
+                fieldmap: {createdby: Ppwe::Terms.table_config["User"]}
 
               transform Delete::Fields,
                 fields: :createdbyid
