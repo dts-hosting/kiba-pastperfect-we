@@ -3,15 +3,15 @@
 module Kiba
   module PastperfectWe
     module Jobs
-      module Contact
-        module Combined
+      module Review
+        module Contact
           module_function
 
           def job
             Kiba::Extend::Jobs::Job.new(
               files: {
                 source: :prep__contact,
-                destination: :contact__combined,
+                destination: :review__contact,
                 lookup: %i[
                   prep__contact_urls
                   prep__contact_attachments
