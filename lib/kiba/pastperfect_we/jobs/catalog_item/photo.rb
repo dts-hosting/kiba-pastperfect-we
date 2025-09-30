@@ -14,7 +14,7 @@ module Kiba
                 destination: :catalog_item__photo,
                 lookup: :prep__catalog_item_photo_medium
               },
-              transformer: xforms
+              transformer: [xforms, Ppwe::Review.final_xforms].compact
             )
           end
 

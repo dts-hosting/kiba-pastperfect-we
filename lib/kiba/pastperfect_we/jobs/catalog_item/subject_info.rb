@@ -18,7 +18,7 @@ module Kiba
                   prep__catalog_item_tags
                 ]
               },
-              transformer: xforms
+              transformer: [xforms, Ppwe::Review.final_xforms].compact
             )
           end
 

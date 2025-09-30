@@ -14,7 +14,7 @@ module Kiba
                 destination: :catalog_item__archaeology,
                 lookup: :prep__catalog_item_archaeology_material
               },
-              transformer: xforms
+              transformer: [xforms, Ppwe::Review.final_xforms].compact
             )
           end
 

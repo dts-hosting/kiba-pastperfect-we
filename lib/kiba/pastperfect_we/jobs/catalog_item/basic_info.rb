@@ -17,7 +17,7 @@ module Kiba
                   prep__catalog_item_location
                 ]
               },
-              transformer: xforms
+              transformer: [xforms, Ppwe::Review.final_xforms].compact
             )
           end
 

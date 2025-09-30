@@ -17,7 +17,7 @@ module Kiba
                   prep__person_attachment
                 ]
               },
-              transformer: xforms
+              transformer: [xforms, Ppwe::Review.final_xforms].compact
             )
           end
 
