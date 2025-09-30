@@ -37,7 +37,7 @@ module Kiba
                 fieldmap: {sitename: Ppwe::Terms.table_config["Site"]}
 
               transform Delete::Fields,
-                fields: :creatorid
+                fields: %i[creatorid siteid]
 
               transform Ppwe::Transforms::CrSplitter,
                 fields: :creatoraddedentry
