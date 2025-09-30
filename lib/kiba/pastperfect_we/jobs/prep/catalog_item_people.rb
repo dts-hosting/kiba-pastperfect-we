@@ -26,7 +26,7 @@ module Kiba
                 fieldmap: {person_name: :fullname}
 
               transform Delete::Fields,
-                fields: %i[personid position]
+                fields: %i[personid]
             end
           end
         end
