@@ -47,8 +47,13 @@ module Kiba
                 keycolumn: :statusbyuserid,
                 fieldmap: {statusby: Ppwe::Terms.table_config["User"]}
 
+              transform Ppwe::Transforms::MergeTable,
+                source: :prep__flag,
+                join_column: :flagid,
+                merged_field_prefix: "flag"
+
               transform Delete::Fields,
-                fields: %i[statusbyuserid createdbyuserid flagid]
+                fields: %i[statusbyuserid createdbyuserid]
             end
           end
         end
