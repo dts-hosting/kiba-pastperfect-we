@@ -322,6 +322,11 @@ module Kiba
             creator: Ppwe::Jobs::Review::LexiconItem,
             tags: %i[review lexicon_item]
           }
+          register :location, {
+            path: File.join(dir, "location.csv"),
+            creator: Ppwe::Jobs::Review::Location,
+            tags: %i[review location]
+          }
           register :person, {
             path: File.join(dir, "person.csv"),
             creator: Ppwe::Jobs::Review::Person,
