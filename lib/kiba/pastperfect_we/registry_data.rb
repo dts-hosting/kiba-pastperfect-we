@@ -252,15 +252,6 @@ module Kiba
           }
         end
 
-        Ppwe.registry.namespace("exhibit") do
-          register :combined, {
-            path: File.join(Ppwe.wrkdir, "exhibit_combined.csv"),
-            creator: Ppwe::Jobs::Exhibit::Combined,
-            tags: %i[combined exhibit],
-            lookup_on: Ppwe.lookup_column_for("exhibit")
-          }
-        end
-
         Ppwe.registry.namespace("exhibit_catalog_items") do
           register :combined, {
             path: File.join(Ppwe.wrkdir, "exhibit_catalog_items_combined.csv"),
@@ -316,6 +307,11 @@ module Kiba
             path: File.join(dir, "contact.csv"),
             creator: Ppwe::Jobs::Review::Contact,
             tags: %i[review contact]
+          }
+          register :exhibit, {
+            path: File.join(dir, "exhibit.csv"),
+            creator: Ppwe::Jobs::Review::Exhibit,
+            tags: %i[review exhibit]
           }
           register :lexicon_item, {
             path: File.join(dir, "lexicon_item.csv"),
