@@ -18,6 +18,15 @@ module Kiba
           default + [Ppwe.review_target_field]
         end
 
+      # @return [Hash] suitable for use as Merge::MultiRowLookup fieldmap
+      def base_fields_merge_map
+        mapping = Ppwe::CatalogItem.base_fields
+          .map { |field| [field, field] }
+          .to_h
+        mapping.delete(:catalogitemid)
+        mapping
+      end
+
       # @return [Array<Symbol>] fields from :prep__catalog_item included in
       #   :catalog_item__basic_info; list in order you wish fields to appear
       #   in output file
