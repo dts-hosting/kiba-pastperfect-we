@@ -11,7 +11,11 @@ module Kiba
             Kiba::Extend::Jobs::Job.new(
               files: {
                 source: source,
-                destination: dest
+                destination: dest,
+                lookup: %i[
+                  prep__catalog_item
+                  prep__loan
+                ]
               },
               transformer: Ppwe::Prep.get_xforms(self)
             )
@@ -22,6 +26,14 @@ module Kiba
               transform Replace::FieldValueWithStaticMapping,
                 source: :isreturned,
                 mapping: Ppwe.boolean_yes_no_mapping
+              transform Merge::MultiRowLookup,
+                lookup: prep__catalog_item,
+                keycolumn: :catalogitemid,
+                fieldmap: Ppwe::CatalogItem.base_fields_merge_map
+              transform Merge::MultiRowLookup,
+                lookup: prep__loan,
+                keycolumn: :loanid,
+                fieldmap: {loannumberandrecipient: :loannumberandrecipient}
             end
           end
         end
