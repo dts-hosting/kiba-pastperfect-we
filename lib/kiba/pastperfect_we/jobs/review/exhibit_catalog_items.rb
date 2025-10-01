@@ -11,27 +11,13 @@ module Kiba
             Kiba::Extend::Jobs::Job.new(
               files: {
                 source: :prep__exhibit_catalog_items,
-                destination: :review__exhibit_catalog_items,
-                lookup: %i[prep__catalog_item prep__exhibit]
+                destination: :review__exhibit_catalog_items
               },
               transformer: [xforms, Ppwe::Review.final_xforms].compact
             )
           end
 
-          def xforms
-            Kiba.job_segment do
-              transform Merge::MultiRowLookup,
-                lookup: prep__exhibit,
-                keycolumn: :exhibitid,
-                fieldmap: {exhibitname: :exhibitname}
-
-              transform Merge::MultiRowLookup,
-                lookup: prep__catalog_item,
-                keycolumn: :catalogitemid,
-                fieldmap: {itemidnormalized: :itemidnormalized,
-                           objectname: :lexicon_item_objectname}
-            end
-          end
+          def xforms = nil
         end
       end
     end
