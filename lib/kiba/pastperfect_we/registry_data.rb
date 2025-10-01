@@ -302,7 +302,10 @@ module Kiba
           register :exhibit, {
             path: File.join(dir, "exhibit.csv"),
             creator: Ppwe::Jobs::Review::Exhibit,
-            tags: %i[review exhibit]
+            tags: %i[review exhibit],
+            dest_special_opts: {
+              initial_headers: [:id, Ppwe.review_target_field]
+            }
           }
           register :exhibit_catalog_items, {
             path: File.join(dir, "exhibit_catalog_items.csv"),

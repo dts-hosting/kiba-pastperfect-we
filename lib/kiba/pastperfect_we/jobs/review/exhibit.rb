@@ -12,7 +12,10 @@ module Kiba
               files: {
                 source: :prep__exhibit,
                 destination: :review__exhibit,
-                lookup: :prep__exhibit_attachment
+                lookup: %i[
+                  prep__exhibit_attachment
+                  prep__exhibit_catalog_items
+                ]
               },
               transformer: [xforms, Ppwe::Review.final_xforms].compact
             )
@@ -20,6 +23,19 @@ module Kiba
 
           def xforms
             Kiba.job_segment do
+              transform Merge::MultiRowLookup,
+                lookup: prep__exhibit_catalog_items,
+                keycolumn: :id,
+                fieldmap: {itemtype: :itemtype}
+
+              transform Deduplicate::FieldValues,
+                fields: :itemtype,
+                sep: Ppwe.delim
+
+              transform Ppwe::Transforms::ReviewTargetFieldMerger
+
+              transform Delete::Fields, fields: :itemtype
+
               transform Ppwe::Transforms::MergeTable,
                 source: :prep__exhibit_insurance_information,
                 join_column: :id,
