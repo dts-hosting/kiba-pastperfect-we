@@ -12,7 +12,7 @@ module Kiba
               files: {
                 source: :prep__exhibit,
                 destination: :review__exhibit,
-                lookup: %i[]
+                lookup: :prep__exhibit_attachment
               },
               transformer: [xforms, Ppwe::Review.final_xforms].compact
             )
@@ -35,12 +35,10 @@ module Kiba
                 join_column: :id,
                 delete_join_column: false
 
-              transform Ppwe::Transforms::MergeTable,
-                source: :prep__exhibit_attachment,
-                join_column: :id,
-                delete_join_column: false,
-                drop_fields: :id,
-                merged_field_prefix: "attachment"
+              transform Count::MatchingRowsInLookup,
+                lookup: prep__exhibit_attachment,
+                keycolumn: :id,
+                targetfield: :numberofattachments
             end
           end
         end
