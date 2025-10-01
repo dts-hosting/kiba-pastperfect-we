@@ -41,9 +41,9 @@ module Kiba
             .uniq
             .group_by { |v| weaklings.include?(v) }
 
-          return grouped[false].join(Ppwe.delim) if grouped.key?(false)
+          return grouped[false].sort.join(Ppwe.delim) if grouped.key?(false)
 
-          grouped[true].join(Ppwe.delim)
+          grouped[true].sort.join(Ppwe.delim)
         end
       end
     end
