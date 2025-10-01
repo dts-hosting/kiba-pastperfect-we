@@ -26,6 +26,14 @@ module Kiba
                 transform Replace::FieldValueWithStaticMapping,
                   source: field,
                   mapping: Ppwe.boolean_yes_no_mapping
+
+                if Ppwe.mode == :review
+                  transform CombineValues::FromFieldsWithDelimiter,
+                    sources: %i[loannumber loanedto],
+                    target: :loannumberandrecipient,
+                    delete_sources: false,
+                    delim: ", to: "
+                end
               end
             end
           end
