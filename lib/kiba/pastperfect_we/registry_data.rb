@@ -252,15 +252,6 @@ module Kiba
           }
         end
 
-        Ppwe.registry.namespace("loan_catalog_items") do
-          register :combined, {
-            path: File.join(Ppwe.wrkdir, "loan_catalog_items_combined.csv"),
-            creator: Ppwe::Jobs::LoanCatalogItems::Combined,
-            tags: %i[combined loan_catalog_items],
-            lookup_on: Ppwe.lookup_column_for("loan_catalog_items")
-          }
-        end
-
         Ppwe.registry.namespace("location") do
           register :prefixed, {
             path: File.join(Ppwe.wrkdir, "location_prefixed.csv"),
@@ -323,6 +314,11 @@ module Kiba
             path: File.join(dir, "lexicon_item.csv"),
             creator: Ppwe::Jobs::Review::LexiconItem,
             tags: %i[review lexicon_item]
+          }
+          register :loan_catalog_items, {
+            path: File.join(dir, "loan_catalog_items.csv"),
+            creator: Ppwe::Jobs::Review::LoanCatalogItems,
+            tags: %i[review loan_catalog_items]
           }
           register :location, {
             path: File.join(dir, "location.csv"),

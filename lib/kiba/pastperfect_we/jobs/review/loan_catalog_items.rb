@@ -3,18 +3,18 @@
 module Kiba
   module PastperfectWe
     module Jobs
-      module LoanCatalogItems
-        module Combined
+      module Review
+        module LoanCatalogItems
           module_function
 
           def job
             Kiba::Extend::Jobs::Job.new(
               files: {
                 source: :prep__loan_catalog_items,
-                destination: :loan_catalog_items__combined,
+                destination: :review__loan_catalog_items,
                 lookup: %i[prep__catalog_item prep__loan]
               },
-              transformer: xforms
+              transformer: [xforms, Ppwe::Review.final_xforms].compact
             )
           end
 
