@@ -31,7 +31,7 @@ module Kiba
                 delete_join_column: false
 
               transform Ppwe::Transforms::MergeTable,
-                source: :preprocess__exhibit_security,
+                source: :prep__exhibit_security,
                 join_column: :id,
                 delete_join_column: false
 
