@@ -3,18 +3,18 @@
 module Kiba
   module PastperfectWe
     module Jobs
-      module ExhibitCatalogItems
-        module Combined
+      module Review
+        module ExhibitCatalogItems
           module_function
 
           def job
             Kiba::Extend::Jobs::Job.new(
               files: {
                 source: :prep__exhibit_catalog_items,
-                destination: :exhibit_catalog_items__combined,
+                destination: :review__exhibit_catalog_items,
                 lookup: %i[prep__catalog_item prep__exhibit]
               },
-              transformer: xforms
+              transformer: [xforms, Ppwe::Review.final_xforms].compact
             )
           end
 
