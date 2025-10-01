@@ -315,10 +315,10 @@ module Kiba
             creator: Ppwe::Jobs::Review::LexiconItem,
             tags: %i[review lexicon_item]
           }
-          register :loan_catalog_items, {
-            path: File.join(dir, "loan_catalog_items.csv"),
-            creator: Ppwe::Jobs::Review::LoanCatalogItems,
-            tags: %i[review loan_catalog_items],
+          register :outgoing_loan_catalog_items, {
+            path: File.join(dir, "outgoing_loan_catalog_items.csv"),
+            creator: Ppwe::Jobs::Review::OutgoingLoanCatalogItems,
+            tags: %i[review outgoing_loan catalog_items],
             dest_special_opts: {
               initial_headers: %i[
                 id catalogitemid loanid
