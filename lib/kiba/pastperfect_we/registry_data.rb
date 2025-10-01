@@ -318,7 +318,14 @@ module Kiba
           register :loan_catalog_items, {
             path: File.join(dir, "loan_catalog_items.csv"),
             creator: Ppwe::Jobs::Review::LoanCatalogItems,
-            tags: %i[review loan_catalog_items]
+            tags: %i[review loan_catalog_items],
+            dest_special_opts: {
+              initial_headers: %i[
+                id catalogitemid loanid
+                itemid itemtype targetsystems
+                loannumberandrecipient
+              ]
+            }
           }
           register :location, {
             path: File.join(dir, "location.csv"),
