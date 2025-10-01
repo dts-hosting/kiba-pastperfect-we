@@ -28,33 +28,6 @@ module Kiba
                   source: field,
                   mapping: Ppwe.boolean_yes_no_mapping
               end
-
-              transform Ppwe::Transforms::MergeTable,
-                source: :prep__loan_insurance_information,
-                join_column: :id,
-                delete_join_column: false
-
-              transform Ppwe::Transforms::MergeTable,
-                source: :prep__loan_shipping_information,
-                join_column: :id,
-                delete_join_column: false
-
-              transform Ppwe::Transforms::MergeTable,
-                source: :prep__loan_contact_information,
-                join_column: :id,
-                delete_join_column: false
-
-              transform Ppwe::Transforms::MergeTable,
-                source: :prep__loan_activities,
-                join_column: :id,
-                delete_join_column: false,
-                merged_field_prefix: "activity"
-
-              transform Ppwe::Transforms::MergeTable,
-                source: :prep__loan_attachment,
-                join_column: :id,
-                delete_join_column: false,
-                merged_field_prefix: "attachment"
             end
           end
         end
