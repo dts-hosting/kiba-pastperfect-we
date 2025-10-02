@@ -35,12 +35,6 @@ module Kiba
                 delete_join_column: false
 
               transform Ppwe::Transforms::MergeTable,
-                source: :prep__loan_activities,
-                join_column: :id,
-                delete_join_column: false,
-                merged_field_prefix: "activity"
-
-              transform Ppwe::Transforms::MergeTable,
                 source: :prep__loan_attachment,
                 join_column: :id,
                 delete_join_column: false,

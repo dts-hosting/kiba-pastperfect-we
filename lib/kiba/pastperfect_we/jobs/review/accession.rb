@@ -51,12 +51,6 @@ module Kiba
                 delete_join_column: false,
                 merged_field_prefix: "donors"
 
-              transform Ppwe::Transforms::MergeTable,
-                source: :prep__accession_activities,
-                join_column: :id,
-                delete_join_column: false,
-                merged_field_prefix: "activity"
-
               transform Count::MatchingRowsInLookup,
                 lookup: prep__accession_attachment,
                 keycolumn: :id,
