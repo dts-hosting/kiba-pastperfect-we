@@ -273,6 +273,16 @@ module Kiba
             tags: %i[review accession],
             dest_special_opts: {
               initial_headers: Ppwe::Jobs::Review::Accession.init_headers
+            },
+            lookup_on: Ppwe.lookup_column_for("accession")
+          }
+          register :accession_activities, {
+            path: File.join(dir, "accession_activities.csv"),
+            creator: Ppwe::Jobs::Review::AccessionActivities,
+            tags: %i[review accession activities],
+            dest_special_opts: {
+              initial_headers:
+                Ppwe::Jobs::Review::AccessionActivities.init_headers
             }
           }
           register :catalog_list, {
