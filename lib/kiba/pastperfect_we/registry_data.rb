@@ -137,6 +137,14 @@ module Kiba
               initial_headers: Ppwe::CatalogItem.base_fields
             }
           }
+          register :archive, {
+            path: File.join(dir, "catalog_item_archive.csv"),
+            creator: Ppwe::Jobs::CatalogItem::Archive,
+            tags: %i[combined catalog_item archive],
+            dest_special_opts: {
+              initial_headers: Ppwe::CatalogItem.base_fields
+            }
+          }
           register :base, {
             path: File.join(Ppwe.wrkdir, "catalog_item_base.csv"),
             creator: Ppwe::Jobs::CatalogItem::Base,

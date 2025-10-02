@@ -41,6 +41,12 @@ module Kiba
 
               transform Ppwe::Transforms::CrSplitter,
                 fields: :creatoraddedentry
+
+              transform Ppwe::Transforms::MergeTable,
+                source: :prep__archive_identity_people,
+                join_column: :catalogitemid,
+                delete_join_column: false,
+                merged_field_prefix: "person"
             end
           end
         end
