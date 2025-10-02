@@ -30,6 +30,18 @@ module Kiba
             )
           end
 
+        # @return [String] path to foreign_keys.csv output from the
+        #   database. Override in client projects as needed
+        setting :foreign_keys_path,
+          default: nil,
+          reader: true,
+          constructor: ->(default) do
+            File.join(
+              Gem.loaded_specs["pastperfect_we"].full_gem_path,
+              "data", "foreign_keys.csv"
+            )
+          end
+
         # @return [:review, :migration] controls how some values are
         #   handled
         setting :mode, reader: true, default: :review
