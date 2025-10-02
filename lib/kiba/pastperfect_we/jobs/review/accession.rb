@@ -15,6 +15,7 @@ module Kiba
                 lookup: %i[
                   accession__target_system_lookup
                   prep__accession_attachment
+                  prep__accession_activities
                 ]
               },
               transformer: [xforms, Ppwe::Review.final_xforms].compact
@@ -54,7 +55,11 @@ module Kiba
               transform Count::MatchingRowsInLookup,
                 lookup: prep__accession_attachment,
                 keycolumn: :id,
-                targetfield: :attachment_count
+                targetfield: :attachmentcount
+              transform Count::MatchingRowsInLookup,
+                lookup: prep__accession_activities,
+                keycolumn: :id,
+                targetfield: :activitiescount
 
               transform Merge::MultiRowLookup,
                 lookup: accession__target_system_lookup,
