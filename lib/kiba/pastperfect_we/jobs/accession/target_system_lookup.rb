@@ -10,9 +10,9 @@ module Kiba
           def job
             Kiba::Extend::Jobs::Job.new(
               files: {
-                source: :prep__catalog_item,
+                source: :prep__accession,
                 destination: :accession__target_system_lookup,
-                lookup: :prep__accession
+                lookup: {jobkey: :prep__catalog_item, lookup_on: :accessionid}
               },
               transformer: xforms
             )
@@ -20,22 +20,18 @@ module Kiba
 
           def xforms
             Kiba.job_segment do
-              transform FilterRows::FieldPopulated,
-                action: :keep,
-                field: :accessionid
               transform Delete::FieldsExcept,
-                fields: %i[itemtype accessionid]
-              transform Deduplicate::Table,
-                field: :accessionid,
-                compile_uniq_fieldvals: true
-              transform Ppwe::Transforms::ReviewTargetFieldMerger
-              transform Delete::Fields,
-                fields: :itemtype
+                fields: %i[id number accessiontype]
               transform Merge::MultiRowLookup,
-                lookup: prep__accession,
-                keycolumn: :accessionid,
-                fieldmap: {accessionnumber: :number,
-                           accessiontype: :accessiontype}
+                lookup: prep__catalog_item,
+                keycolumn: :id,
+                fieldmap: {Ppwe::Splitting.item_type_field =>
+                           Ppwe::Splitting.item_type_field}
+              transform Deduplicate::FieldValues,
+                fields: Ppwe::Splitting.item_type_field,
+                sep: Ppwe.delim
+              transform Ppwe::Transforms::ReviewTargetFieldMerger
+              transform Delete::Fields, fields: Ppwe::Splitting.item_type_field
             end
           end
         end
