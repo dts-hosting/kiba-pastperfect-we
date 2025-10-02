@@ -275,6 +275,14 @@ module Kiba
               initial_headers: Ppwe::Jobs::Review::Accession.init_headers
             }
           }
+          register :catalog_list, {
+            path: File.join(dir, "catalog_list.csv"),
+            creator: Ppwe::Jobs::Review::CatalogList,
+            tags: %i[review catalog_list],
+            dest_special_opts: {
+              initial_headers: [:id, Ppwe.review_target_field]
+            }
+          }
           register :catalog_list_records, {
             path: File.join(dir, "catalog_list_records.csv"),
             creator: Ppwe::Jobs::Review::CatalogListRecords,
