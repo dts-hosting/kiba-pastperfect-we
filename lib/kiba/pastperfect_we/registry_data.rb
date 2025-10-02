@@ -107,7 +107,7 @@ module Kiba
             path: File.join(Ppwe.wrkdir, "accession_target_system_lookup.csv"),
             creator: Ppwe::Jobs::Accession::TargetSystemLookup,
             tags: %i[accession],
-            lookup_on: :accessionid
+            lookup_on: :id
           }
         end
 
