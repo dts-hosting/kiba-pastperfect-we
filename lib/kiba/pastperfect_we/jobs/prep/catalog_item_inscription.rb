@@ -20,7 +20,7 @@ module Kiba
           def xforms
             Kiba.job_segment do
               transform Ppwe::Transforms::DictionaryLookup,
-                fields: %i[typeid	techniqueid	languageid]
+                fields: %i[typeid techniqueid languageid]
             end
           end
         end
