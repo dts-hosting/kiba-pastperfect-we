@@ -335,7 +335,10 @@ module Kiba
           register :outgoing_loan, {
             path: File.join(dir, "outgoing_loan.csv"),
             creator: Ppwe::Jobs::Review::OutgoingLoan,
-            tags: %i[review outgoing_loan]
+            tags: %i[review outgoing_loan],
+            dest_special_opts: {
+              initial_headers: [:id, Ppwe.review_target_field, :loannumber]
+            }
           }
           register :person, {
             path: File.join(dir, "person.csv"),

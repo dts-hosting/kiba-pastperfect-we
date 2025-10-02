@@ -11,7 +11,11 @@ module Kiba
             Kiba::Extend::Jobs::Job.new(
               files: {
                 source: :prep__loan,
-                destination: :review__outgoing_loan
+                destination: :review__outgoing_loan,
+                lookup: %i[
+                  prep__loan_attachment
+                  prep__loan_catalog_items
+                ]
               },
               transformer: [xforms, Ppwe::Review.final_xforms].compact
             )
@@ -19,6 +23,21 @@ module Kiba
 
           def xforms
             Kiba.job_segment do
+              transform Delete::Fields, fields: :loannumberandrecipient
+
+              transform Merge::MultiRowLookup,
+                lookup: prep__loan_catalog_items,
+                keycolumn: :id,
+                fieldmap: {itemtype: :itemtype}
+
+              transform Deduplicate::FieldValues,
+                fields: :itemtype,
+                sep: Ppwe.delim
+
+              transform Ppwe::Transforms::ReviewTargetFieldMerger
+
+              transform Delete::Fields, fields: :itemtype
+
               transform Ppwe::Transforms::MergeTable,
                 source: :prep__loan_insurance_information,
                 join_column: :id,
