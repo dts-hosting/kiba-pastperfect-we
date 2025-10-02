@@ -67,6 +67,8 @@ module Kiba
             "AccessionCustomField" => :accessionid,
             "AccessionDonors" => :accessionid,
             "AccessionShippingInformation" => :accessionid,
+            "ArchiveContainerLocationSubjects" => :archivecontainerlocationid,
+            "ArchiveIdentity" => :catalogitemid,
             "CatalogItemAppraisal" => :catalogitemid,
             "CatalogItemArchaeology" => :catalogitemid,
             "CatalogItemArchaeologyMaterial" => :catalogitemid,

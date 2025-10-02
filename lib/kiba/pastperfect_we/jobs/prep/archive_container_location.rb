@@ -31,6 +31,12 @@ module Kiba
 
               transform Delete::Fields,
                 fields: :creatorid
+
+              transform Ppwe::Transforms::MergeTable,
+                source: :prep__archive_container_location_subjects,
+                join_column: :archivecontainerlocationid,
+                delete_join_column: false,
+                merged_field_prefix: "subjects"
             end
           end
         end

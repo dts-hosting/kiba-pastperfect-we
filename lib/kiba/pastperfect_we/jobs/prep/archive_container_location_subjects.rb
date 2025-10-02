@@ -21,6 +21,10 @@ module Kiba
             Kiba.job_segment do
               transform Ppwe::Transforms::DictionaryLookup,
                 fields: %i[dictionaryitemid]
+
+              transform Rename::Field,
+                from: :dictionaryitem,
+                to: :subjects
             end
           end
         end
