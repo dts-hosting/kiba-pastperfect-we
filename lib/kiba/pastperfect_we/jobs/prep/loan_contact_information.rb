@@ -19,11 +19,25 @@ module Kiba
 
           def xforms
             Kiba.job_segment do
-              transform Ppwe::Transforms::DictionaryLookup,
-                fields: :countryid
+              prefix_needed = %i[address1 address2 city state zip notes
+                primaryphonenumber primaryphonenumbertype
+                secondaryphonenumber secondaryphonenumbertype
+                otherphonenumber otherphonenumbertype email
+                website countryid]
+              to_prefix = prefix_needed.intersection(
+                Ppwe.mergeable_headers_for(
+                  :preprocess__loan_contact_information
+                )
+              )
+              prefix_mapping = to_prefix.map { |f| [f, :"contact#{f}"] }
+                .to_h
+              transform Rename::Fields, fieldmap: prefix_mapping
 
-              %i[primaryphonenumbertype secondaryphonenumbertype
-                otherphonenumbertype].each do |field|
+              transform Ppwe::Transforms::DictionaryLookup,
+                fields: :contactcountryid
+
+              %i[contactprimaryphonenumbertype contactsecondaryphonenumbertype
+                contactotherphonenumbertype].each do |field|
                 numfield = field.to_s.delete_suffix("type").to_sym
                 transform Delete::FieldValueConditional,
                   fields: field,
@@ -32,7 +46,6 @@ module Kiba
                 transform Replace::FieldValueWithStaticMapping,
                   source: field,
                   mapping: Ppwe::Enums.phone_number_type,
-                  # target: field.to_s.delete_suffix("id").to_sym,
                   delete_source: false,
                   fallback_val: nil
               end
