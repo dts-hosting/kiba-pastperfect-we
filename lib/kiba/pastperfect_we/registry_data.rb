@@ -103,10 +103,10 @@ module Kiba
         end
 
         Ppwe.registry.namespace("accession") do
-          register :item_type_lookup, {
-            path: File.join(Ppwe.wrkdir, "accession_item_type_lookup.csv"),
-            creator: Ppwe::Jobs::Accession::ItemTypeLookup,
-            tags: %i[combined accession],
+          register :target_system_lookup, {
+            path: File.join(Ppwe.wrkdir, "accession_target_system_lookup.csv"),
+            creator: Ppwe::Jobs::Accession::TargetSystemLookup,
+            tags: %i[accession],
             lookup_on: :accessionid
           }
         end

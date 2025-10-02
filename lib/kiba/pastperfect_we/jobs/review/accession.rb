@@ -13,7 +13,7 @@ module Kiba
                 source: :prep__accession,
                 destination: :review__accession,
                 lookup: %i[
-                  accession__item_type_lookup
+                  accession__target_system_lookup
                   prep__accession_attachment
                 ]
               },
@@ -57,10 +57,9 @@ module Kiba
                 targetfield: :attachment_count
 
               transform Merge::MultiRowLookup,
-                lookup: accession__item_type_lookup,
+                lookup: accession__target_system_lookup,
                 keycolumn: :id,
-                fieldmap: {Ppwe::Splitting.item_type_field => :itemtype}
-              transform Ppwe::Transforms::ReviewTargetFieldMerger
+                fieldmap: {Ppwe.review_target_field => Ppwe.review_target_field}
             end
           end
         end
