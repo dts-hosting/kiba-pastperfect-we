@@ -275,6 +275,18 @@ module Kiba
               initial_headers: Ppwe::Jobs::Review::Accession.init_headers
             }
           }
+          register :catalog_list_records, {
+            path: File.join(dir, "catalog_list_records.csv"),
+            creator: Ppwe::Jobs::Review::CatalogListRecords,
+            tags: %i[review catalog_items catalog_list],
+            dest_special_opts: {
+              initial_headers: %i[
+                id catalogitemid cataloglistid
+                itemid itemtype targetsystems
+                listcategoryandname
+              ]
+            }
+          }
           register :condition_report, {
             path: File.join(dir, "condition_report.csv"),
             creator: Ppwe::Jobs::Review::ConditionReport,
