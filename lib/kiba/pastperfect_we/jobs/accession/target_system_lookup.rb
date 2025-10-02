@@ -4,14 +4,15 @@ module Kiba
   module PastperfectWe
     module Jobs
       module Accession
-        module ItemTypeLookup
+        module TargetSystemLookup
           module_function
 
           def job
             Kiba::Extend::Jobs::Job.new(
               files: {
                 source: :prep__catalog_item,
-                destination: :accession__item_type_lookup
+                destination: :accession__target_system_lookup,
+                lookup: :prep__accession
               },
               transformer: xforms
             )
@@ -27,6 +28,14 @@ module Kiba
               transform Deduplicate::Table,
                 field: :accessionid,
                 compile_uniq_fieldvals: true
+              transform Ppwe::Transforms::ReviewTargetFieldMerger
+              transform Delete::Fields,
+                fields: :itemtype
+              transform Merge::MultiRowLookup,
+                lookup: prep__accession,
+                keycolumn: :accessionid,
+                fieldmap: {accessionnumber: :number,
+                           accessiontype: :accessiontype}
             end
           end
         end
