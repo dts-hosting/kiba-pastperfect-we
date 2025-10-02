@@ -11,8 +11,7 @@ module Kiba
             Kiba::Extend::Jobs::Job.new(
               files: {
                 source: source,
-                destination: dest,
-                lookup: %i[]
+                destination: dest
               },
               transformer: Ppwe::Prep.get_xforms(self)
             )
@@ -25,6 +24,15 @@ module Kiba
                 mapping: Ppwe::Enums.responsible_party,
                 delete_source: false,
                 fallback_val: nil
+              prefix_needed = %i[representative phonenumber premium]
+              to_prefix = prefix_needed.intersection(
+                Ppwe.mergeable_headers_for(
+                  :preprocess__loan_insurance_information
+                )
+              )
+              prefix_mapping = to_prefix.map { |f| [f, :"insurance#{f}"] }
+                .to_h
+              transform Rename::Fields, fieldmap: prefix_mapping
             end
           end
         end

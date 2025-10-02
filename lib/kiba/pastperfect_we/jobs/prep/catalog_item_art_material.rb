@@ -11,8 +11,7 @@ module Kiba
             Kiba::Extend::Jobs::Job.new(
               files: {
                 source: source,
-                destination: dest,
-                lookup: %i[]
+                destination: dest
               },
               transformer: Ppwe::Prep.get_xforms(self)
             )

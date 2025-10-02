@@ -103,11 +103,11 @@ module Kiba
         end
 
         Ppwe.registry.namespace("accession") do
-          register :item_type_lookup, {
-            path: File.join(Ppwe.wrkdir, "accession_item_type_lookup.csv"),
-            creator: Ppwe::Jobs::Accession::ItemTypeLookup,
-            tags: %i[combined accession],
-            lookup_on: :accessionid
+          register :target_system_lookup, {
+            path: File.join(Ppwe.wrkdir, "accession_target_system_lookup.csv"),
+            creator: Ppwe::Jobs::Accession::TargetSystemLookup,
+            tags: %i[accession],
+            lookup_on: :id
           }
         end
 
@@ -252,33 +252,6 @@ module Kiba
           }
         end
 
-        Ppwe.registry.namespace("exhibit") do
-          register :combined, {
-            path: File.join(Ppwe.wrkdir, "exhibit_combined.csv"),
-            creator: Ppwe::Jobs::Exhibit::Combined,
-            tags: %i[combined exhibit],
-            lookup_on: Ppwe.lookup_column_for("exhibit")
-          }
-        end
-
-        Ppwe.registry.namespace("exhibit_catalog_items") do
-          register :combined, {
-            path: File.join(Ppwe.wrkdir, "exhibit_catalog_items_combined.csv"),
-            creator: Ppwe::Jobs::ExhibitCatalogItems::Combined,
-            tags: %i[combined exhibit_catalog_items],
-            lookup_on: Ppwe.lookup_column_for("exhibit_catalog_items")
-          }
-        end
-
-        Ppwe.registry.namespace("loan_catalog_items") do
-          register :combined, {
-            path: File.join(Ppwe.wrkdir, "loan_catalog_items_combined.csv"),
-            creator: Ppwe::Jobs::LoanCatalogItems::Combined,
-            tags: %i[combined loan_catalog_items],
-            lookup_on: Ppwe.lookup_column_for("loan_catalog_items")
-          }
-        end
-
         Ppwe.registry.namespace("location") do
           register :prefixed, {
             path: File.join(Ppwe.wrkdir, "location_prefixed.csv"),
@@ -300,6 +273,36 @@ module Kiba
             tags: %i[review accession],
             dest_special_opts: {
               initial_headers: Ppwe::Jobs::Review::Accession.init_headers
+            },
+            lookup_on: Ppwe.lookup_column_for("accession")
+          }
+          register :accession_activities, {
+            path: File.join(dir, "accession_activities.csv"),
+            creator: Ppwe::Jobs::Review::AccessionActivities,
+            tags: %i[review accession activities],
+            dest_special_opts: {
+              initial_headers:
+                Ppwe::Jobs::Review::AccessionActivities.init_headers
+            }
+          }
+          register :catalog_list, {
+            path: File.join(dir, "catalog_list.csv"),
+            creator: Ppwe::Jobs::Review::CatalogList,
+            tags: %i[review catalog_list],
+            dest_special_opts: {
+              initial_headers: [:id, Ppwe.review_target_field]
+            }
+          }
+          register :catalog_list_records, {
+            path: File.join(dir, "catalog_list_records.csv"),
+            creator: Ppwe::Jobs::Review::CatalogListRecords,
+            tags: %i[review catalog_items catalog_list],
+            dest_special_opts: {
+              initial_headers: %i[
+                id catalogitemid cataloglistid
+                itemid itemtype targetsystems
+                listcategoryandname
+              ]
             }
           }
           register :condition_report, {
@@ -317,15 +320,55 @@ module Kiba
             creator: Ppwe::Jobs::Review::Contact,
             tags: %i[review contact]
           }
+          register :exhibit, {
+            path: File.join(dir, "exhibit.csv"),
+            creator: Ppwe::Jobs::Review::Exhibit,
+            tags: %i[review exhibit],
+            dest_special_opts: {
+              initial_headers: [:id, Ppwe.review_target_field]
+            }
+          }
+          register :exhibit_catalog_items, {
+            path: File.join(dir, "exhibit_catalog_items.csv"),
+            creator: Ppwe::Jobs::Review::ExhibitCatalogItems,
+            tags: %i[review exhibit_catalog_items],
+            dest_special_opts: {
+              initial_headers: %i[
+                id catalogitemid exhibitid
+                itemid itemtype targetsystems
+                exhibitname
+              ]
+            }
+          }
           register :lexicon_item, {
             path: File.join(dir, "lexicon_item.csv"),
             creator: Ppwe::Jobs::Review::LexiconItem,
             tags: %i[review lexicon_item]
           }
+          register :outgoing_loan_catalog_items, {
+            path: File.join(dir, "outgoing_loan_catalog_items.csv"),
+            creator: Ppwe::Jobs::Review::OutgoingLoanCatalogItems,
+            tags: %i[review outgoing_loan catalog_items],
+            dest_special_opts: {
+              initial_headers: %i[
+                id catalogitemid loanid
+                itemid itemtype targetsystems
+                loannumberandrecipient
+              ]
+            }
+          }
           register :location, {
             path: File.join(dir, "location.csv"),
             creator: Ppwe::Jobs::Review::Location,
             tags: %i[review location]
+          }
+          register :outgoing_loan, {
+            path: File.join(dir, "outgoing_loan.csv"),
+            creator: Ppwe::Jobs::Review::OutgoingLoan,
+            tags: %i[review outgoing_loan],
+            dest_special_opts: {
+              initial_headers: [:id, Ppwe.review_target_field, :loannumber]
+            }
           }
           register :person, {
             path: File.join(dir, "person.csv"),

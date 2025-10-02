@@ -13,8 +13,9 @@ module Kiba
                 source: :prep__accession,
                 destination: :review__accession,
                 lookup: %i[
-                  accession__item_type_lookup
+                  accession__target_system_lookup
                   prep__accession_attachment
+                  prep__accession_activities
                 ]
               },
               transformer: [xforms, Ppwe::Review.final_xforms].compact
@@ -51,22 +52,19 @@ module Kiba
                 delete_join_column: false,
                 merged_field_prefix: "donors"
 
-              transform Ppwe::Transforms::MergeTable,
-                source: :prep__accession_activities,
-                join_column: :id,
-                delete_join_column: false,
-                merged_field_prefix: "activity"
-
               transform Count::MatchingRowsInLookup,
                 lookup: prep__accession_attachment,
                 keycolumn: :id,
-                targetfield: :attachment_count
+                targetfield: :attachmentcount
+              transform Count::MatchingRowsInLookup,
+                lookup: prep__accession_activities,
+                keycolumn: :id,
+                targetfield: :activitiescount
 
               transform Merge::MultiRowLookup,
-                lookup: accession__item_type_lookup,
+                lookup: accession__target_system_lookup,
                 keycolumn: :id,
-                fieldmap: {Ppwe::Splitting.item_type_field => :itemtype}
-              transform Ppwe::Transforms::ReviewTargetFieldMerger
+                fieldmap: {Ppwe.review_target_field => Ppwe.review_target_field}
             end
           end
         end
