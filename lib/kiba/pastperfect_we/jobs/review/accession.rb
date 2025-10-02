@@ -12,10 +12,11 @@ module Kiba
               files: {
                 source: :prep__accession,
                 destination: :review__accession,
-                lookup: %i[
-                  accession__target_system_lookup
-                  prep__accession_attachment
-                  prep__accession_activities
+                lookup: [
+                  :accession__target_system_lookup,
+                  :preprocess__accession_attachment,
+                  :preprocess__accession_activities,
+                  {jobkey: :preprocess__catalog_item, lookup_on: :accessionid}
                 ]
               },
               transformer: [xforms, Ppwe::Review.final_xforms].compact
@@ -53,11 +54,15 @@ module Kiba
                 merged_field_prefix: "donors"
 
               transform Count::MatchingRowsInLookup,
-                lookup: prep__accession_attachment,
+                lookup: preprocess__catalog_item,
+                keycolumn: :id,
+                targetfield: :catalogitemscount
+              transform Count::MatchingRowsInLookup,
+                lookup: preprocess__accession_attachment,
                 keycolumn: :id,
                 targetfield: :attachmentcount
               transform Count::MatchingRowsInLookup,
-                lookup: prep__accession_activities,
+                lookup: preprocess__accession_activities,
                 keycolumn: :id,
                 targetfield: :activitiescount
 
