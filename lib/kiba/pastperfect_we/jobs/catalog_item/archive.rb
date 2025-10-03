@@ -26,7 +26,7 @@ module Kiba
                 delete_join_column: false,
                 drop_fields: drop_fields
               transform Ppwe::Transforms::MergeTable,
-                source: :prep__container_location,
+                source: :prep__archive_container_location,
                 join_column: :catalogitemid,
                 delete_join_column: false,
                 drop_fields: drop_fields
