@@ -12,7 +12,6 @@ module Kiba
 
       extend Dry::Configurable
 
-
       # @return [String] value inserted between "term-like value" used in a
       #   record and its Table.Id source indication
       setting :term_source_prefix,
@@ -53,6 +52,12 @@ module Kiba
       #   Override in client project if they have custom fields.
       # @return [Hash] where keys are term_types values
       setting :custom_fields, reader: true, default: {}
+
+      # @param table [String]
+      def uses(table)
+        Ppwe::Util::Fk.references_to(table, Ppwe.lookup_column_for(table))
+          .reject(&:sub)
+      end
     end
   end
 end
