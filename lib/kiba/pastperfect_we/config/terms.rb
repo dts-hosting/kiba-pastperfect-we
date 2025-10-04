@@ -34,7 +34,10 @@ module Kiba
           "Person" => :fullname,
           "Site" => :sitenumberandname,
           "User" => :fullname
-        }
+        },
+        constructor: ->(default) do
+          default.slice(*Ppwe::Table.tablenames)
+        end
 
       # Fields that do not lookup from other tables and are probably
       #   freetext, but that contain predominantly values that become
