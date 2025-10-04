@@ -606,6 +606,18 @@ module Kiba
             tags: %i[review user]
           }
         end
+
+        Ppwe.registry.namespace("term") do
+          register :uses, {
+            path: File.join(Ppwe.datadir, "reference", "term_uses.csv"),
+            creator: Ppwe::Jobs::Term::Uses,
+            tags: %i[terms],
+            dest_special_opts: {
+              initial_headers: %i[termtable termid referringtable
+                referringidfield referringid circular]
+            }
+          }
+        end
       end
       private_class_method :register_files
 
