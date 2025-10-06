@@ -46,6 +46,28 @@ module Kiba
           end.compact
         end
 
+        # @return [nil, Symbol] field containing catalogitemid reference id, if
+        #   it exists in given table; otherwise nil
+        def catalogitemid_field(table)
+          direct_catalog_item_refs.find { |r| r.table == table }
+        end
+
+        def direct_catalog_item_refs
+          @direct_catalog_item_refs ||=
+            references_to("CatalogItem", :id) + to_ref(
+              foreign_keys.select do |r|
+                r["Referenced table"] == "CatalogItem" &&
+                  r["Referenced field"] == :id
+              end
+            )
+        end
+
+        def indirect_catalog_item_refs
+          @indirect_catalog_item_refs ||= to_ref(
+            foreign_keys.select { |r| r["Referenced field"] == :catalogitemid }
+          )
+        end
+
         # @return [Array<CSV::Row>]
         def foreign_keys = @foreign_keys || get_foreign_keys
 
