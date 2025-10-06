@@ -39,6 +39,14 @@ module Kiba
           default.slice(*Ppwe::Table.tablenames)
         end
 
+      # @param table [String] table name
+      # @return [Hash{String => Array<Reference>}]
+      def refs_to_terms_in(table)
+        Ppwe::Util::Fk.references_to(table, Ppwe.lookup_column_for(table))
+          .reject { |ref| ref.sub }
+          .group_by { |ref| ref.table }
+      end
+
       # Fields that do not lookup from other tables and are probably
       #   freetext, but that contain predominantly values that become
       #   terms in target systems
