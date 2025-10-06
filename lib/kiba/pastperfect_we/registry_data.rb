@@ -627,6 +627,15 @@ module Kiba
                 referringtablelookupfield referringid circular]
             }
           }
+          register :itemtypes, {
+            path: File.join(Ppwe.datadir, "reference", "term_itemtypes.csv"),
+            creator: Ppwe::Jobs::Term::Itemtypes,
+            tags: %i[terms],
+            dest_special_opts: {
+              initial_headers: %i[termtable termid referringtable referringid
+                circular]
+            }
+          }
         end
       end
       private_class_method :register_files
