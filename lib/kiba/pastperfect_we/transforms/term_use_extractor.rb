@@ -31,10 +31,8 @@ module Kiba
 
         # @param tt [String] table name
         def uses_for_table(tt)
-          id = Ppwe.lookup_column_for(tt)
           row = {termtable: tt}
-          Ppwe::Util::Fk.references_to(tt, id)
-            .group_by { |ref| ref.table }
+          Ppwe::Terms.refs_to_terms_in(tt)
             .each do |reftable, refs|
               uses_from_table(reftable, refs, row)
             end
