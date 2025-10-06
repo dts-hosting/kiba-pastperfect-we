@@ -52,6 +52,12 @@ module Kiba
                     fields: :"#{base}id"
                 end
               end
+
+              transform Ppwe::Transforms::MergeTable,
+                source: :prep__temp_location_move_info,
+                join_column: Ppwe.lookup_column_for("CatalogItemLocation"),
+                delete_join_column: false,
+                merged_field_prefix: "tmploc"
             end
           end
         end
