@@ -16,7 +16,7 @@ module Kiba
         #   value to match against lookup_on column in source table
         # @param delete_join_column [Boolean] whether to delete the join column
         #   after joining
-        # @param drop_fields [Array<Symbol] fields NOT to merge from the source
+        # @param drop_fields [Array<Symbol>] fields NOT to merge from the source
         #   table. NOTE: known/registered ID fields and created/modified by/date
         #   fields are automatically excluded
         # @param merged_field_prefix [nil, String] added to each merged-in field
