@@ -127,6 +127,7 @@ module Kiba
             "PersonAttachment" => :personid,
             "PersonUrl" => :personid,
             "SiteCustomField" => :siteid,
+            "TempLocationMoveInfo" => :catalogitemid,
             "User" => :userid
           },
           reader: true
