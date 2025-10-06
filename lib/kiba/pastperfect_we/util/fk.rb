@@ -26,14 +26,18 @@ module Kiba
         # @param field [Symbol]
         # @return [Reference]
         def references_to(table, field)
-          foreign_keys.map do |row|
-            tables = Ppwe::Table.tablenames
+          rows = foreign_keys.select do |row|
+            row["Referenced table"] == table && row["Referenced field"] == field
+          end
+          to_ref(rows)
+        end
+
+        def to_ref(arr)
+          arr.map do |row|
             parenttable = row["Parent table"]
+            next unless Ppwe::Table.tablenames.include?(parenttable)
 
-            next unless row["Referenced table"] == table &&
-              row["Referenced field"] == field &&
-              tables.include?(parenttable)
-
+            table = row["Referenced table"]
             circ = table == parenttable
             sub = !circ &&
               parenttable.start_with?(table) &&
