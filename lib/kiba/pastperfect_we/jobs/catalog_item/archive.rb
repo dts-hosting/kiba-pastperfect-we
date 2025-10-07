@@ -23,15 +23,14 @@ module Kiba
                 source: :prep__archive_structure,
                 join_column: :catalogitemid,
                 delete_join_column: false
+              transform Ppwe::Transforms::MergeTable,
+                source: :prep__archive_identity,
+                join_column: :catalogitemid,
+                delete_join_column: false
 
               # drop_fields = %i[catalogitemid id position]
               # transform Ppwe::Transforms::MergeTable,
               #   source: :prep__archive_container_location,
-              #   join_column: :catalogitemid,
-              #   delete_join_column: false,
-              #   drop_fields: drop_fields
-              # transform Ppwe::Transforms::MergeTable,
-              #   source: :prep__archive_identity,
               #   join_column: :catalogitemid,
               #   delete_join_column: false,
               #   drop_fields: drop_fields
@@ -43,11 +42,11 @@ module Kiba
 
               content_fields = Ppwe.mergeable_headers_for(
                 :prep__archive_allied_materials
+              ) + Ppwe.mergeable_headers_for(
+                :prep__archive_identity
               )
               # + Ppwe.mergeable_headers_for(
               #   :prep__archive_container_location, drop: drop_fields
-              # ) + Ppwe.mergeable_headers_for(
-              #   :prep__archive_identity, drop: drop_fields
               # ) + Ppwe.mergeable_headers_for(
               #   :prep__archive_structure, drop: drop_fields
               # )
