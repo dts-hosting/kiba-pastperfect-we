@@ -16,7 +16,9 @@ module Kiba
                   :accession__target_system_lookup,
                   :preprocess__accession_attachment,
                   :preprocess__accession_activities,
-                  {jobkey: :preprocess__catalog_item, lookup_on: :accessionid}
+                  {jobkey: :preprocess__catalog_item, lookup_on: :accessionid},
+                  {jobkey: :preprocess__incoming_loan_returned_items,
+                   lookup_on: :accessionid}
                 ]
               },
               transformer: [xforms, Ppwe::Review.final_xforms].compact
@@ -65,6 +67,10 @@ module Kiba
                 lookup: preprocess__accession_activities,
                 keycolumn: :id,
                 targetfield: :activitiescount
+              transform Count::MatchingRowsInLookup,
+                lookup: preprocess__incoming_loan_returned_items,
+                keycolumn: :id,
+                targetfield: :incomingloanreturneditemscount
 
               transform Merge::MultiRowLookup,
                 lookup: accession__target_system_lookup,
