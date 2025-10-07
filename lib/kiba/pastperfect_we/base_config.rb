@@ -68,6 +68,7 @@ module Kiba
             "AccessionDonors" => :accessionid,
             "AccessionShippingInformation" => :accessionid,
             "ArchiveContainerLocationSubjects" => :archivecontainerlocationid,
+            "ArchiveAlliedMaterials" => :catalogitemid,
             "ArchiveIdentity" => :catalogitemid,
             "CatalogItemAppraisal" => :catalogitemid,
             "CatalogItemArchaeology" => :catalogitemid,
