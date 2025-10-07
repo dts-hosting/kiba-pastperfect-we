@@ -17,7 +17,8 @@ module Kiba
           "CatalogItemUrl" => {initial_headers: %i[id catalogitemid url]},
           "LexiconItem" => {initial_headers: %i[
             id objectname objectnametype
-          ]}
+          ]},
+          "LocationHistoryItem" => {initial_headers: %i[id catalogitemid]}
         }
 
       # @param mod [Module] calling this method
