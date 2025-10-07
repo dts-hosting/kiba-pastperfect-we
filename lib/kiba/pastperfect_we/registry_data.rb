@@ -354,6 +354,14 @@ module Kiba
               ]
             }
           }
+          register :inventory_history, {
+            path: File.join(dir, "inventory_history.csv"),
+            creator: Ppwe::Jobs::Review::InventoryHistory,
+            tags: %i[review inventory_history],
+            dest_special_opts: {
+              initial_headers: Ppwe::Jobs::Review::InventoryHistory.init_headers
+            }
+          }
           register :lexicon_item, {
             path: File.join(dir, "lexicon_item.csv"),
             creator: Ppwe::Jobs::Review::LexiconItem,
