@@ -70,6 +70,7 @@ module Kiba
             "ArchiveContainerLocationSubjects" => :archivecontainerlocationid,
             "ArchiveAlliedMaterials" => :catalogitemid,
             "ArchiveIdentity" => :catalogitemid,
+            "ArchiveStructure" => :catalogitemid,
             "CatalogItemAppraisal" => :catalogitemid,
             "CatalogItemArchaeology" => :catalogitemid,
             "CatalogItemArchaeologyMaterial" => :catalogitemid,
