@@ -28,6 +28,14 @@ module Kiba
         "5" => "loan, incoming"
       }
 
+      # @return [Hash{String=>String}] Used in LocationHistoryItem.MoveTypeId
+      setting :move_type, reader: true, default: {
+        "0" => "temp? (0)",
+        "1" => "home? (1)",
+        "2" => "return home? (2)",
+        "3" => "? (3)"
+      }
+
       # @return [Hash{String=>String}] Used in
       #   AccessionInsuranceInformation.InsuredBy,
       #   AccessionShippingInformation.TransportationCostPaidBy,
