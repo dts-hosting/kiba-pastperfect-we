@@ -145,6 +145,12 @@ module Kiba
               initial_headers: Ppwe::CatalogItem.base_fields
             }
           }
+          register :archive_container_lists, {
+            path: File.join(dir, "catalog_item_archive_container_lists.csv"),
+            creator: Ppwe::Jobs::CatalogItem::ArchiveContainerLists,
+            tags: %i[combined catalog_item archive],
+            lookup_on: :catalogitemid
+          }
           register :base, {
             path: File.join(Ppwe.wrkdir, "catalog_item_base.csv"),
             creator: Ppwe::Jobs::CatalogItem::Base,

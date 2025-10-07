@@ -26,12 +26,12 @@ module Kiba
               transform Merge::MultiRowLookup,
                 lookup: prep__catalog_item,
                 keycolumn: :catalogitemid,
-                fieldmap: {title: :parent_title}
+                fieldmap: {parent_title: :title}
 
               transform Merge::MultiRowLookup,
                 lookup: prep__catalog_item_multilevel_linking,
                 keycolumn: :catalogitemid,
-                fieldmap: {level: :parent_level}
+                fieldmap: {parent_level: :level}
             end
           end
         end
