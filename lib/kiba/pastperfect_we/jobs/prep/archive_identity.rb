@@ -41,7 +41,7 @@ module Kiba
                 fieldmap: {sitename: :sitename}
 
               transform Delete::Fields,
-                fields: :creatorid
+                fields: %i[creatorid siteid]
 
               transform Ppwe::Transforms::CrSplitter,
                 fields: :creatoraddedentry
