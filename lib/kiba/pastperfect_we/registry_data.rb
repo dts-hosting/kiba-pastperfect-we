@@ -145,7 +145,7 @@ module Kiba
             path: File.join(Ppwe.wrkdir, "catalog_item_base.csv"),
             creator: Ppwe::Jobs::CatalogItem::Base,
             tags: %i[review catalog_item],
-            lookup_on: Ppwe.lookup_column_for("CatalogItemBase"),
+            lookup_on: :catalogitemid,
             dest_special_opts: {
               initial_headers: Ppwe::CatalogItem.base_fields
             }
