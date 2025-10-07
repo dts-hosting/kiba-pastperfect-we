@@ -359,6 +359,14 @@ module Kiba
             creator: Ppwe::Jobs::Review::LexiconItem,
             tags: %i[review lexicon_item]
           }
+          register :location_history, {
+            path: File.join(dir, "location_history.csv"),
+            creator: Ppwe::Jobs::Review::LocationHistory,
+            tags: %i[review location_history_item],
+            dest_special_opts: {
+              initial_headers: Ppwe::Jobs::Review::LocationHistory.init_headers
+            }
+          }
           register :outgoing_loan_catalog_items, {
             path: File.join(dir, "outgoing_loan_catalog_items.csv"),
             creator: Ppwe::Jobs::Review::OutgoingLoanCatalogItems,
