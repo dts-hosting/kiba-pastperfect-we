@@ -18,7 +18,11 @@ module Kiba
           "LexiconItem" => {initial_headers: %i[
             id objectname objectnametype
           ]},
-          "LocationHistoryItem" => {initial_headers: %i[id catalogitemid]}
+          "LocationHistoryItem" => {
+            initial_headers: %i[
+              id catalogitemid movetype
+            ]
+          }
         }
 
       # @param mod [Module] calling this method

@@ -33,6 +33,12 @@ module Kiba
                 fields: %i[moveauthorizedbyid movedbyid]
 
               transform Replace::FieldValueWithStaticMapping,
+                source: :movetypeid,
+                target: :movetype,
+                mapping: Ppwe::Enums.move_type,
+                delete_source: true
+
+              transform Replace::FieldValueWithStaticMapping,
                 source: :isremoved,
                 mapping: Ppwe.boolean_yes_no_mapping
 
@@ -53,6 +59,7 @@ module Kiba
               transform Rename::Field,
                 from: :catalogitemlocationid,
                 to: :catalogitemid
+              transform Sort::ByFieldValue, field: :catalogitemid
             end
           end
         end
