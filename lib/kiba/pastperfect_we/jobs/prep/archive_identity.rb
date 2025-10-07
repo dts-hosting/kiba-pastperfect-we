@@ -12,9 +12,13 @@ module Kiba
               files: {
                 source: source,
                 destination: dest,
-                lookup: %i[
-                  prep__person
-                  prep__site
+                lookup: [
+                  :prep__person,
+                  :prep__site,
+                  {
+                    jobkey: :prep__archive_identity_people,
+                    lookup_on: :catalogitemid
+                  }
                 ]
               },
               transformer: Ppwe::Prep.get_xforms(self)
@@ -42,11 +46,11 @@ module Kiba
               transform Ppwe::Transforms::CrSplitter,
                 fields: :creatoraddedentry
 
-              transform Ppwe::Transforms::MergeTable,
-                source: :prep__archive_identity_people,
-                join_column: :catalogitemid,
-                delete_join_column: false,
-                merged_field_prefix: "person"
+              transform Merge::MultiRowLookup,
+                lookup: prep__archive_identity_people,
+                keycolumn: :catalogitemid,
+                fieldmap: {personname: :person_name},
+                sorter: Lookup::RowSorter.new(on: :position, as: :to_i)
             end
           end
         end
