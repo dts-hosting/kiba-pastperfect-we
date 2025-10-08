@@ -23,15 +23,16 @@ module Kiba
               transform Merge::MultiRowLookup,
                 lookup: prep__catalog_list_records,
                 keycolumn: :id,
-                fieldmap: {itemtype: :itemtype}
+                fieldmap: {
+                  Ppwe::Splitting.item_type_field =>
+                    Ppwe::Splitting.item_type_field
+                }
 
               transform Deduplicate::FieldValues,
                 fields: :itemtype,
                 sep: Ppwe.delim
 
               transform Ppwe::Transforms::ReviewTargetFieldMerger
-
-              transform Delete::Fields, fields: :itemtype
 
               transform Count::MatchingRowsInLookup,
                 lookup: prep__catalog_list_records,

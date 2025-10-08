@@ -334,7 +334,8 @@ module Kiba
             creator: Ppwe::Jobs::Review::CatalogList,
             tags: %i[review catalog_list],
             dest_special_opts: {
-              initial_headers: [:id, Ppwe.review_target_field]
+              initial_headers: [:id, Ppwe::Splitting.item_type_field,
+                Ppwe.review_target_field]
             }
           }
           register :catalog_list_records, {
@@ -369,7 +370,8 @@ module Kiba
             creator: Ppwe::Jobs::Review::Exhibit,
             tags: %i[review exhibit],
             dest_special_opts: {
-              initial_headers: [:id, Ppwe.review_target_field]
+              initial_headers: [:id, Ppwe::Splitting.item_type_field,
+                Ppwe.review_target_field]
             }
           }
           register :exhibit_catalog_items, {
@@ -445,7 +447,8 @@ module Kiba
             creator: Ppwe::Jobs::Review::OutgoingLoan,
             tags: %i[review outgoing_loan],
             dest_special_opts: {
-              initial_headers: [:id, Ppwe.review_target_field, :loannumber]
+              initial_headers: [:id, Ppwe::Splitting.item_type_field,
+                Ppwe.review_target_field, :loannumber]
             }
           }
           register :person, {

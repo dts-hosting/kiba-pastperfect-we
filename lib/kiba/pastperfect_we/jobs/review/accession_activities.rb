@@ -20,7 +20,8 @@ module Kiba
 
           def init_headers
             acc_hdrs = %i[accessionid accessiontype accessionnumber]
-            acc_hdrs << Ppwe.review_target_field if Ppwe.mode == :review
+            acc_hdrs << Ppwe::Splitting.item_type_field
+            acc_hdrs << Ppwe.review_target_field
             acc_hdrs << :activity
             acc_hdrs
           end
@@ -33,7 +34,9 @@ module Kiba
                 fieldmap: {
                   :accessionnumber => :number,
                   :accessiontype => :accessiontype,
-                  Ppwe.review_target_field => Ppwe.review_target_field
+                  Ppwe.review_target_field => Ppwe.review_target_field,
+                  Ppwe::Splitting.item_type_field =>
+                    Ppwe::Splitting.item_type_field
                 }
             end
           end
