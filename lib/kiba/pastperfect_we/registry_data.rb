@@ -246,6 +246,16 @@ module Kiba
           }
         end
 
+        Ppwe.registry.namespace("condition_report") do
+          register :target_system_lookup, {
+            path: File.join(Ppwe.wrkdir,
+              "condition_report_target_system_lookup.csv"),
+            creator: Ppwe::Jobs::ConditionReport::TargetSystemLookup,
+            tags: %i[catalog_item condition_report],
+            lookup_on: :id
+          }
+        end
+
         Ppwe.registry.namespace("dictionary") do
           register :filters, {
             path: File.join(Ppwe.wrkdir, "dictionary_filters.csv"),
