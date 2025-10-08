@@ -286,6 +286,16 @@ module Kiba
           }
         end
 
+        Ppwe.registry.namespace("loan") do
+          register :target_system_lookup, {
+            path: File.join(Ppwe.wrkdir,
+              "loan_target_system_lookup.csv"),
+            creator: Ppwe::Jobs::Loan::TargetSystemLookup,
+            tags: %i[catalog_item loan],
+            lookup_on: :id
+          }
+        end
+
         Ppwe.registry.namespace("location") do
           register :prefixed, {
             path: File.join(Ppwe.wrkdir, "location_prefixed.csv"),
