@@ -27,7 +27,8 @@ module Kiba
 
           def init_headers
             acc_hdrs = %i[id accessiontype number]
-            acc_hdrs << Ppwe.review_target_field if Ppwe.mode == :review
+            acc_hdrs << Ppwe::Splitting.item_type_field
+            acc_hdrs << Ppwe.review_target_field
             acc_hdrs
           end
 
@@ -75,7 +76,11 @@ module Kiba
               transform Merge::MultiRowLookup,
                 lookup: accession__target_system_lookup,
                 keycolumn: :id,
-                fieldmap: {Ppwe.review_target_field => Ppwe.review_target_field}
+                fieldmap: {
+                  Ppwe.review_target_field => Ppwe.review_target_field,
+                  Ppwe::Splitting.item_type_field =>
+                    Ppwe::Splitting.item_type_field
+                }
             end
           end
         end

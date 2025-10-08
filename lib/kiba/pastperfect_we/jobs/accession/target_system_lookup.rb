@@ -31,7 +31,6 @@ module Kiba
                 fields: Ppwe::Splitting.item_type_field,
                 sep: Ppwe.delim
               transform Ppwe::Transforms::ReviewTargetFieldMerger
-              transform Delete::Fields, fields: Ppwe::Splitting.item_type_field
             end
           end
         end
