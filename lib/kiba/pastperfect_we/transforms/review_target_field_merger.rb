@@ -34,7 +34,7 @@ module Kiba
         attr_reader :source, :target, :mapping, :weaklings
 
         def map_itemtypes(types)
-          return mapping[types] unless types
+          return mapping[types] if types.blank?
 
           grouped = types.split(Ppwe.delim)
             .map { |v| mapping[v] }
