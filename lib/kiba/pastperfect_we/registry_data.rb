@@ -354,6 +354,15 @@ module Kiba
               ]
             }
           }
+          register :incoming_loan_returned_items, {
+            path: File.join(dir, "incoming_loan_returned_items.csv"),
+            creator: Ppwe::Jobs::Review::IncomingLoanReturnedItems,
+            tags: %i[review incoming_loan_returned_items],
+            dest_special_opts: {
+              initial_headers:
+              Ppwe::Jobs::Review::IncomingLoanReturnedItems.init_headers
+            }
+          }
           register :inventory_history, {
             path: File.join(dir, "inventory_history.csv"),
             creator: Ppwe::Jobs::Review::InventoryHistory,
