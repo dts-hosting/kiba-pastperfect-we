@@ -29,6 +29,7 @@ module Kiba
           "archives" => :aspace,
           "library" => :none,
           "deaccessioned" => :unknown,
+          "unmigratable" => :none,
           "" => :no_associated_items,
           nil => :no_associated_items
         }
