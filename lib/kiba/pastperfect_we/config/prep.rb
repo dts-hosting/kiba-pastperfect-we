@@ -15,6 +15,11 @@ module Kiba
         default: {
           "CatalogItem" => {initial_headers: %i[id itemtype]},
           "CatalogItemUrl" => {initial_headers: %i[id catalogitemid url]},
+          "IncomingLoanReturnedItems" => {
+            initial_headers: %i[
+              id accessionid loannumber catalogitemid
+            ]
+          },
           "LexiconItem" => {initial_headers: %i[
             id objectname objectnametype
           ]},
