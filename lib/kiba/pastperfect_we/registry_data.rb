@@ -374,6 +374,15 @@ module Kiba
               ]
             }
           }
+          register :image, {
+            path: File.join(dir, "image.csv"),
+            creator: Ppwe::Jobs::Review::Image,
+            tags: %i[review image_object],
+            dest_special_opts: {
+              initial_headers:
+                Ppwe::Jobs::Review::Image.init_headers
+            }
+          }
           register :incoming_loan_returned_items, {
             path: File.join(dir, "incoming_loan_returned_items.csv"),
             creator: Ppwe::Jobs::Review::IncomingLoanReturnedItems,
