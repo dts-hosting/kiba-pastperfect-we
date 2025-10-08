@@ -276,6 +276,16 @@ module Kiba
           }
         end
 
+        Ppwe.registry.namespace("exhibit") do
+          register :target_system_lookup, {
+            path: File.join(Ppwe.wrkdir,
+              "exhibit_target_system_lookup.csv"),
+            creator: Ppwe::Jobs::Exhibit::TargetSystemLookup,
+            tags: %i[catalog_item exhibit],
+            lookup_on: :id
+          }
+        end
+
         Ppwe.registry.namespace("location") do
           register :prefixed, {
             path: File.join(Ppwe.wrkdir, "location_prefixed.csv"),
