@@ -226,6 +226,15 @@ module Kiba
               initial_headers: Ppwe::CatalogItem.base_fields
             }
           }
+          register :oral_history, {
+            path: File.join(dir, "catalog_item_oral_history.csv"),
+            creator: Ppwe::Jobs::CatalogItem::OralHistory,
+            tags: %i[review catalog_item oral_history],
+            lookup_on: Ppwe.lookup_column_for("CatalogItemOralHistory"),
+            dest_special_opts: {
+              initial_headers: Ppwe::CatalogItem.base_fields
+            }
+          }
           register :photo, {
             path: File.join(dir, "catalog_item_photo.csv"),
             creator: Ppwe::Jobs::CatalogItem::Photo,
