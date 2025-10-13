@@ -130,7 +130,7 @@ module Kiba
           register :archive, {
             path: File.join(dir, "catalog_item_archive.csv"),
             creator: Ppwe::Jobs::CatalogItem::Archive,
-            tags: %i[combined catalog_item archive],
+            tags: %i[review combined catalog_item archive],
             dest_special_opts: {
               initial_headers: Ppwe::CatalogItem.base_fields
             }
@@ -138,7 +138,7 @@ module Kiba
           register :archive_container_lists, {
             path: File.join(dir, "catalog_item_archive_container_lists.csv"),
             creator: Ppwe::Jobs::CatalogItem::ArchiveContainerLists,
-            tags: %i[combined catalog_item archive],
+            tags: %i[review combined catalog_item archive],
             lookup_on: :catalogitemid
           }
           register :base, {

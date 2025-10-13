@@ -32,7 +32,7 @@ module Kiba
                 join_column: :catalogitemid,
                 delete_join_column: false
               transform Ppwe::Transforms::MergeTable,
-                source: :prep__archive_structure,
+                source: :prep__archive_allied_materials,
                 join_column: :catalogitemid,
                 delete_join_column: false
 
