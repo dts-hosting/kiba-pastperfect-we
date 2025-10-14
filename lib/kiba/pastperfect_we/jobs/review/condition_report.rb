@@ -21,6 +21,10 @@ module Kiba
                   {
                     jobkey: :preprocess__condition_report_image,
                     lookup_on: :conditionreportid
+                  },
+                  {
+                    jobkey: :condition_report__target_system_lookup,
+                    lookup_on: :id
                   }
                 ]
               },
@@ -48,6 +52,15 @@ module Kiba
                 lookup: preprocess__condition_report_image,
                 keycolumn: :id,
                 targetfield: :numberofimages
+              transform Merge::MultiRowLookup,
+                lookup: condition_report__target_system_lookup,
+                keycolumn: :id,
+                fieldmap: {
+                  Ppwe::Splitting.item_type_field =>
+                    Ppwe::Splitting.item_type_field,
+                  Ppwe.review_target_field => Ppwe.review_target_field,
+                  :itemid => :itemid
+                }
             end
           end
         end

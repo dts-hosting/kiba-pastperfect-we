@@ -11,8 +11,7 @@ module Kiba
             Kiba::Extend::Jobs::Job.new(
               files: {
                 source: source,
-                destination: dest,
-                lookup: :prep__catalog_item
+                destination: dest
               },
               transformer: Ppwe::Prep.get_xforms(self)
             )
@@ -23,11 +22,6 @@ module Kiba
               transform Ppwe::Transforms::DictionaryLookup,
                 fields: %i[conditionid reporttypeid conservatorid
                   createdbyuserid]
-
-              transform Merge::MultiRowLookup,
-                lookup: prep__catalog_item,
-                keycolumn: :catalogitemid,
-                fieldmap: Ppwe::CatalogItem.base_fields_merge_map
             end
           end
         end
