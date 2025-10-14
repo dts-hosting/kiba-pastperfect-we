@@ -12,7 +12,7 @@ module Kiba
               files: {
                 source: source,
                 destination: dest,
-                lookup: :prep__attachment
+                lookup: :prep__contact
               },
               transformer: Ppwe::Prep.get_xforms(self)
             )
@@ -20,10 +20,10 @@ module Kiba
 
           def xforms
             Kiba.job_segment do
-              transform Ppwe::Transforms::MergeTable,
-                source: :prep__attachment,
-                join_column: :attachmentid
-              transform Delete::EmptyFields
+              transform Merge::MultiRowLookup,
+                lookup: prep__contact,
+                keycolumn: :contactid,
+                fieldmap: {contactname: Ppwe::Terms.table_config["Contact"]}
             end
           end
         end
