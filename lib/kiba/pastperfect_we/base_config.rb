@@ -90,6 +90,7 @@ module Kiba
             "CatalogItemMusic" => :catalogitemid,
             "CatalogItemPhoto" => :catalogitemid,
             "CatalogItemPhotoMedium" => :catalogitemid,
+            "CatalogItemRepatriation" => :catalogitemid,
             "CatalogItemSubjects" => :catalogitemid,
             "CatalogItemTags" => :catalogitemid,
             "CatalogItemUrl" => :catalogitemid,
