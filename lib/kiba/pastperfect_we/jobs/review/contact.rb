@@ -41,26 +41,6 @@ module Kiba
                 delete_join_column: false,
                 drop_fields: :id
 
-              transform Ppwe::Transforms::MergeTable,
-                source: :prep__contact_list_records,
-                join_column: :id,
-                delete_join_column: false,
-                drop_fields: :id
-
-              transform Ppwe::Transforms::MergeTable,
-                source: :prep__contact_volunteer_info,
-                join_column: :id,
-                delete_join_column: false,
-                drop_fields: :id,
-                merged_field_prefix: "volunteer_info"
-
-              transform Ppwe::Transforms::MergeTable,
-                source: :prep__contact_attachments,
-                join_column: :id,
-                delete_join_column: false,
-                drop_fields: :id,
-                merged_field_prefix: "attachment"
-
               transform Count::MatchingRowsInLookup,
                 lookup: prep__contact_attachments,
                 keycolumn: :id,
