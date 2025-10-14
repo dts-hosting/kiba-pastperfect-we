@@ -18,7 +18,8 @@ module Kiba
                   {
                     jobkey: :preprocess__exhibit_catalog_items,
                     lookup_on: :exhibitid
-                  }
+                  },
+                  {jobkey: :prep__exhibit_image, lookup_on: :exhibitid}
                 ]
               },
               transformer: [xforms, Ppwe::Review.final_xforms].compact
@@ -63,6 +64,11 @@ module Kiba
                 lookup: prep__exhibit_attachment,
                 keycolumn: :id,
                 targetfield: :numberofattachments
+
+              transform Count::MatchingRowsInLookup,
+                lookup: prep__exhibit_image,
+                keycolumn: :id,
+                targetfield: :numberofimages
             end
           end
         end
