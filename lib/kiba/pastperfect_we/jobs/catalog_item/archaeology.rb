@@ -12,7 +12,10 @@ module Kiba
               files: {
                 source: :catalog_item__base,
                 destination: :catalog_item__archaeology,
-                lookup: :prep__catalog_item_archaeology_material
+                lookup: %i[
+                  prep__catalog_item_archaeology_material
+                  prep__catalog_item_repatriation
+                ]
               },
               transformer: [xforms, Ppwe::Review.final_xforms].compact
             )
@@ -29,10 +32,20 @@ module Kiba
                 keycolumn: :catalogitemid,
                 fieldmap: {material: :material},
                 sorter: Lookup::RowSorter.new(on: :position, as: :to_i)
+              transform Ppwe::Transforms::MergeTable,
+                source: :prep__catalog_item_repatriation,
+                join_column: :catalogitemid,
+                delete_join_column: false,
+                merged_field_prefix: "repatriation"
 
               content_fields = Ppwe.mergeable_headers_for(
                 :prep__catalog_item_archaeology
-              ) + [:material]
+              ) +
+                Ppwe.mergeable_headers_for(
+                 :prep__catalog_item_repatriation
+               ).map { |f| :"repatriation_#{f}" } +
+                [:material]
+
               transform FilterRows::AnyFieldsPopulated,
                 action: :keep,
                 fields: content_fields
