@@ -122,7 +122,6 @@ module Kiba
             "LoanUrl" => :loanid,
             "OralHistory" => :catalogitemid,
             "OutgoingLoanDocuments" => :loanid,
-            "PersonAttachment" => :personid,
             "PersonUrl" => :personid,
             "SiteCustomField" => :siteid,
             "TempLocationMoveInfo" => :catalogitemid,
