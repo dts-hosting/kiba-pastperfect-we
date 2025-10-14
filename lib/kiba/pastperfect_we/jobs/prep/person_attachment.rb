@@ -11,7 +11,8 @@ module Kiba
             Kiba::Extend::Jobs::Job.new(
               files: {
                 source: source,
-                destination: dest
+                destination: dest,
+                lookup: :prep__person
               },
               transformer: Ppwe::Prep.get_xforms(self)
             )
@@ -19,10 +20,10 @@ module Kiba
 
           def xforms
             Kiba.job_segment do
-              transform Ppwe::Transforms::MergeTable,
-                source: :prep__attachment,
-                join_column: :attachmentid
-              transform Delete::EmptyFields
+              transform Merge::MultiRowLookup,
+                lookup: prep__person,
+                keycolumn: :personid,
+                fieldmap: {personname: Ppwe::Terms.table_config["Person"]}
             end
           end
         end
