@@ -10,7 +10,8 @@ module Kiba
             /%QUOT%/ => '"',
             /%TAB%/ => "     ",
             /%CR%/ => "\n",
-            /%LF%/ => "\n"
+            /%LF%/ => "\n",
+            /<br ?\/> */ => "\n"
           }
           @replacers = config.map do |find, replace|
             Clean::RegexpFindReplaceFieldVals.new(

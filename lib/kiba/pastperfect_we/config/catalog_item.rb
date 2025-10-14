@@ -66,6 +66,14 @@ module Kiba
         default: %i[alternativeitemid oldnumber
           objectname objectname2 objectname3
           othername othernames]
+
+      setting :procedural_and_handling_fields,
+        reader: true,
+        default: %i[exhibitlabel isitemonexhibit itemonloan
+          conditiondate conditionmaintenanceperiodicity
+          conditionmaintenancestartdate conditionmaintenancenotes
+          generalconditionnotes condition conditiondisplayvalue
+          flagdate flagreason flagdetails]
     end
   end
 end
