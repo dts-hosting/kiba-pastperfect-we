@@ -48,16 +48,16 @@ module Kiba
                 delete_join_column: false,
                 drop_fields: :id
 
-              transform Count::MatchingRowsInLookup,
-                lookup: prep__contact_attachments,
-                keycolumn: :id,
-                targetfield: :attachment_count
-
               transform Ppwe::Transforms::MergeTable,
                 source: :prep__contact_urls,
                 join_column: :id,
                 delete_join_column: false,
                 drop_fields: %i[id url_useradded]
+
+              transform Count::MatchingRowsInLookup,
+                lookup: preprocess__contact_attachments,
+                keycolumn: :id,
+                targetfield: :attachment_count
 
               transform Count::MatchingRowsInLookup,
                 lookup: preprocess__contact_image,
