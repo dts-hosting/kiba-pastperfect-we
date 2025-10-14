@@ -33,11 +33,6 @@ module Kiba
                 join_column: :id,
                 delete_join_column: false
 
-              transform Count::MatchingRowsInLookup,
-                lookup: prep__person_attachment,
-                keycolumn: :id,
-                targetfield: :numberofattachments
-
               transform Merge::MultiRowLookup,
                 lookup: prep__person_url,
                 keycolumn: :id,
@@ -45,6 +40,11 @@ module Kiba
                   url: :url_name,
                   url_display: :url_displayname
                 }
+
+              transform Count::MatchingRowsInLookup,
+                lookup: prep__person_attachment,
+                keycolumn: :id,
+                targetfield: :numberofattachments
             end
           end
         end
