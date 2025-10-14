@@ -21,7 +21,13 @@ module Kiba
           def xforms
             Kiba.job_segment do
               transform Delete::FieldsExcept,
-                fields: %i[id number accessiontype]
+                fields: %i[id number accessiontype loannumber]
+              transform CombineValues::FromFieldsWithDelimiter,
+                sources: %i[number loannumber],
+                target: :number,
+                delete_sources: true,
+                delim: "; "
+
               transform Merge::MultiRowLookup,
                 lookup: prep__catalog_item,
                 keycolumn: :id,
