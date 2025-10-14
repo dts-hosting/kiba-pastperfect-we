@@ -75,6 +75,7 @@ module Kiba
             "CatalogItemArchaeology" => :catalogitemid,
             "CatalogItemArchaeologyMaterial" => :catalogitemid,
             "CatalogItemClassification" => :catalogitemid,
+            "CatalogItemCondition" => :catalogitemid,
             "CatalogItemCustomField" => :catalogitemid,
             "CatalogItemDimensions" => :catalogitemid,
             "CatalogItemHistory" => :catalogitemid,
