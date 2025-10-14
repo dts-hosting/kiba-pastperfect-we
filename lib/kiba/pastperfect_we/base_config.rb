@@ -108,7 +108,6 @@ module Kiba
             "ContactUrls" => :contactid,
             "ContactVolunteerInfo" => :contactid,
             "ExhibitAttachment" => :exhibitid,
-            "ExhibitCatalogItems" => :exhibitid,
             "ExhibitClimateControl" => :exhibitid,
             "ExhibitImage" => :exhibitid,
             "ExhibitInsuranceInformation" => :exhibitid,

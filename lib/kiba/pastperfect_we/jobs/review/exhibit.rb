@@ -12,9 +12,13 @@ module Kiba
               files: {
                 source: :prep__exhibit,
                 destination: :review__exhibit,
-                lookup: %i[
-                  prep__exhibit_attachment
-                  prep__exhibit_catalog_items
+                lookup: [
+                  :prep__exhibit_attachment,
+                  :exhibit__target_system_lookup,
+                  {
+                    jobkey: :preprocess__exhibit_catalog_items,
+                    lookup_on: :exhibitid
+                  }
                 ]
               },
               transformer: [xforms, Ppwe::Review.final_xforms].compact
@@ -23,13 +27,11 @@ module Kiba
 
           def xforms
             Kiba.job_segment do
-              transform Merge::MultiRowLookup,
-                lookup: prep__exhibit_catalog_items,
-                keycolumn: :id,
-                fieldmap: {
-                  Ppwe::Splitting.item_type_field =>
-                    Ppwe::Splitting.item_type_field
-                }
+              transform Ppwe::Transforms::MergeTable,
+                source: :exhibit__target_system_lookup,
+                join_column: :id,
+                delete_join_column: false,
+                drop_fields: %i[exhibitname]
 
               transform Deduplicate::FieldValues,
                 fields: :itemtype,
@@ -53,7 +55,7 @@ module Kiba
                 delete_join_column: false
 
               transform Count::MatchingRowsInLookup,
-                lookup: prep__exhibit_catalog_items,
+                lookup: preprocess__exhibit_catalog_items,
                 keycolumn: :id,
                 targetfield: :numberofcatalogitems
 
