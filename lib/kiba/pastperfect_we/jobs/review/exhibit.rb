@@ -53,6 +53,11 @@ module Kiba
                 delete_join_column: false
 
               transform Count::MatchingRowsInLookup,
+                lookup: prep__exhibit_catalog_items,
+                keycolumn: :id,
+                targetfield: :numberofcatalogitems
+
+              transform Count::MatchingRowsInLookup,
                 lookup: prep__exhibit_attachment,
                 keycolumn: :id,
                 targetfield: :numberofattachments
