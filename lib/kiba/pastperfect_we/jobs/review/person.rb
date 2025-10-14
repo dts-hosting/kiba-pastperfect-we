@@ -14,7 +14,8 @@ module Kiba
                 destination: :review__person,
                 lookup: [
                   :prep__person_url,
-                  {jobkey: :prep__person_attachment, lookup_on: :personid}
+                  {jobkey: :prep__person_attachment, lookup_on: :personid},
+                  {jobkey: :prep__person_image, lookup_on: :personid}
                 ]
               },
               transformer: [xforms, Ppwe::Review.final_xforms].compact
@@ -45,6 +46,11 @@ module Kiba
                 lookup: prep__person_attachment,
                 keycolumn: :id,
                 targetfield: :numberofattachments
+
+              transform Count::MatchingRowsInLookup,
+                lookup: prep__person_image,
+                keycolumn: :id,
+                targetfield: :numberofimages
             end
           end
         end
