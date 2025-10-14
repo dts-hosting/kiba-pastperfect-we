@@ -17,6 +17,10 @@ module Kiba
                   {
                     jobkey: :preprocess__contact_attachments,
                     lookup_on: :contactid
+                  },
+                  {
+                    jobkey: :preprocess__contact_image,
+                    lookup_on: :contactid
                   }
                 ]
               },
@@ -54,6 +58,11 @@ module Kiba
                 join_column: :id,
                 delete_join_column: false,
                 drop_fields: %i[id url_useradded]
+
+              transform Count::MatchingRowsInLookup,
+                lookup: preprocess__contact_image,
+                keycolumn: :id,
+                targetfield: :numberofimages
             end
           end
         end
