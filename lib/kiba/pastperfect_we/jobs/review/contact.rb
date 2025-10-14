@@ -12,9 +12,12 @@ module Kiba
               files: {
                 source: :prep__contact,
                 destination: :review__contact,
-                lookup: %i[
-                  prep__contact_urls
-                  prep__contact_attachments
+                lookup: [
+                  :prep__contact_urls,
+                  {
+                    jobkey: :preprocess__contact_attachments,
+                    lookup_on: :contactid
+                  }
                 ]
               },
               transformer: [xforms, Ppwe::Review.final_xforms].compact

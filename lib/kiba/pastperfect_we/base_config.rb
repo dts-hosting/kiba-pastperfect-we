@@ -101,7 +101,6 @@ module Kiba
             "ConditionReportSurfaceCondition" => :reportid,
             "ContactActivities" => :contactid,
             "ContactAddressAndPhoneNumbers" => :contactid,
-            "ContactAttachments" => :contactid,
             "ContactBiographicalInfo" => :contactid,
             "ContactCustomField" => :contactid,
             "ContactListRecords" => :contactid,
