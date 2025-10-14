@@ -443,6 +443,15 @@ module Kiba
               initial_headers: Ppwe::Jobs::Review::LocationHistory.init_headers
             }
           }
+          register :outgoing_loan_activities, {
+            path: File.join(dir, "outgoing_loan_activities.csv"),
+            creator: Ppwe::Jobs::Review::OutgoingLoanActivities,
+            tags: %i[review outgoing_loan activities],
+            dest_special_opts: {
+              initial_headers:
+                Ppwe::Jobs::Review::OutgoingLoanActivities.init_headers
+            }
+          }
           register :outgoing_loan_catalog_items, {
             path: File.join(dir, "outgoing_loan_catalog_items.csv"),
             creator: Ppwe::Jobs::Review::OutgoingLoanCatalogItems,
