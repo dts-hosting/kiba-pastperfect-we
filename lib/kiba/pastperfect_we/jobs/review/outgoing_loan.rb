@@ -17,7 +17,8 @@ module Kiba
                   {
                     jobkey: :preprocess__loan_catalog_items,
                     lookup_on: :loanid
-                  }
+                  },
+                  :preprocess__loan_activities
                 ]
               },
               transformer: [xforms, Ppwe::Review.final_xforms].compact
@@ -53,6 +54,11 @@ module Kiba
                 lookup: preprocess__loan_catalog_items,
                 keycolumn: :id,
                 targetfield: :numberofcatalogitems
+
+              transform Count::MatchingRowsInLookup,
+                lookup: preprocess__loan_activities,
+                keycolumn: :id,
+                targetfield: :numberofactivities
 
               transform Count::MatchingRowsInLookup,
                 lookup: prep__loan_attachment,
