@@ -57,7 +57,7 @@ module Kiba
               transform Count::MatchingRowsInLookup,
                 lookup: preprocess__contact_attachments,
                 keycolumn: :id,
-                targetfield: :attachment_count
+                targetfield: :numberofattachments
 
               transform Count::MatchingRowsInLookup,
                 lookup: preprocess__contact_image,

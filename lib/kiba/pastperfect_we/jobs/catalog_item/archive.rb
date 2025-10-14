@@ -63,9 +63,9 @@ module Kiba
               transform Count::MatchingRowsInLookup,
                 lookup: prep__archive_container_location,
                 keycolumn: :catalogitemid,
-                targetfield: :containerlistcount
+                targetfield: :numberofcontainerlists
               transform Delete::FieldValueMatchingRegexp,
-                fields: :containerlistcount,
+                fields: :numberofcontainerlists,
                 match: /^0$/
 
               content_fields = Ppwe.mergeable_headers_for(
@@ -85,7 +85,7 @@ module Kiba
                 fields: content_fields
 
               transform Replace::EmptyFieldValues,
-                fields: :containerlistcount,
+                fields: :numberofcontainerlists,
                 value: "0"
             end
           end

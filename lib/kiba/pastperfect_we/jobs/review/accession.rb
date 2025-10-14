@@ -59,11 +59,11 @@ module Kiba
               transform Count::MatchingRowsInLookup,
                 lookup: preprocess__catalog_item,
                 keycolumn: :id,
-                targetfield: :catalogitemscount
+                targetfield: :numberofcatalogitems
               transform Count::MatchingRowsInLookup,
                 lookup: preprocess__accession_attachment,
                 keycolumn: :id,
-                targetfield: :attachmentcount
+                targetfield: :numberofattachments
               transform Count::MatchingRowsInLookup,
                 lookup: preprocess__accession_activities,
                 keycolumn: :id,
@@ -71,7 +71,7 @@ module Kiba
               transform Count::MatchingRowsInLookup,
                 lookup: preprocess__incoming_loan_returned_items,
                 keycolumn: :id,
-                targetfield: :incomingloanreturneditemscount
+                targetfield: :numberofincomingloanreturneditems
 
               transform Merge::MultiRowLookup,
                 lookup: accession__target_system_lookup,
