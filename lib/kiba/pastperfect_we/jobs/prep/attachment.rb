@@ -19,9 +19,6 @@ module Kiba
 
           def xforms
             Kiba.job_segment do
-              transform Ppwe::Transforms::DictionaryLookup,
-                fields: %i[museumid]
-
               transform Ppwe::Transforms::MergeTable,
                 source: :prep__file_object,
                 join_column: :fileobjectid
