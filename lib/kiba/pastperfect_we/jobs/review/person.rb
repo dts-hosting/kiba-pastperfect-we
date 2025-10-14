@@ -12,9 +12,9 @@ module Kiba
               files: {
                 source: :prep__person,
                 destination: :review__person,
-                lookup: %i[
-                  prep__person_url
-                  prep__person_attachment
+                lookup: [
+                  :prep__person_url,
+                  {jobkey: :prep__person_attachment, lookup_on: :personid}
                 ]
               },
               transformer: [xforms, Ppwe::Review.final_xforms].compact
