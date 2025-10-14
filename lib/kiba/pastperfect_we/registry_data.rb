@@ -338,6 +338,15 @@ module Kiba
                 Ppwe::Jobs::Review::AccessionActivities.init_headers
             }
           }
+          register :attachment, {
+            path: File.join(dir, "attachment.csv"),
+            creator: Ppwe::Jobs::Review::Attachment,
+            tags: %i[review attachment],
+            dest_special_opts: {
+              initial_headers: Ppwe::Jobs::Review::Attachment.init_headers
+            },
+            lookup_on: Ppwe.lookup_column_for("attachment")
+          }
           register :catalog_list, {
             path: File.join(dir, "catalog_list.csv"),
             creator: Ppwe::Jobs::Review::CatalogList,
