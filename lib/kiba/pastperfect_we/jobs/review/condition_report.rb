@@ -12,12 +12,16 @@ module Kiba
               files: {
                 source: :prep__condition_report,
                 destination: :review__condition_report,
-                lookup: %i[
-                  prep__condition_report_cleanliness_state
-                  prep__condition_report_materials_condition
-                  prep__condition_report_parts_condition
-                  prep__condition_report_structure_condition
-                  prep__condition_report_surface_condition
+                lookup: [
+                  :prep__condition_report_cleanliness_state,
+                  :prep__condition_report_materials_condition,
+                  :prep__condition_report_parts_condition,
+                  :prep__condition_report_structure_condition,
+                  :prep__condition_report_surface_condition,
+                  {
+                    jobkey: :preprocess__condition_report_image,
+                    lookup_on: :conditionreportid
+                  }
                 ]
               },
               transformer: [xforms, Ppwe::Review.final_xforms].compact
@@ -39,6 +43,11 @@ module Kiba
                   fieldmap: {field => field},
                   sorter: Lookup::RowSorter.new(on: :position, as: :to_i)
               end
+
+              transform Count::MatchingRowsInLookup,
+                lookup: preprocess__condition_report_image,
+                keycolumn: :id,
+                targetfield: :numberofimages
             end
           end
         end
