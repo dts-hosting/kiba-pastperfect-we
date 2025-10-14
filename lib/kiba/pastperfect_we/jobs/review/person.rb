@@ -36,7 +36,7 @@ module Kiba
               transform Count::MatchingRowsInLookup,
                 lookup: prep__person_attachment,
                 keycolumn: :id,
-                targetfield: :attachment_count
+                targetfield: :numberofattachments
 
               transform Merge::MultiRowLookup,
                 lookup: prep__person_url,
