@@ -12,7 +12,7 @@ module Kiba
               files: {
                 source: source,
                 destination: dest,
-                lookup: :prep__attachment
+                lookup: :accession__target_system_lookup
               },
               transformer: Ppwe::Prep.get_xforms(self)
             )
@@ -20,10 +20,16 @@ module Kiba
 
           def xforms
             Kiba.job_segment do
-              transform Ppwe::Transforms::MergeTable,
-                source: :prep__attachment,
-                join_column: :attachmentid
-              transform Delete::EmptyFields
+              transform Merge::MultiRowLookup,
+                lookup: accession__target_system_lookup,
+                keycolumn: :accessionid,
+                fieldmap: {
+                  :accessiontype => :accessiontype,
+                  :accessionorloannumber => :number,
+                  Ppwe::Splitting.item_type_field =>
+                    Ppwe::Splitting.item_type_field,
+                  Ppwe.review_target_field => Ppwe.review_target_field
+                }
             end
           end
         end
