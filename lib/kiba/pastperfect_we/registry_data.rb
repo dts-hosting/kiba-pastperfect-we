@@ -235,6 +235,14 @@ module Kiba
               initial_headers: Ppwe::CatalogItem.base_fields
             }
           }
+          register :notes_legal_provenance, {
+            path: File.join(dir, "catalog_item_notes_legal_provenance.csv"),
+            creator: Ppwe::Jobs::CatalogItem::NotesLegalProvenance,
+            tags: %i[review catalog_item notes_legal_provenance],
+            dest_special_opts: {
+              initial_headers: Ppwe::CatalogItem.base_fields
+            }
+          }
           register :oral_history, {
             path: File.join(dir, "catalog_item_oral_history.csv"),
             creator: Ppwe::Jobs::CatalogItem::OralHistory,
