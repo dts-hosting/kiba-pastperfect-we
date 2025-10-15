@@ -11,7 +11,8 @@ module Kiba
             Kiba::Extend::Jobs::Job.new(
               files: {
                 source: :prep__catalog_item,
-                destination: :catalog_item__audit_and_system_info
+                destination: :catalog_item__audit_and_system_info,
+                lookup: :prep__catalog_item_notes_and_legal
               },
               transformer: [xforms, Ppwe::Review.final_xforms].compact
             )
@@ -24,6 +25,11 @@ module Kiba
               transform Delete::FieldsExcept,
                 fields: Ppwe::CatalogItem.base_fields +
                   Ppwe::CatalogItem.audit_and_system_info_fields
+
+              transform Merge::MultiRowLookup,
+                lookup: prep__catalog_item_notes_and_legal,
+                keycolumn: :catalogitemid,
+                fieldmap: {webright: :webright}
 
               transform Ppwe::Transforms::MergeTable,
                 source: :prep__catalog_item_url,

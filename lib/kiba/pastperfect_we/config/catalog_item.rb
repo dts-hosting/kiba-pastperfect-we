@@ -47,8 +47,8 @@ module Kiba
         default: %i[itemidnormalized defaulttab
           accessionid createddate createdby catalogdate catalogedby
           statusdate statusby numberofcatalogitemattachments
-          numberofcatalogitemimages isdefault ispublicaccess url url_dateadded
-          url_ispublicaccess url_displayname url_addedby]
+          numberofcatalogitemimages isdefault ispublicaccess webright
+          url url_dateadded url_ispublicaccess url_displayname url_addedby]
 
       # @return [Array<Symbol>] fields from :prep__catalog_item
       #   included in :catalog_item__deaccession_and_removal; list in
