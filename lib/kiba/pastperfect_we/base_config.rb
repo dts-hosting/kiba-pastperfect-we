@@ -89,6 +89,7 @@ module Kiba
             "CatalogItemMapMedium" => :catalogitemid,
             "CatalogItemMultilevelLinking" => :catalogitemid,
             "CatalogItemMusic" => :catalogitemid,
+            "CatalogItemNotesAndLegal" => :catalogitemid,
             "CatalogItemPhoto" => :catalogitemid,
             "CatalogItemPhotoMedium" => :catalogitemid,
             "CatalogItemRepatriation" => :catalogitemid,
