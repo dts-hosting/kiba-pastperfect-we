@@ -57,7 +57,11 @@ module Kiba
                 transform Merge::MultiRowLookup,
                   lookup: prep__accession,
                   keycolumn: :accessionid,
-                  fieldmap: {accessionnumber: :number}
+                  fieldmap: {
+                    accessionnumber: :number,
+                    incomingloannumber: :loannumber,
+                    accessiontype: :accessiontype
+                  }
 
                 transform Merge::MultiRowLookup,
                   lookup: prep__user,
