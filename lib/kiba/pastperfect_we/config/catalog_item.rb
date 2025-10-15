@@ -34,7 +34,8 @@ module Kiba
         reader: true,
         default: %i[objectname title description
           creationdate yearrangefrom yearrangeto
-          dimensions itemcount collection accessionnumber
+          dimensions itemcount collection
+          accessiontype accessionnumber incomingloannumber
           status homelocation templocation
           deaccessioned isremoved]
 
