@@ -208,6 +208,15 @@ module Kiba
                 Ppwe::CatalogItem.id_name_class_fields
             }
           }
+          register :library, {
+            path: File.join(dir, "catalog_item_library.csv"),
+            creator: Ppwe::Jobs::CatalogItem::Library,
+            tags: %i[review catalog_item library],
+            lookup_on: Ppwe.lookup_column_for("CatalogItemLibrary"),
+            dest_special_opts: {
+              initial_headers: Ppwe::CatalogItem.base_fields
+            }
+          }
           register :map, {
             path: File.join(dir, "catalog_item_map.csv"),
             creator: Ppwe::Jobs::CatalogItem::Map,
