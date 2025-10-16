@@ -380,6 +380,17 @@ module Kiba
           }
         end
 
+        Ppwe.registry.namespace("relation") do
+          register :id_lookup, {
+            path: File.join(Ppwe.wrkdir, "id_lookup.csv"),
+            creator: Ppwe::Jobs::Relation::IdLookup,
+            tags: %i[catalog_item relation],
+            desc: "Create a simple numeric id for each unique relationid "\
+              "UUID value",
+            lookup_on: :uuid
+          }
+        end
+
         Ppwe.registry.namespace("review") do
           dir = File.join(Ppwe.datadir, "for_review")
 
