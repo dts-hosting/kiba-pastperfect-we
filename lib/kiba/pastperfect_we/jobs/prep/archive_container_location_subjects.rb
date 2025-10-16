@@ -24,15 +24,7 @@ module Kiba
 
               transform Rename::Field,
                 from: :dictionaryitem,
-                to: :subjects
-
-              transform Rename::Field,
-                from: :id,
-                to: :subjectsid
-
-              transform Rename::Field,
-                from: :position,
-                to: :subjectposition
+                to: :subject
             end
           end
         end
