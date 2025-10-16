@@ -76,7 +76,9 @@ module Kiba
           conditiondate conditionmaintenanceperiodicity
           conditionmaintenancestartdate conditionmaintenancenotes
           generalconditionnotes condition conditiondisplayvalue
-          flagdate flagreason flagdetails]
+          flagdate flagreason flagdetails
+          insurancepolicyexpirationdate insurancecompany insurancerepresentative
+          insurancephone insurancepolicynumber insuredvalue insurancepremium]
     end
   end
 end

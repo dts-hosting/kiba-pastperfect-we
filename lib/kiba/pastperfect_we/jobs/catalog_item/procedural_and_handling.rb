@@ -62,6 +62,20 @@ module Kiba
                   flagdetails: :details
                 }
               transform Delete::Fields, fields: :flagid
+
+              transform Ppwe::Transforms::MergeTable,
+                source: :prep__catalog_item_insurance,
+                join_column: :catalogitemid,
+                delete_join_column: false
+              transform Rename::Fields, fieldmap: {
+                policyexpirationdate: :insurancepolicyexpirationdate,
+                company: :insurancecompany,
+                representative: :insurancerepresentative,
+                phone: :insurancephone,
+                policynumber: :insurancepolicynumber,
+                insuredvalue: :insuredvalue,
+                premium: :insurancepremium
+              }
             end
           end
         end
