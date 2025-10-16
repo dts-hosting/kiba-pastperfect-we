@@ -12,7 +12,13 @@ module Kiba
               files: {
                 source: source,
                 destination: dest,
-                lookup: :prep__person
+                lookup: [
+                  :prep__person,
+                  {
+                    jobkey: :prep__archive_container_location_subjects,
+                    lookup_on: :archivecontainerlocationid
+                  }
+                ]
               },
               transformer: Ppwe::Prep.get_xforms(self)
             )
@@ -32,10 +38,11 @@ module Kiba
               transform Delete::Fields,
                 fields: :creatorid
 
-              transform Ppwe::Transforms::MergeTable,
-                source: :prep__archive_container_location_subjects,
-                join_column: :id,
-                delete_join_column: false
+              transform Merge::MultiRowLookup,
+                lookup: prep__archive_container_location_subjects,
+                keycolumn: :id,
+                fieldmap: {subject: :subject},
+                sorter: Lookup::RowSorter.new(on: :position, as: :to_i)
             end
           end
         end
