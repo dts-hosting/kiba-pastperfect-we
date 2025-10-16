@@ -111,6 +111,16 @@ module Kiba
           }
         end
 
+        Ppwe.registry.namespace("appraisal_report") do
+          register :target_system_lookup, {
+            path: File.join(Ppwe.wrkdir,
+              "appraisal_report_target_system_lookup.csv"),
+            creator: Ppwe::Jobs::AppraisalReport::TargetSystemLookup,
+            tags: %i[catalog_item appraisal_report],
+            lookup_on: :id
+          }
+        end
+
         Ppwe.registry.namespace("catalog_item") do
           dir = if Ppwe.mode == :migration
             Ppwe.wrkdir
@@ -418,6 +428,16 @@ module Kiba
             dest_special_opts: {
               initial_headers:
                 Ppwe::Jobs::Review::AccessionActivities.init_headers
+            }
+          }
+          register :appraisal_report, {
+            path: File.join(dir, "appraisal_report.csv"),
+            creator: Ppwe::Jobs::Review::AppraisalReport,
+            tags: %i[review appraisal_report],
+            dest_special_opts: {
+              initial_headers: %i[
+                id catalogitemid itemid itemtype targetsystems
+              ]
             }
           }
           register :archive_container_lists, {
