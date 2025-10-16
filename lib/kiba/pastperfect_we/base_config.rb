@@ -96,6 +96,7 @@ module Kiba
             "CatalogItemPeople" => :catalogitemid,
             "CatalogItemPhoto" => :catalogitemid,
             "CatalogItemPhotoMedium" => :catalogitemid,
+            "CatalogItemRelation" => :catalogitemid,
             "CatalogItemRepatriation" => :catalogitemid,
             "CatalogItemSubjects" => :catalogitemid,
             "CatalogItemTags" => :catalogitemid,
