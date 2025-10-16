@@ -70,7 +70,9 @@ module Kiba
 
       setting :procedural_and_handling_fields,
         reader: true,
-        default: %i[exhibitlabel isitemonexhibit itemonloan
+        default: %i[appraisalvaluedate appraisalminvalue appraisalmaxvalue
+          acquisitionvalue generalappraisalnotes
+          exhibitlabel isitemonexhibit itemonloan
           conditiondate conditionmaintenanceperiodicity
           conditionmaintenancestartdate conditionmaintenancenotes
           generalconditionnotes condition conditiondisplayvalue
