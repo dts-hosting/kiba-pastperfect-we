@@ -78,6 +78,7 @@ module Kiba
             "CatalogItemCondition" => :catalogitemid,
             "CatalogItemCustomField" => :catalogitemid,
             "CatalogItemDimensions" => :catalogitemid,
+            "CatalogItemGeology" => :catalogitemid,
             "CatalogItemHistory" => :catalogitemid,
             "CatalogItemHistoryMaterial" => :catalogitemid,
             "CatalogItemHistoryOrigin" => :catalogitemid,
