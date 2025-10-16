@@ -30,6 +30,17 @@ module Kiba
                   Ppwe::CatalogItem.procedural_and_handling_fields +
                   [:flagid]
 
+              transform Ppwe::Transforms::MergeTable,
+                source: :prep__catalog_item_appraisal,
+                join_column: :catalogitemid,
+                delete_join_column: false
+              transform Rename::Fields, fieldmap: {
+                valuedate: :appraisalvaluedate,
+                minvalue: :appraisalminvalue,
+                maxvalue: :appraisalmaxvalue,
+                aquisitionvalue: :acquisitionvalue
+              }
+
               transform Merge::MultiRowLookup,
                 lookup: prep__catalog_item_condition,
                 keycolumn: :catalogitemid,
