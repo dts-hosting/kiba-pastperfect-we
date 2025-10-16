@@ -189,6 +189,15 @@ module Kiba
                 Ppwe::CatalogItem.deaccession_and_removal_fields
             }
           }
+          register :geology, {
+            path: File.join(dir, "catalog_item_geology.csv"),
+            creator: Ppwe::Jobs::CatalogItem::Geology,
+            tags: %i[review catalog_item geology],
+            lookup_on: Ppwe.lookup_column_for("CatalogItemGeology"),
+            dest_special_opts: {
+              initial_headers: Ppwe::CatalogItem.base_fields
+            }
+          }
           register :history, {
             path: File.join(dir, "catalog_item_history.csv"),
             creator: Ppwe::Jobs::CatalogItem::History,
