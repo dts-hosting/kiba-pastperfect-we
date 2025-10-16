@@ -243,6 +243,14 @@ module Kiba
               initial_headers: Ppwe::CatalogItem.base_fields
             }
           }
+          register :multilevel_linking, {
+            path: File.join(dir, "catalog_item_multilevel_linking.csv"),
+            creator: Ppwe::Jobs::CatalogItem::MultilevelLinking,
+            tags: %i[review catalog_item multilevel_linking],
+            dest_special_opts: {
+              initial_headers: Ppwe::CatalogItem.base_fields
+            }
+          }
           register :music, {
             path: File.join(dir, "catalog_item_music.csv"),
             creator: Ppwe::Jobs::CatalogItem::Music,
