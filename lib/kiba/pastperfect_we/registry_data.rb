@@ -217,6 +217,14 @@ module Kiba
                 Ppwe::CatalogItem.id_name_class_fields
             }
           }
+          register :inscription, {
+            path: File.join(dir, "catalog_item_inscription.csv"),
+            creator: Ppwe::Jobs::CatalogItem::Inscription,
+            tags: %i[review catalog_item inscription],
+            dest_special_opts: {
+              initial_headers: Ppwe::CatalogItem.base_fields
+            }
+          }
           register :library, {
             path: File.join(dir, "catalog_item_library.csv"),
             creator: Ppwe::Jobs::CatalogItem::Library,
