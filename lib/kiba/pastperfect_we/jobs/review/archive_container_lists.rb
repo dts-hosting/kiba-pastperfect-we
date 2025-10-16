@@ -3,7 +3,7 @@
 module Kiba
   module PastperfectWe
     module Jobs
-      module CatalogItem
+      module Review
         module ArchiveContainerLists
           module_function
 
@@ -11,18 +11,31 @@ module Kiba
             Kiba::Extend::Jobs::Job.new(
               files: {
                 source: :prep__archive_container_location,
-                destination: :catalog_item__archive_container_lists,
+                destination: :review__archive_container_lists,
                 lookup: %i[
                   prep__catalog_item
                   prep__catalog_item_multilevel_linking
+                  catalog_item__base
                 ]
               },
-              transformer: xforms
+              transformer: [xforms, Ppwe::Review.final_xforms].compact
             )
+          end
+
+          def init_headers
+            [:id] + Ppwe::CatalogItem.base_fields +
+              %i[parent_title parent_level container folder title description
+                date yearrangefrom yearrangeto creator_name subject location
+                ispublicaccess]
           end
 
           def xforms
             Kiba.job_segment do
+              transform Merge::MultiRowLookup,
+                lookup: catalog_item__base,
+                keycolumn: :catalogitemid,
+                fieldmap: Ppwe::CatalogItem.base_fields_merge_map
+
               transform Merge::MultiRowLookup,
                 lookup: prep__catalog_item,
                 keycolumn: :catalogitemid,
