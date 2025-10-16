@@ -298,6 +298,14 @@ module Kiba
                 Ppwe::CatalogItem.procedural_and_handling_fields
             }
           }
+          register :relation, {
+            path: File.join(dir, "catalog_item_relation.csv"),
+            creator: Ppwe::Jobs::CatalogItem::Relation,
+            tags: %i[review catalog_item relation],
+            dest_special_opts: {
+              initial_headers: Ppwe::CatalogItem.base_fields
+            }
+          }
           register :source, {
             path: File.join(dir, "catalog_item_source.csv"),
             creator: Ppwe::Jobs::CatalogItem::Source,
