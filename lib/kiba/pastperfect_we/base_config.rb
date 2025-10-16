@@ -83,6 +83,7 @@ module Kiba
             "CatalogItemHistoryMaterial" => :catalogitemid,
             "CatalogItemHistoryOrigin" => :catalogitemid,
             "CatalogItemHistoryPlaceFound" => :catalogitemid,
+            "CatalogItemInscription" => :catalogitemid,
             "CatalogItemInsurance" => :catalogitemid,
             "CatalogItemLexicon" => :catalogitemid,
             "CatalogItemLibrary" => :catalogitemid,
