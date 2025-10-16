@@ -135,12 +135,6 @@ module Kiba
               initial_headers: Ppwe::CatalogItem.base_fields
             }
           }
-          register :archive_container_lists, {
-            path: File.join(dir, "catalog_item_archive_container_lists.csv"),
-            creator: Ppwe::Jobs::CatalogItem::ArchiveContainerLists,
-            tags: %i[review combined catalog_item archive],
-            lookup_on: :catalogitemid
-          }
           register :base, {
             path: File.join(Ppwe.wrkdir, "catalog_item_base.csv"),
             creator: Ppwe::Jobs::CatalogItem::Base,
@@ -405,6 +399,16 @@ module Kiba
             dest_special_opts: {
               initial_headers:
                 Ppwe::Jobs::Review::AccessionActivities.init_headers
+            }
+          }
+          register :archive_container_lists, {
+            path: File.join(dir, "archive_container_lists.csv"),
+            creator: Ppwe::Jobs::Review::ArchiveContainerLists,
+            tags: %i[review archive archive_container_lists],
+            lookup_on: :catalogitemid,
+            dest_special_opts: {
+              initial_headers:
+                Ppwe::Jobs::Review::ArchiveContainerLists.init_headers
             }
           }
           register :attachment, {
