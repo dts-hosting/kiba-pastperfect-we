@@ -43,6 +43,10 @@ module Kiba
                 keycolumn: :id,
                 fieldmap: {subject: :subject},
                 sorter: Lookup::RowSorter.new(on: :position, as: :to_i)
+
+              transform Delete::FieldValueMatchingRegexp,
+                fields: %i[yearrangefrom yearrangeto],
+                match: /^0$/
             end
           end
         end
