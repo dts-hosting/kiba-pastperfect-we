@@ -8,9 +8,10 @@ module Kiba
       class ReviewTargetFieldMerger
         include Kiba::Extend::Transforms::SingleWarnable
 
-        def initialize
-          @source = Ppwe::Splitting.item_type_field
-          @target = Ppwe.review_target_field
+        def initialize(source: Ppwe::Splitting.item_type_field,
+          target: Ppwe.review_target_field)
+          @source = source
+          @target = target
           @mapping = Ppwe::Splitting.item_type_mapping
             .transform_values { |v| v.to_s.tr("_", " ") }
           @weaklings = Ppwe::Splitting.weak_targets
