@@ -121,6 +121,16 @@ module Kiba
           }
         end
 
+        Ppwe.registry.namespace("attachment") do
+          register :itemtype_lookup, {
+            path: File.join(Ppwe.wrkdir,
+              "attachment_itemtype_lookup.csv"),
+            creator: Ppwe::Jobs::Attachment::ItemtypeLookup,
+            tags: %i[attachment],
+            lookup_on: :id
+          }
+        end
+
         Ppwe.registry.namespace("catalog_item") do
           dir = if Ppwe.mode == :migration
             Ppwe.wrkdir
