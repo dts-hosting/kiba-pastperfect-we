@@ -7,8 +7,6 @@ module Kiba
       class TermUseExtractor
         def initialize
           @term_tables = Ppwe::Terms.table_config.keys
-          @headers = %i[termtable termid referringtable referringidfield
-            referringid circular]
           @rows = []
         end
 
@@ -23,9 +21,6 @@ module Kiba
 
         # @return [Array<String>]
         attr_reader :term_tables
-
-        # @return [Array<Symbol>]
-        attr_reader :headers
 
         attr_reader :rows
 
