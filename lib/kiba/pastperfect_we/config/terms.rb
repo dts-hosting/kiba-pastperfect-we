@@ -43,6 +43,73 @@ module Kiba
         reader: true,
         default: %w[ContactList ContactListRecords DocumentImage]
 
+      setting :itemtype_lookup_config,
+        reader: true,
+        default: {
+          "Accession" => [
+            {lkup: :accession__target_system_lookup}
+          ],
+          "AccessionDonors" => [
+            {
+              lkup: :preprocess__accession_donors,
+              take: :accessionid
+            },
+            {lkup: :accession__target_system_lookup}
+          ],
+          "ArchiveContainerLocation" => [
+            {
+              lkup: :preprocess__archive_container_location,
+              take: :catalogitemid
+            },
+            {lkup: :catalog_item__base}
+          ],
+          "Attachment" => [
+            {lkup: :attachment__itemtype_lookup}
+          ],
+          "CatalogList" => [
+            {lkup: :review__catalog_list,
+             lookup_on: :id}
+          ],
+          "ContactAttachments" => [
+            {
+              lkup: :preprocess__contact_attachments,
+              take: :attachmentid
+            },
+            {lkup: :attachment__itemtype_lookup}
+          ],
+          "ContactImage" => [
+            {
+              lkup: :preprocess__contact_image,
+              take: :imageid
+            },
+            {lkup: :image__itemtype_lookup}
+          ],
+          "ImageObject" => [
+            {lkup: :image__itemtype_lookup}
+          ],
+          "LocationHistoryItem" => [
+            {
+              lkup: :preprocess__location_history_item,
+              take: :catalogitemlocationid
+            },
+            {lkup: :catalog_item__base}
+          ],
+          "PersonAttachment" => [
+            {
+              lkup: :preprocess__person_attachment,
+              take: :attachmentid
+            },
+            {lkup: :attachment__itemtype_lookup}
+          ],
+          "PersonImage" => [
+            {
+              lkup: :preprocess__person_image,
+              take: :imageid
+            },
+            {lkup: :image__itemtype_lookup}
+          ]
+        }
+
       # @param table [String] table name
       # @return [Hash{String => Array<Reference>}]
       def refs_to_terms_in(table)
