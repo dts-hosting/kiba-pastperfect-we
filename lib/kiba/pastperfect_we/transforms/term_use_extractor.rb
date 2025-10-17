@@ -51,7 +51,7 @@ module Kiba
         def uses_from_column(refdata, refidfield, ref, row)
           puts "Extracting uses of #{row[:termtable]} from "\
             "#{ref.table}.#{ref.field}"
-          row[:referringidfield] = refidfield
+          row[:referringtablelookupfield] = refidfield
           row[:circular] = ref.circular
           refdata.each do |r|
             termid = r[ref.field]
