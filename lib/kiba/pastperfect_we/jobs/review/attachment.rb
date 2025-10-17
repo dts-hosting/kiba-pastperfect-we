@@ -12,32 +12,7 @@ module Kiba
               files: {
                 source: :prep__attachment,
                 destination: :review__attachment,
-                lookup: [
-                  {
-                    jobkey: :prep__catalog_item_attachment,
-                    lookup_on: :attachmentid
-                  },
-                  {
-                    jobkey: :prep__accession_attachment,
-                    lookup_on: :attachmentid
-                  },
-                  {
-                    jobkey: :prep__exhibit_attachment,
-                    lookup_on: :attachmentid
-                  },
-                  {
-                    jobkey: :prep__loan_attachment,
-                    lookup_on: :attachmentid
-                  },
-                  {
-                    jobkey: :prep__contact_attachments,
-                    lookup_on: :attachmentid
-                  },
-                  {
-                    jobkey: :prep__person_attachment,
-                    lookup_on: :attachmentid
-                  }
-                ]
+                lookup: Ppwe::Attachment.lookup_file_config
               },
               transformer: [xforms, Ppwe::Review.final_xforms].compact
             )
@@ -52,69 +27,16 @@ module Kiba
 
           def xforms
             Kiba.job_segment do
-              transform Merge::MultiRowLookup,
-                lookup: prep__catalog_item_attachment,
-                keycolumn: :id,
-                fieldmap: {
-                  catalogitemid: :catalogitemid,
-                  catalogitemitemid: :itemid,
-                  catalogitemitemtype: :itemtype,
-                  catalogitemposition: :position
-                }
-              transform Merge::MultiRowLookup,
-                lookup: prep__accession_attachment,
-                keycolumn: :id,
-                fieldmap: {
-                  accessionid: :accessionid,
-                  accessionorloannumber: :accessionorloannumber,
-                  accessionitemtype: :itemtype
-                }
-              transform Merge::MultiRowLookup,
-                lookup: prep__exhibit_attachment,
-                keycolumn: :id,
-                fieldmap: {
-                  exhibitid: :exhibitid,
-                  exhibitname: :exhibitname,
-                  exhibititemtype: :itemtype
-                }
-              transform Merge::MultiRowLookup,
-                lookup: prep__loan_attachment,
-                keycolumn: :id,
-                fieldmap: {
-                  loanid: :loanid,
-                  loannumberandrecipient: :loannumberandrecipient,
-                  loanitemtype: :itemtype
-                }
-              transform Merge::MultiRowLookup,
-                lookup: prep__contact_attachments,
-                keycolumn: :id,
-                fieldmap: {
-                  contactid: :contactid,
-                  contactname: :contactname
-                },
-                constantmap: {
-                  contactitemtype: "unmigratable"
-                }
-              transform Merge::MultiRowLookup,
-                lookup: prep__person_attachment,
-                keycolumn: :id,
-                fieldmap: {
-                  personid: :personid,
-                  personname: :personname
-                },
-                constantmap: {
-                  personitemtype: "unmigratable"
-                }
+              Ppwe::Attachment.merge_config.each do |k, v|
+                transform Merge::MultiRowLookup,
+                  lookup: send(Ppwe::Attachment.jobkey_for(k)),
+                  keycolumn: :id,
+                  fieldmap: v[:fieldmap],
+                  constantmap: v[:constantmap]
+              end
 
               transform CombineValues::FromFieldsWithDelimiter,
-                sources: %i[
-                  catalogitemitemtype
-                  accessionitemtype
-                  exhibititemtype
-                  loanitemtype
-                  contactitemtype
-                  personitemtype
-                ],
+                sources: Ppwe::Attachment.itemtype_fields,
                 target: Ppwe::Splitting.item_type_field,
                 delete_sources: false,
                 delim: Ppwe.delim
