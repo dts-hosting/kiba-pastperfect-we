@@ -2,6 +2,11 @@
 
 module Kiba
   module PastperfectWe
+    # Config module for settings and functionality related to term field
+    #   identification and term uniqueness
+    #
+    # "Terms" here means values that get treated as some type of controlled
+    #   value in target systems.
     module Terms
       module_function
 
@@ -12,6 +17,10 @@ module Kiba
       setting :term_source_prefix,
         reader: true,
         default: " termsrc:"
+
+      setting :term_types,
+        reader: true,
+        default: %i[collection language location misc name place subject]
 
       # @return [Hash<String => Symbol>] keys are table names; values are the
       #   fields from PREP jobs that contain the "term-like" values merged into
@@ -25,7 +34,91 @@ module Kiba
           "Person" => :fullname,
           "Site" => :sitenumberandname,
           "User" => :fullname
+        },
+        constructor: ->(default) do
+          default.slice(*Ppwe::Table.tablenames)
+        end
+
+      setting :itemtype_lookup_config,
+        reader: true,
+        default: {
+          "Accession" => [
+            {lkup: :accession__target_system_lookup}
+          ],
+          "AccessionDonors" => [
+            {
+              lkup: :preprocess__accession_donors,
+              take: :accessionid
+            },
+            {lkup: :accession__target_system_lookup}
+          ],
+          "ArchiveContainerLocation" => [
+            {
+              lkup: :preprocess__archive_container_location,
+              take: :catalogitemid
+            },
+            {lkup: :catalog_item__base}
+          ],
+          "Attachment" => [
+            {lkup: :attachment__itemtype_lookup}
+          ],
+          "CatalogList" => [
+            {lkup: :review__catalog_list,
+             lookup_on: :id}
+          ],
+          "ContactAttachments" => [
+            {
+              lkup: :preprocess__contact_attachments,
+              take: :attachmentid
+            },
+            {lkup: :attachment__itemtype_lookup}
+          ],
+          "LocationHistoryItem" => [
+            {
+              lkup: :preprocess__location_history_item,
+              take: :catalogitemlocationid
+            },
+            {lkup: :catalog_item__base}
+          ],
+          "PersonAttachment" => [
+            {
+              lkup: :preprocess__person_attachment,
+              take: :attachmentid
+            },
+            {lkup: :attachment__itemtype_lookup}
+          ]
         }
+
+      # @param table [String] table name
+      # @return [Hash{String => Array<Reference>}]
+      def refs_to_terms_in(table)
+        Ppwe::Util::Fk.references_to(table, Ppwe.lookup_column_for(table))
+          .reject { |ref| ref.sub }
+          .group_by { |ref| ref.table }
+      end
+
+      # Fields that do not lookup from other tables and are probably
+      #   freetext, but that contain predominantly values that become
+      #   terms in target systems
+      # @return [Hash] where keys are term_types values
+      setting :loose_fields,
+        reader: true,
+        default: {
+          name: [
+            {table: "ArchiveIdentity", field: :creatoraddedentry}
+          ]
+        }
+
+      # Custom fields containing terms. Format is same as for :loose_fields.
+      #   Override in client project if they have custom fields.
+      # @return [Hash] where keys are term_types values
+      setting :custom_fields, reader: true, default: {}
+
+      # @param table [String]
+      def uses(table)
+        Ppwe::Util::Fk.references_to(table, Ppwe.lookup_column_for(table))
+          .reject(&:sub)
+      end
     end
   end
 end

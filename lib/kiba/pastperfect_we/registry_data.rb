@@ -121,6 +121,16 @@ module Kiba
           }
         end
 
+        Ppwe.registry.namespace("attachment") do
+          register :itemtype_lookup, {
+            path: File.join(Ppwe.wrkdir,
+              "attachment_itemtype_lookup.csv"),
+            creator: Ppwe::Jobs::Attachment::ItemtypeLookup,
+            tags: %i[attachment],
+            lookup_on: :id
+          }
+        end
+
         Ppwe.registry.namespace("catalog_item") do
           dir = if Ppwe.mode == :migration
             Ppwe.wrkdir
@@ -604,6 +614,27 @@ module Kiba
             path: File.join(dir, "user.csv"),
             creator: Ppwe::Jobs::Review::User,
             tags: %i[review user]
+          }
+        end
+
+        Ppwe.registry.namespace("term") do
+          register :uses, {
+            path: File.join(Ppwe.datadir, "reference", "term_uses.csv"),
+            creator: Ppwe::Jobs::Term::Uses,
+            tags: %i[terms],
+            dest_special_opts: {
+              initial_headers: %i[termtable termid referringtable
+                referringtablelookupfield referringid circular]
+            }
+          }
+          register :itemtypes, {
+            path: File.join(Ppwe.datadir, "reference", "term_itemtypes.csv"),
+            creator: Ppwe::Jobs::Term::Itemtypes,
+            tags: %i[terms],
+            dest_special_opts: {
+              initial_headers: %i[termtable termid referringtable referringid
+                circular]
+            }
           }
         end
       end
