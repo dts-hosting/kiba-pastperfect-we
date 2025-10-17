@@ -104,6 +104,14 @@ module Kiba
       # @param jobkey [Symbol]
       # @return [Symbol]
       def lookup_on_for(jobkey) = Ppwe.registry.resolve(jobkey).lookup_on
+
+      # @param jobkey [Symbol]
+      # @return [Boolean]
+      def job_exists?(jobkey)
+        Ppwe.registry.resolve(jobkey)
+      rescue Dry::Container::KeyError
+        false
+      end
     end
   end
 end
