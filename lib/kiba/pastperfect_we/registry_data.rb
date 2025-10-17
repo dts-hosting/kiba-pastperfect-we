@@ -624,7 +624,7 @@ module Kiba
             tags: %i[terms],
             dest_special_opts: {
               initial_headers: %i[termtable termid referringtable
-                referringidfield referringid circular]
+                referringtablelookupfield referringid circular]
             }
           }
         end
