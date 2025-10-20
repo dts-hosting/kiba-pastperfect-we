@@ -12,13 +12,7 @@ module Kiba
               files: {
                 source: :prep__image_object,
                 destination: :review__image,
-                lookup: [
-                  {jobkey: :prep__catalog_item_image, lookup_on: :imageid},
-                  {jobkey: :prep__condition_report_image, lookup_on: :imageid},
-                  {jobkey: :prep__exhibit_image, lookup_on: :imageid},
-                  {jobkey: :prep__contact_image, lookup_on: :imageid},
-                  {jobkey: :prep__person_image, lookup_on: :imageid}
-                ]
+                lookup: Ppwe::Image.lookup_file_config
               },
               transformer: [xforms, Ppwe::Review.final_xforms].compact
             )
@@ -33,66 +27,16 @@ module Kiba
 
           def xforms
             Kiba.job_segment do
-              transform Merge::MultiRowLookup,
-                lookup: prep__catalog_item_image,
-                keycolumn: :id,
-                fieldmap: {
-                  catalogitemid: :catalogitemid,
-                  catalogitemitemid: :itemid,
-                  catalogitemitemtype: :itemtype,
-                  catalogitemposition: :position
-                }
-
-              transform Merge::MultiRowLookup,
-                lookup: prep__condition_report_image,
-                keycolumn: :id,
-                fieldmap: {
-                  conditionreportid: :catalogitemid,
-                  conditionreportitemid: :itemid,
-                  conditionreportitemtype: :itemtype,
-                  conditionreportposition: :position
-                }
-
-              transform Merge::MultiRowLookup,
-                lookup: prep__exhibit_image,
-                keycolumn: :id,
-                fieldmap: {
-                  exhibitid: :exhibitid,
-                  exhibitname: :exhibitname,
-                  exhibititemtype: :itemtype,
-                  exhibitposition: :position
-                }
-
-              transform Merge::MultiRowLookup,
-                lookup: prep__contact_image,
-                keycolumn: :id,
-                fieldmap: {
-                  contactid: :contactid,
-                  contactname: :contactname,
-                  contactposition: :position
-                },
-                constantmap: {
-                  contactitemtype: "unmigratable"
-                }
-
-              transform Merge::MultiRowLookup,
-                lookup: prep__person_image,
-                keycolumn: :id,
-                fieldmap: {
-                  personid: :personid,
-                  personname: :personname,
-                  personposition: :position
-                },
-                constantmap: {
-                  personitemtype: "unmigratable"
-                }
+              Ppwe::Image.merge_config.each do |k, v|
+                transform Merge::MultiRowLookup,
+                  lookup: send(Ppwe::Image.jobkey_for(k, :image)),
+                  keycolumn: :id,
+                  fieldmap: v[:fieldmap],
+                  constantmap: v[:constantmap]
+              end
 
               transform CombineValues::FromFieldsWithDelimiter,
-                sources: %i[catalogitemitemtype
-                  conditionreportitemtype
-                  exhibititemtype
-                  contactitemtype
-                  personitemtype],
+                sources: Ppwe::Image.itemtype_fields,
                 target: Ppwe::Splitting.item_type_field,
                 delete_sources: false,
                 delim: Ppwe.delim
