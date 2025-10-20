@@ -94,6 +94,13 @@ module Kiba
         "2" => "copyright undetermined",
         "3" => "in copyright"
       }
+
+      # @return [Hash{String=>String}] Used in
+      #   SiteMappingOptions.hemisphereid
+      setting :hemisphere, reader: true, default: {
+        "0" => "northern",
+        "1" => "southern"
+      }
     end
   end
 end

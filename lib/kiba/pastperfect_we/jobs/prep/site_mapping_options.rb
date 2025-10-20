@@ -25,9 +25,17 @@ module Kiba
               transform Delete::EmptyFields,
                 consider_blank: blankness
 
-              transform Replace::FieldValueWithStaticMapping,
-                source: :ispositionbasedongps,
-                mapping: Ppwe.boolean_yes_no_mapping
+              if Ppwe.mode == :review
+                transform Replace::FieldValueWithStaticMapping,
+                  source: :ispositionbasedongps,
+                  mapping: Ppwe.boolean_yes_no_mapping
+
+                transform Replace::FieldValueWithStaticMapping,
+                  source: :hemisphereid,
+                  mapping: Ppwe::Enums.hemisphere
+
+                transform Rename::Field, from: :hemisphereid, to: :hemisphere
+              end
             end
           end
         end
