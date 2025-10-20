@@ -30,7 +30,7 @@ module Kiba
               transform Delete::Fields, fields: :loannumberandrecipient
 
               transform Ppwe::Transforms::MergeTable,
-                source: :loan__target_system_lookup,
+                source: :target_system_lookup__loan,
                 join_column: :id,
                 delete_join_column: false,
                 drop_fields: :loannumberandrecipient

@@ -12,7 +12,7 @@ module Kiba
               files: {
                 source: :prep__accession_activities,
                 destination: :review__accession_activities,
-                lookup: :accession__target_system_lookup
+                lookup: :target_system_lookup__accession
               },
               transformer: [xforms, Ppwe::Review.final_xforms].compact
             )
@@ -29,7 +29,7 @@ module Kiba
           def xforms
             Kiba.job_segment do
               transform Merge::MultiRowLookup,
-                lookup: accession__target_system_lookup,
+                lookup: target_system_lookup__accession,
                 keycolumn: :accessionid,
                 fieldmap: {
                   :accessionnumber => :number,

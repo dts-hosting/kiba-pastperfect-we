@@ -14,7 +14,7 @@ module Kiba
                 destination: :review__exhibit,
                 lookup: [
                   :prep__exhibit_attachment,
-                  :exhibit__target_system_lookup,
+                  :target_system_lookup__exhibit,
                   {
                     jobkey: :preprocess__exhibit_catalog_items,
                     lookup_on: :exhibitid
@@ -29,7 +29,7 @@ module Kiba
           def xforms
             Kiba.job_segment do
               transform Ppwe::Transforms::MergeTable,
-                source: :exhibit__target_system_lookup,
+                source: :target_system_lookup__exhibit,
                 join_column: :id,
                 delete_join_column: false,
                 drop_fields: %i[exhibitname]

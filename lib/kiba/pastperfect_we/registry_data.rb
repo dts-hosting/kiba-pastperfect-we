@@ -102,35 +102,6 @@ module Kiba
             end
         end
 
-        Ppwe.registry.namespace("accession") do
-          register :target_system_lookup, {
-            path: File.join(Ppwe.wrkdir, "accession_target_system_lookup.csv"),
-            creator: Ppwe::Jobs::Accession::TargetSystemLookup,
-            tags: %i[accession],
-            lookup_on: :id
-          }
-        end
-
-        Ppwe.registry.namespace("appraisal_report") do
-          register :target_system_lookup, {
-            path: File.join(Ppwe.wrkdir,
-              "appraisal_report_target_system_lookup.csv"),
-            creator: Ppwe::Jobs::AppraisalReport::TargetSystemLookup,
-            tags: %i[catalog_item appraisal_report],
-            lookup_on: :id
-          }
-        end
-
-        Ppwe.registry.namespace("attachment") do
-          register :itemtype_lookup, {
-            path: File.join(Ppwe.wrkdir,
-              "attachment_itemtype_lookup.csv"),
-            creator: Ppwe::Jobs::Attachment::ItemtypeLookup,
-            tags: %i[attachment],
-            lookup_on: :id
-          }
-        end
-
         Ppwe.registry.namespace("catalog_item") do
           dir = if Ppwe.mode == :migration
             Ppwe.wrkdir
@@ -346,16 +317,6 @@ module Kiba
           }
         end
 
-        Ppwe.registry.namespace("condition_report") do
-          register :target_system_lookup, {
-            path: File.join(Ppwe.wrkdir,
-              "condition_report_target_system_lookup.csv"),
-            creator: Ppwe::Jobs::ConditionReport::TargetSystemLookup,
-            tags: %i[catalog_item condition_report],
-            lookup_on: :id
-          }
-        end
-
         Ppwe.registry.namespace("dictionary") do
           register :filters, {
             path: File.join(Ppwe.wrkdir, "dictionary_filters.csv"),
@@ -373,36 +334,6 @@ module Kiba
             path: File.join(Ppwe.wrkdir, "dictionary_unused_items.csv"),
             creator: Ppwe::Jobs::Dictionary::UnusedItems,
             tags: %i[dictionary]
-          }
-        end
-
-        Ppwe.registry.namespace("exhibit") do
-          register :target_system_lookup, {
-            path: File.join(Ppwe.wrkdir,
-              "exhibit_target_system_lookup.csv"),
-            creator: Ppwe::Jobs::Exhibit::TargetSystemLookup,
-            tags: %i[catalog_item exhibit],
-            lookup_on: :id
-          }
-        end
-
-        Ppwe.registry.namespace("image") do
-          register :itemtype_lookup, {
-            path: File.join(Ppwe.wrkdir,
-              "image_itemtype_lookup.csv"),
-            creator: Ppwe::Jobs::Image::ItemtypeLookup,
-            tags: %i[image],
-            lookup_on: :id
-          }
-        end
-
-        Ppwe.registry.namespace("loan") do
-          register :target_system_lookup, {
-            path: File.join(Ppwe.wrkdir,
-              "loan_target_system_lookup.csv"),
-            creator: Ppwe::Jobs::Loan::TargetSystemLookup,
-            tags: %i[catalog_item loan],
-            lookup_on: :id
           }
         end
 
@@ -629,6 +560,71 @@ module Kiba
             path: File.join(dir, "url.csv"),
             creator: Ppwe::Jobs::Review::Url,
             tags: %i[review url]
+          }
+        end
+
+        Ppwe.registry.namespace("target_system_lookup") do
+          register :accession, {
+            path: File.join(Ppwe.wrkdir, "target_system_lookup_accession.csv"),
+            creator: Ppwe::Jobs::TargetSystemLookup::Accession,
+            tags: %i[accession],
+            lookup_on: :id
+          }
+          register :appraisal_report, {
+            path: File.join(Ppwe.wrkdir,
+              "target_system_lookup_appraisal_report.csv"),
+            creator: Ppwe::Jobs::TargetSystemLookup::AppraisalReport,
+            tags: %i[catalog_item appraisal_report],
+            lookup_on: :id
+          }
+          register :attachment, {
+            path: File.join(Ppwe.wrkdir,
+              "target_system_lookup_attachment.csv"),
+            creator: Ppwe::Jobs::TargetSystemLookup::Attachment,
+            tags: %i[attachment],
+            lookup_on: :id
+          }
+          register :catalog_item, {
+            path: File.join(Ppwe.wrkdir,
+              "target_system_lookup_catalog_item.csv"),
+            creator: Ppwe::Jobs::TargetSystemLookup::CatalogItem,
+            tags: %i[catalog_item],
+            lookup_on: :catalogitemid
+          }
+          register :condition_report, {
+            path: File.join(Ppwe.wrkdir,
+              "target_system_lookup_condition_report.csv"),
+            creator: Ppwe::Jobs::TargetSystemLookup::ConditionReport,
+            tags: %i[catalog_item condition_report],
+            lookup_on: :id
+          }
+          register :exhibit, {
+            path: File.join(Ppwe.wrkdir,
+              "target_system_lookup_exhibit.csv"),
+            creator: Ppwe::Jobs::TargetSystemLookup::Exhibit,
+            tags: %i[catalog_item exhibit],
+            lookup_on: :id
+          }
+          register :image, {
+            path: File.join(Ppwe.wrkdir,
+              "target_system_lookup_image.csv"),
+            creator: Ppwe::Jobs::TargetSystemLookup::Image,
+            tags: %i[image],
+            lookup_on: :id
+          }
+          register :loan, {
+            path: File.join(Ppwe.wrkdir,
+              "target_system_lookup_loan.csv"),
+            creator: Ppwe::Jobs::TargetSystemLookup::Loan,
+            tags: %i[catalog_item loan],
+            lookup_on: :id
+          }
+          register :url, {
+            path: File.join(Ppwe.wrkdir,
+              "target_system_lookup_url.csv"),
+            creator: Ppwe::Jobs::TargetSystemLookup::Url,
+            tags: %i[url],
+            lookup_on: :id
           }
         end
 

@@ -47,14 +47,14 @@ module Kiba
         reader: true,
         default: {
           "Accession" => [
-            {lkup: :accession__target_system_lookup}
+            {lkup: :target_system_lookup__accession}
           ],
           "AccessionDonors" => [
             {
               lkup: :preprocess__accession_donors,
               take: :accessionid
             },
-            {lkup: :accession__target_system_lookup}
+            {lkup: :target_system_lookup__accession}
           ],
           "ArchiveContainerLocation" => [
             {
@@ -64,7 +64,7 @@ module Kiba
             {lkup: :catalog_item__base}
           ],
           "Attachment" => [
-            {lkup: :attachment__itemtype_lookup}
+            {lkup: :target_system_lookup__attachment}
           ],
           "CatalogList" => [
             {lkup: :review__catalog_list,
@@ -75,17 +75,17 @@ module Kiba
               lkup: :preprocess__contact_attachments,
               take: :attachmentid
             },
-            {lkup: :attachment__itemtype_lookup}
+            {lkup: :target_system_lookup__attachment}
           ],
           "ContactImage" => [
             {
               lkup: :preprocess__contact_image,
               take: :imageid
             },
-            {lkup: :image__itemtype_lookup}
+            {lkup: :target_system_lookup__image}
           ],
           "ImageObject" => [
-            {lkup: :image__itemtype_lookup}
+            {lkup: :target_system_lookup__image}
           ],
           "LocationHistoryItem" => [
             {
@@ -99,14 +99,14 @@ module Kiba
               lkup: :preprocess__person_attachment,
               take: :attachmentid
             },
-            {lkup: :attachment__itemtype_lookup}
+            {lkup: :target_system_lookup__attachment}
           ],
           "PersonImage" => [
             {
               lkup: :preprocess__person_image,
               take: :imageid
             },
-            {lkup: :image__itemtype_lookup}
+            {lkup: :target_system_lookup__image}
           ]
         }
 

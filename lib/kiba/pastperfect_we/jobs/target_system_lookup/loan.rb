@@ -3,18 +3,18 @@
 module Kiba
   module PastperfectWe
     module Jobs
-      module Exhibit
-        module TargetSystemLookup
+      module TargetSystemLookup
+        module Loan
           module_function
 
           def job
             Kiba::Extend::Jobs::Job.new(
               files: {
-                source: :preprocess__exhibit,
-                destination: :exhibit__target_system_lookup,
+                source: :prep__loan,
+                destination: :target_system_lookup__loan,
                 lookup: [
-                  {jobkey: :preprocess__exhibit_catalog_items,
-                   lookup_on: :exhibitid},
+                  {jobkey: :preprocess__loan_catalog_items,
+                   lookup_on: :loanid},
                   :prep__catalog_item
                 ]
               },
@@ -25,9 +25,9 @@ module Kiba
           def xforms
             Kiba.job_segment do
               transform Delete::FieldsExcept,
-                fields: %i[id exhibitname]
+                fields: %i[id loannumberandrecipient]
               transform Merge::MultiRowLookup,
-                lookup: preprocess__exhibit_catalog_items,
+                lookup: preprocess__loan_catalog_items,
                 keycolumn: :id,
                 fieldmap: {catalogitemid: :catalogitemid}
               transform Merge::MultiRowLookup,

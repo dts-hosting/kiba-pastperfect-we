@@ -3,15 +3,15 @@
 module Kiba
   module PastperfectWe
     module Jobs
-      module Attachment
-        module ItemtypeLookup
+      module TargetSystemLookup
+        module Attachment
           module_function
 
           def job
             Kiba::Extend::Jobs::Job.new(
               files: {
                 source: :review__attachment,
-                destination: :attachment__itemtype_lookup
+                destination: :target_system_lookup__attachment
               },
               transformer: xforms
             )
@@ -26,9 +26,13 @@ module Kiba
                 target: Ppwe::Splitting.item_type_field,
                 delete_sources: true,
                 delim: Ppwe.delim
+              transform Delete::EmptyFieldValues,
+                fields: Ppwe::Splitting.item_type_field,
+                delim: Ppwe.delim
               transform Deduplicate::FieldValues,
                 fields: Ppwe::Splitting.item_type_field,
                 sep: Ppwe.delim
+              transform Ppwe::Transforms::ReviewTargetFieldMerger
             end
           end
         end

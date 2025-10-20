@@ -20,7 +20,7 @@ module Kiba
           def xforms
             Kiba.job_segment do
               transform Ppwe::Transforms::MergeTable,
-                source: :exhibit__target_system_lookup,
+                source: :target_system_lookup__exhibit,
                 join_column: :exhibitid,
                 delete_join_column: false
             end

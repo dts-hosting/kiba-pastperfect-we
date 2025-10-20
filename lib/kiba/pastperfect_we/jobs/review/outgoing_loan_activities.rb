@@ -12,7 +12,7 @@ module Kiba
               files: {
                 source: :prep__loan_activities,
                 destination: :review__outgoing_loan_activities,
-                lookup: :loan__target_system_lookup
+                lookup: :target_system_lookup__loan
               },
               transformer: [xforms, Ppwe::Review.final_xforms].compact
             )
@@ -29,7 +29,7 @@ module Kiba
           def xforms
             Kiba.job_segment do
               transform Merge::MultiRowLookup,
-                lookup: loan__target_system_lookup,
+                lookup: target_system_lookup__loan,
                 keycolumn: :loanid,
                 fieldmap: {
                   :loannumberandrecipient => :loannumberandrecipient,
