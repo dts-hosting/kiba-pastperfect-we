@@ -18,6 +18,7 @@ module Kiba
 
         register_orig_files
         register_preprocess_jobs
+        register_term_usage_jobs
         register_files
 
         # # This needs to be added if you are using the IterativeCleanup mixin
@@ -68,6 +69,30 @@ module Kiba
               },
               tags: [:preprocess, jobkey.to_sym],
               lookup_on: Ppwe.lookup_column_for(name)
+            }.compact
+
+            register jobkey, jobhash
+          end
+        end
+      end
+
+      def register_term_usage_jobs
+        Ppwe.registry.namespace("term_usage") do
+          term_tables = Ppwe::Terms.table_config.keys
+          Ppwe::Table.data(term_tables).each do |name, filedata|
+            jobkey = filedata[:key]
+            jobhash = {
+              path: File.join(Ppwe.wrkdir, "term_usage_#{jobkey}.csv"),
+              creator: {
+                callee: Ppwe::Jobs::Term::Usage,
+                args: {dest: :"term_usage__#{jobkey}",
+                       tablename: name}
+              },
+              tags: [:term, :term_usage, jobkey.to_sym],
+              dest_special_opts: {
+                initial_headers: %i[termtable termid referringtable
+                  referringtablelookupfield referringid circular]
+              }
             }.compact
 
             register jobkey, jobhash
@@ -629,15 +654,6 @@ module Kiba
         end
 
         Ppwe.registry.namespace("term") do
-          register :uses, {
-            path: File.join(Ppwe.datadir, "reference", "term_uses.csv"),
-            creator: Ppwe::Jobs::Term::Uses,
-            tags: %i[terms],
-            dest_special_opts: {
-              initial_headers: %i[termtable termid referringtable
-                referringtablelookupfield referringid circular]
-            }
-          }
           register :itemtypes, {
             path: File.join(Ppwe.datadir, "reference", "term_itemtypes.csv"),
             creator: Ppwe::Jobs::Term::Itemtypes,
