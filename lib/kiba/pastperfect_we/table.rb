@@ -5,8 +5,9 @@ module Kiba
     module Table
       module_function
 
-      def data
-        @data = tablenames.map do |name|
+      def data(tables = nil)
+        input = tables || tablenames
+        @data = input.map do |name|
           [name, {
             origpath: File.join(Ppwe.datadir, "orig", "#{name}.csv"),
             preprocesspath: File.join(Ppwe.datadir, "preprocessed",
