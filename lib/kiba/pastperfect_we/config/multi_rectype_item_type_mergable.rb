@@ -6,9 +6,11 @@ module Kiba
     #   itemtype for multiple record types into one table, as in
     #   review__image and review__attachment
     module MultiRectypeItemTypeMergable
+      def positioned_types = [:image]
+
       # @param type [:image, :attachment]
       def get_merge_config(type)
-        {
+        result = {
           catalog_item: {
             fieldmap: {
               catalogitemid: :catalogitemid,
@@ -22,7 +24,17 @@ module Kiba
             fieldmap: {
               accessionid: :accessionid,
               accessionorloannumber: :accessionorloannumber,
-              accessionitemtype: :itemtype
+              accessionitemtype: :itemtype,
+              accessionposition: :position
+            },
+            constantmap: {}
+          },
+          condition_report: {
+            fieldmap: {
+              conditionreportid: :catalogitemid,
+              conditionreportitemid: :itemid,
+              conditionreportitemtype: :itemtype,
+              conditionreportposition: :position
             },
             constantmap: {}
           },
@@ -30,7 +42,8 @@ module Kiba
             fieldmap: {
               exhibitid: :exhibitid,
               exhibitname: :exhibitname,
-              exhibititemtype: :itemtype
+              exhibititemtype: :itemtype,
+              exhibitposition: :position
             },
             constantmap: {}
           },
@@ -38,14 +51,16 @@ module Kiba
             fieldmap: {
               loanid: :loanid,
               loannumberandrecipient: :loannumberandrecipient,
-              loanitemtype: :itemtype
+              loanitemtype: :itemtype,
+              loanposition: :position
             },
             constantmap: {}
           },
           contact: {
             fieldmap: {
               contactid: :contactid,
-              contactname: :contactname
+              contactname: :contactname,
+              contactposition: :position
             },
             constantmap: {
               contactitemtype: "unmigratable"
@@ -54,13 +69,20 @@ module Kiba
           person: {
             fieldmap: {
               personid: :personid,
-              personname: :personname
+              personname: :personname,
+              personposition: :position
             },
             constantmap: {
               personitemtype: "unmigratable"
             }
           }
         }.select { |k, v| Kiba::Extend::Job.output?(jobkey_for(k, type)) }
+        return result if positioned_types.include?(type)
+
+        result.transform_values do |hash|
+          hash[:fieldmap].delete_if { |_k, v| v == :position }
+          hash
+        end
       end
 
       def get_lookup_file_config(type)
