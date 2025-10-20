@@ -6,26 +6,36 @@ module Kiba
     #   itemtype for multiple record types into one table, as in
     #   review__image and review__attachment
     module MultiRectypeItemTypeMergable
-      def positioned_types = [:image]
+      AUTHORITY_MERGE_TABLES = %i[contact person site]
+
+      UNMIGRATABLE_TYPES_FOR_AUTH = %i[attachment image]
+
+      # Mapping of fields to set as :lookup_on value in lookup_file_config
+      LOOKUP_ON_MAP = {
+        attachment: :attachmentid,
+        image: :imageid,
+        url: :id
+      }
+
+      # Types for which a position value is included in merge_config fieldmap
+      POSITIONED_TYPES = [:image]
 
       # @param type [:image, :attachment]
       def get_merge_config(type)
-        result = {
-          catalog_item: {
-            fieldmap: {
-              catalogitemid: :catalogitemid,
-              catalogitemitemid: :itemid,
-              catalogitemitemtype: :itemtype,
-              catalogitemposition: :position
-            },
-            constantmap: {}
-          },
+        {
           accession: {
             fieldmap: {
               accessionid: :accessionid,
               accessionorloannumber: :accessionorloannumber,
-              accessionitemtype: :itemtype,
-              accessionposition: :position
+              accessionitemtype: :itemtype
+            },
+            constantmap: {}
+          },
+          catalog_item: {
+            fieldmap: {
+              catalogitemid: :catalogitemid,
+              catalogitemitemid: :itemid,
+              catalogitemitemtype: :itemtype
             },
             constantmap: {}
           },
@@ -33,17 +43,24 @@ module Kiba
             fieldmap: {
               conditionreportid: :catalogitemid,
               conditionreportitemid: :itemid,
-              conditionreportitemtype: :itemtype,
-              conditionreportposition: :position
+              conditionreportitemtype: :itemtype
             },
             constantmap: {}
+          },
+          contact: {
+            fieldmap: {
+              contactid: :contactid,
+              contactname: :contactname
+            },
+            constantmap: {
+              contactitemtype: "unmigratable"
+            }
           },
           exhibit: {
             fieldmap: {
               exhibitid: :exhibitid,
               exhibitname: :exhibitname,
-              exhibititemtype: :itemtype,
-              exhibitposition: :position
+              exhibititemtype: :itemtype
             },
             constantmap: {}
           },
@@ -51,38 +68,43 @@ module Kiba
             fieldmap: {
               loanid: :loanid,
               loannumberandrecipient: :loannumberandrecipient,
-              loanitemtype: :itemtype,
-              loanposition: :position
+              loanitemtype: :itemtype
             },
             constantmap: {}
-          },
-          contact: {
-            fieldmap: {
-              contactid: :contactid,
-              contactname: :contactname,
-              contactposition: :position
-            },
-            constantmap: {
-              contactitemtype: "unmigratable"
-            }
           },
           person: {
             fieldmap: {
               personid: :personid,
-              personname: :personname,
-              personposition: :position
+              personname: :personname
             },
             constantmap: {
               personitemtype: "unmigratable"
             }
+          },
+          site: {
+            fieldmap: {
+              siteid: :siteid,
+              sitename: :sitename
+            },
+            constantmap: {
+              siteitemtype: "unmigratable"
+            }
           }
         }.select { |k, v| Kiba::Extend::Job.output?(jobkey_for(k, type)) }
-        return result if positioned_types.include?(type)
+          .each { |k, v| handle_position(k, v, type) }
+      end
 
-        result.transform_values do |hash|
-          hash[:fieldmap].delete_if { |_k, v| v == :position }
-          hash
-        end
+      def lookup_on(type)
+        raise "Add :#{type} to LOOKUP_ON_MAP" unless LOOKUP_ON_MAP.key?(type)
+
+        LOOKUP_ON_MAP[type]
+      end
+
+      def handle_position(k, v, type)
+        return unless POSITIONED_TYPES.include?(type)
+
+        posfield = "#{k}position".delete("_").to_sym
+        v[:fieldmap][posfield] = :position
       end
 
       def get_lookup_file_config(type)
@@ -90,7 +112,7 @@ module Kiba
           .map do |t|
           {
             jobkey: jobkey_for(t, type),
-            lookup_on: :"#{type}id"
+            lookup_on: lookup_on(type)
           }
         end.select { |h| Kiba::Extend::Job.output?(h[:jobkey]) }
       end
