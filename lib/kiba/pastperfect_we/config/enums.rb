@@ -30,10 +30,10 @@ module Kiba
 
       # @return [Hash{String=>String}] Used in LocationHistoryItem.MoveTypeId
       setting :move_type, reader: true, default: {
-        "0" => "temp? (0)",
-        "1" => "home? (1)",
-        "2" => "return home? (2)",
-        "3" => "? (3)"
+        "0" => "Temp",
+        "1" => "Home",
+        "2" => "Home",
+        "3" => "Temp"
       }
 
       # @return [Hash{String=>String}] Used in
