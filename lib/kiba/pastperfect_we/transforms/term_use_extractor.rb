@@ -5,22 +5,23 @@ module Kiba
     module Transforms
       # Extracts basic info about references made to Term tables
       class TermUseExtractor
-        def initialize
-          @term_tables = Ppwe::Terms.table_config.keys
+        # @param table [String]
+        def initialize(table:)
+          @table = table
           @rows = []
         end
 
         def process(row) = nil
 
         def close
-          term_tables.each { |tt| uses_for_table(tt) }
+          uses_for_table(table)
           rows.each { |row| yield row }
         end
 
         private
 
-        # @return [Array<String>]
-        attr_reader :term_tables
+        # @return [String]
+        attr_reader :table
 
         attr_reader :rows
 
