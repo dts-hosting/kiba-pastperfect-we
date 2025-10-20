@@ -19,12 +19,11 @@ module Kiba
 
           def xforms
             Kiba.job_segment do
-              # if Ppwe.mode == :review
-              #   transform Replace::FieldValueWithStaticMapping,
-              #     source: :webright,
-              #     mapping: Ppwe::Enums.web_right,
-              #     fallback_val: nil
-              # end
+              if Ppwe.mode == :review
+                transform Replace::FieldValueWithStaticMapping,
+                  source: :webright,
+                  mapping: Ppwe::Enums.web_right
+              end
             end
           end
         end

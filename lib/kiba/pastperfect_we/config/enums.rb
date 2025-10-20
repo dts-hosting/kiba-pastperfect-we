@@ -71,6 +71,14 @@ module Kiba
         "1" => "secondary",
         "2" => "tertiary"
       }
+
+      # @return [Hash{String=>String}] Used in
+      #   CatalogItemNotesAndLegal.webright
+      setting :web_right, reader: true, default: {
+        "1" => "copyright not evaluated",
+        "2" => "copyright undetermined",
+        "3" => "in copyright"
+      }
     end
   end
 end
