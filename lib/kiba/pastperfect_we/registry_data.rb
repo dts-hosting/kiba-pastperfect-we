@@ -625,6 +625,11 @@ module Kiba
             creator: Ppwe::Jobs::Review::User,
             tags: %i[review user]
           }
+          register :url, {
+            path: File.join(dir, "url.csv"),
+            creator: Ppwe::Jobs::Review::Url,
+            tags: %i[review url]
+          }
         end
 
         Ppwe.registry.namespace("term") do
