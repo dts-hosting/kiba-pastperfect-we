@@ -73,6 +73,21 @@ module Kiba
       }
 
       # @return [Hash{String=>String}] Used in
+      #   CatalogItemCondition.maintenanceperiodicity
+      setting :maintenance_periodicity, reader: true, default: {
+        "0" => "0 - Need enum display value",
+        "1" => "1 - Need enum display value",
+        "2" => "2 - Need enum display value",
+        "3" => "monthly",
+        "4" => "quarterly",
+        "5" => "six months",
+        "6" => "yearly",
+        "7" => "7 - Need enum display value",
+        "8" => "five years",
+        "9" => "never"
+      }
+
+      # @return [Hash{String=>String}] Used in
       #   CatalogItemNotesAndLegal.webright
       setting :web_right, reader: true, default: {
         "1" => "copyright not evaluated",
