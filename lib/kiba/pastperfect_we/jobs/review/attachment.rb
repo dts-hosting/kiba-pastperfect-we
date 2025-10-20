@@ -29,7 +29,7 @@ module Kiba
             Kiba.job_segment do
               Ppwe::Attachment.merge_config.each do |k, v|
                 transform Merge::MultiRowLookup,
-                  lookup: send(Ppwe::Attachment.jobkey_for(k)),
+                  lookup: send(Ppwe::Attachment.jobkey_for(k, :attachment)),
                   keycolumn: :id,
                   fieldmap: v[:fieldmap],
                   constantmap: v[:constantmap]
