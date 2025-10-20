@@ -21,6 +21,12 @@ module Kiba
             Kiba.job_segment do
               transform Ppwe::Transforms::DictionaryLookup,
                 fields: %i[conditionid displayvalueid]
+
+              if Ppwe.mode == :review
+                transform Replace::FieldValueWithStaticMapping,
+                  source: :maintenanceperiodicity,
+                  mapping: Ppwe::Enums.maintenance_periodicity
+              end
             end
           end
         end
