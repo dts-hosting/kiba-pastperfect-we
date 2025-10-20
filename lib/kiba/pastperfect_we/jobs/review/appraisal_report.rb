@@ -14,7 +14,7 @@ module Kiba
                 destination: :review__appraisal_report,
                 lookup: [
                   {
-                    jobkey: :appraisal_report__target_system_lookup,
+                    jobkey: :target_system_lookup__appraisal_report,
                     lookup_on: :id
                   }
                 ]
@@ -26,7 +26,7 @@ module Kiba
           def xforms
             Kiba.job_segment do
               transform Merge::MultiRowLookup,
-                lookup: appraisal_report__target_system_lookup,
+                lookup: target_system_lookup__appraisal_report,
                 keycolumn: :id,
                 fieldmap: {
                   Ppwe::Splitting.item_type_field =>

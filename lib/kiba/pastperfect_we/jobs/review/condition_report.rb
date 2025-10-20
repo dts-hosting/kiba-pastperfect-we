@@ -23,7 +23,7 @@ module Kiba
                     lookup_on: :conditionreportid
                   },
                   {
-                    jobkey: :condition_report__target_system_lookup,
+                    jobkey: :target_system_lookup__condition_report,
                     lookup_on: :id
                   }
                 ]
@@ -53,7 +53,7 @@ module Kiba
                 keycolumn: :id,
                 targetfield: :numberofimages
               transform Merge::MultiRowLookup,
-                lookup: condition_report__target_system_lookup,
+                lookup: target_system_lookup__condition_report,
                 keycolumn: :id,
                 fieldmap: {
                   Ppwe::Splitting.item_type_field =>

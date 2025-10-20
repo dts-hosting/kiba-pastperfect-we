@@ -13,7 +13,7 @@ module Kiba
                 source: :prep__accession,
                 destination: :review__accession,
                 lookup: [
-                  :accession__target_system_lookup,
+                  :target_system_lookup__accession,
                   :preprocess__accession_attachment,
                   :preprocess__accession_activities,
                   {jobkey: :preprocess__catalog_item, lookup_on: :accessionid},
@@ -74,7 +74,7 @@ module Kiba
                 targetfield: :numberofincomingloanreturneditems
 
               transform Merge::MultiRowLookup,
-                lookup: accession__target_system_lookup,
+                lookup: target_system_lookup__accession,
                 keycolumn: :id,
                 fieldmap: {
                   Ppwe.review_target_field => Ppwe.review_target_field,

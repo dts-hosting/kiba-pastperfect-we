@@ -3,16 +3,16 @@
 module Kiba
   module PastperfectWe
     module Jobs
-      module ConditionReport
-        module TargetSystemLookup
+      module TargetSystemLookup
+        module Accession
           module_function
 
           def job
             Kiba::Extend::Jobs::Job.new(
               files: {
-                source: :preprocess__condition_report,
-                destination: :condition_report__target_system_lookup,
-                lookup: :prep__catalog_item
+                source: :prep__accession,
+                destination: :target_system_lookup__accession,
+                lookup: {jobkey: :prep__catalog_item, lookup_on: :accessionid}
               },
               transformer: xforms
             )
@@ -21,13 +21,18 @@ module Kiba
           def xforms
             Kiba.job_segment do
               transform Delete::FieldsExcept,
-                fields: %i[id catalogitemid]
+                fields: %i[id number accessiontype loannumber]
+              transform CombineValues::FromFieldsWithDelimiter,
+                sources: %i[number loannumber],
+                target: :number,
+                delete_sources: true,
+                delim: "; "
+
               transform Merge::MultiRowLookup,
                 lookup: prep__catalog_item,
                 keycolumn: :id,
                 fieldmap: {Ppwe::Splitting.item_type_field =>
-                           Ppwe::Splitting.item_type_field,
-                           :itemid => :itemid}
+                           Ppwe::Splitting.item_type_field}
               transform Deduplicate::FieldValues,
                 fields: Ppwe::Splitting.item_type_field,
                 sep: Ppwe.delim
