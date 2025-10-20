@@ -386,6 +386,16 @@ module Kiba
           }
         end
 
+        Ppwe.registry.namespace("image") do
+          register :itemtype_lookup, {
+            path: File.join(Ppwe.wrkdir,
+              "image_itemtype_lookup.csv"),
+            creator: Ppwe::Jobs::Image::ItemtypeLookup,
+            tags: %i[image],
+            lookup_on: :id
+          }
+        end
+
         Ppwe.registry.namespace("loan") do
           register :target_system_lookup, {
             path: File.join(Ppwe.wrkdir,
