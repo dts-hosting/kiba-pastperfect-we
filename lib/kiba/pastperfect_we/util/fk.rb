@@ -41,9 +41,17 @@ module Kiba
             circ = table == parenttable
             sub = !circ &&
               parenttable.start_with?(table) &&
-              row["Parent column_id"].to_i == 1
+              sub_id?(row)
             Reference.new(row["Parent table"], row["Parent field"], circ, sub)
           end.compact
+        end
+
+        def sub_id?(row)
+          return true if row["Parent column_id"].to_i == 1
+
+          pf = row["Parent field"].downcase.to_s
+          tf = "#{row["Referenced table"]}#{row["Referenced field"]}".downcase
+          pf == tf
         end
 
         # @return [nil, Symbol] field containing catalogitemid reference id, if
