@@ -11,7 +11,8 @@ module Kiba
             Kiba::Extend::Jobs::Job.new(
               files: {
                 source: source,
-                destination: dest
+                destination: dest,
+                lookup: :target_system_lookup__contact
               },
               transformer: Ppwe::Prep.get_xforms(self)
             )
@@ -23,6 +24,16 @@ module Kiba
                 source: :prep__url,
                 join_column: :urlid,
                 merged_field_prefix: "url"
+              transform Merge::MultiRowLookup,
+                lookup: target_system_lookup__contact,
+                keycolumn: :contactid,
+                fieldmap: {
+                  Ppwe::Splitting.item_type_field =>
+                    Ppwe::Splitting.item_type_field
+                }
+              transform Rename::Field,
+                from: :url_url,
+                to: :url
             end
           end
         end
