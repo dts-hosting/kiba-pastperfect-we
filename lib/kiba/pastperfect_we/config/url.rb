@@ -12,6 +12,15 @@ module Kiba
 
       extend Dry::Configurable
 
+      setting :fieldmap,
+        reader: true,
+        default: {},
+        constructor: ->(default) do
+          %i[url url_dateadded url_ispublicaccess url_displayname
+            url_addedby].map { |f| [f, f] }
+            .to_h
+        end
+
       setting :merge_config,
         reader: true,
         default: nil,
