@@ -19,6 +19,7 @@ module Kiba
         register_orig_files
         register_preprocess_jobs
         register_term_usage_jobs
+        register_term_itemtype_noncirc_jobs
         register_files
 
         # # This needs to be added if you are using the IterativeCleanup mixin
@@ -93,6 +94,35 @@ module Kiba
                 initial_headers: %i[termtable termid referringtable
                   referringtablelookupfield referringid circular]
               }
+            }.compact
+
+            register jobkey, jobhash
+          end
+        end
+      end
+
+      def register_term_itemtype_noncirc_jobs
+        Ppwe.registry.namespace("term_itemtype_noncirc") do
+          term_tables = Ppwe::Terms.table_config.keys
+          Ppwe::Table.data(term_tables).each do |name, filedata|
+            jobkey = filedata[:key]
+            source = :"term_usage__#{jobkey}"
+
+            jobhash = {
+              path: File.join(
+                Ppwe.wrkdir, "term_itemtype_noncirc_#{jobkey}.csv"
+              ),
+              creator: {
+                callee: Ppwe::Jobs::Term::ItemtypeNoncirc,
+                args: {source: source,
+                       dest: :"term_itemtype_noncirc__#{jobkey}"}
+              },
+              tags: [:term, :term_itemtype, :term_itemtype_noncirc,
+                jobkey.to_sym],
+              dest_special_opts: {
+                initial_headers: [:id, Ppwe::Splitting.item_type_field]
+              },
+              lookup_on: :id
             }.compact
 
             register jobkey, jobhash
@@ -650,18 +680,6 @@ module Kiba
             creator: Ppwe::Jobs::TargetSystemLookup::Url,
             tags: %i[url],
             lookup_on: :id
-          }
-        end
-
-        Ppwe.registry.namespace("term") do
-          register :itemtypes, {
-            path: File.join(Ppwe.datadir, "reference", "term_itemtypes.csv"),
-            creator: Ppwe::Jobs::Term::Itemtypes,
-            tags: %i[terms],
-            dest_special_opts: {
-              initial_headers: %i[termtable termid referringtable referringid
-                circular]
-            }
           }
         end
       end
