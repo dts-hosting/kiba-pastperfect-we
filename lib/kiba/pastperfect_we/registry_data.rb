@@ -711,6 +711,32 @@ module Kiba
             tags: %i[url],
             lookup_on: :id
           }
+
+          term_tables = Ppwe::Terms.table_config.keys
+          Ppwe::Table.data(term_tables).each do |name, filedata|
+            jobkey = filedata[:key]
+            noncirc_source = :"term_itemtype_noncirc__#{jobkey}"
+            circ_source = :"term_itemtype_circ__#{jobkey}"
+
+            jobhash = {
+              path: File.join(
+                Ppwe.wrkdir, "target_system_lookup_#{jobkey}.csv"
+              ),
+              creator: {
+                callee: Ppwe::Jobs::Term::TargetSystemLookup,
+                args: {noncirc_source: noncirc_source,
+                       circ_source: circ_source,
+                       dest: :"target_system_lookup__#{jobkey}"}
+              },
+              tags: [:term, :target_system_lookup, jobkey.to_sym],
+              dest_special_opts: {
+                initial_headers: [:id, Ppwe::Splitting.item_type_field]
+              },
+              lookup_on: :id
+            }.compact
+
+            register jobkey, jobhash
+          end
         end
       end
       private_class_method :register_files
