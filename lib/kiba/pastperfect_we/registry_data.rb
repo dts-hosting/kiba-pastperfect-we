@@ -20,6 +20,7 @@ module Kiba
         register_preprocess_jobs
         register_term_usage_jobs
         register_term_itemtype_noncirc_jobs
+        register_term_itemtype_circ_jobs
         register_files
 
         # # This needs to be added if you are using the IterativeCleanup mixin
@@ -123,6 +124,35 @@ module Kiba
                 initial_headers: [:id, Ppwe::Splitting.item_type_field]
               },
               lookup_on: :id
+            }.compact
+
+            register jobkey, jobhash
+          end
+        end
+      end
+
+      def register_term_itemtype_circ_jobs
+        Ppwe.registry.namespace("term_itemtype_circ") do
+          term_tables = Ppwe::Terms.table_config.keys
+          Ppwe::Table.data(term_tables).each do |name, filedata|
+            jobkey = filedata[:key]
+            source = :"term_usage__#{jobkey}"
+
+            jobhash = {
+              path: File.join(
+                Ppwe.wrkdir, "term_itemtype_circ_#{jobkey}.csv"
+              ),
+              creator: {
+                callee: Ppwe::Jobs::Term::ItemtypeCirc,
+                args: {source: source,
+                       dest: :"term_itemtype_circ__#{jobkey}",
+                       lookup: :"term_itemtype_noncirc__#{jobkey}"}
+              },
+              tags: [:term, :term_itemtype, :term_itemtype_circ,
+                jobkey.to_sym],
+              dest_special_opts: {
+                initial_headers: [:id, Ppwe::Splitting.item_type_field]
+              }
             }.compact
 
             register jobkey, jobhash
