@@ -27,6 +27,11 @@ module Kiba
               transform Rename::Field,
                 from: :url_url,
                 to: :url
+
+              transform Ppwe::Transforms::MergeTable,
+                source: :catalog_item__base,
+                join_column: :catalogitemid,
+                delete_join_column: false
             end
           end
         end

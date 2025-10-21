@@ -12,7 +12,10 @@ module Kiba
               files: {
                 source: :prep__catalog_item,
                 destination: :catalog_item__audit_and_system_info,
-                lookup: :prep__catalog_item_notes_and_legal
+                lookup: %i[
+                  prep__catalog_item_notes_and_legal
+                  prep__catalog_item_url
+                ]
               },
               transformer: [xforms, Ppwe::Review.final_xforms].compact
             )
@@ -31,11 +34,10 @@ module Kiba
                 keycolumn: :catalogitemid,
                 fieldmap: {webright: :webright}
 
-              transform Ppwe::Transforms::MergeTable,
-                source: :prep__catalog_item_url,
-                join_column: :catalogitemid,
-                delete_join_column: false,
-                drop_fields: %i[id]
+              transform Merge::MultiRowLookup,
+                lookup: prep__catalog_item_url,
+                keycolumn: :catalogitemid,
+                fieldmap: Ppwe::Url.fieldmap
 
               transform FilterRows::AnyFieldsPopulated,
                 action: :keep,
