@@ -37,10 +37,7 @@ module Kiba
               transform Merge::MultiRowLookup,
                 lookup: prep__person_url,
                 keycolumn: :id,
-                fieldmap: {
-                  url: :url_name,
-                  url_display: :url_displayname
-                }
+                fieldmap: Ppwe::Url.fieldmap
 
               transform Count::MatchingRowsInLookup,
                 lookup: prep__person_attachment,
