@@ -15,7 +15,8 @@ module Kiba
                 lookup: [
                   :prep__person_url,
                   {jobkey: :prep__person_attachment, lookup_on: :personid},
-                  {jobkey: :prep__person_image, lookup_on: :personid}
+                  {jobkey: :prep__person_image, lookup_on: :personid},
+                  :target_system_lookup__person
                 ]
               },
               transformer: [xforms, Ppwe::Review.final_xforms].compact
@@ -48,6 +49,21 @@ module Kiba
                 lookup: prep__person_image,
                 keycolumn: :id,
                 targetfield: :numberofimages
+
+              transform Merge::MultiRowLookup,
+                lookup: target_system_lookup__person,
+                keycolumn: :id,
+                fieldmap: {Ppwe::Splitting.item_type_field =>
+                    Ppwe::Splitting.item_type_field}
+              transform Ppwe::Transforms::ReviewTargetFieldMerger
+
+              transform Deduplicate::FlagAll,
+                on_field: :fullname,
+                in_field: :duplicatefullname,
+                explicit_no: false
+              transform Sort::ByFieldValue,
+                field: :fullname,
+                mode: :string
             end
           end
         end
