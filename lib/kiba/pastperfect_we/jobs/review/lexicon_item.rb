@@ -11,7 +11,8 @@ module Kiba
             Kiba::Extend::Jobs::Job.new(
               files: {
                 source: :prep__lexicon_item,
-                destination: :review__lexicon_item
+                destination: :review__lexicon_item,
+                lookup: :target_system_lookup__lexicon_item
               },
               transformer: [xforms, Ppwe::Review.final_xforms].compact
             )
@@ -21,6 +22,14 @@ module Kiba
             Kiba.job_segment do
               transform Ppwe::Transforms::DeleteTermSourceIndication,
                 table: "LexiconItem"
+              transform Merge::MultiRowLookup,
+                lookup: target_system_lookup__lexicon_item,
+                keycolumn: :id,
+                fieldmap: {
+                  Ppwe::Splitting.item_type_field =>
+                    Ppwe::Splitting.item_type_field
+                }
+              transform Ppwe::Transforms::ReviewTargetFieldMerger
             end
           end
         end

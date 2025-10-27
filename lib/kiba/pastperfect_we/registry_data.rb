@@ -585,7 +585,11 @@ module Kiba
           register :lexicon_item, {
             path: File.join(dir, "lexicon_item.csv"),
             creator: Ppwe::Jobs::Review::LexiconItem,
-            tags: %i[review lexicon_item]
+            tags: %i[review lexicon_item],
+            dest_special_opts: {
+              initial_headers: [:id, Ppwe::Splitting.item_type_field,
+                Ppwe.review_target_field]
+            }
           }
           register :location_history, {
             path: File.join(dir, "location_history.csv"),
