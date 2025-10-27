@@ -51,9 +51,6 @@ module Kiba
                 target: :location,
                 delete_sources: false,
                 delim: " > "
-
-              transform Ppwe::Transforms::AddTermSourceIndication,
-                table: "Location"
             end
           end
         end
