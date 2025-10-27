@@ -11,7 +11,8 @@ module Kiba
             Kiba::Extend::Jobs::Job.new(
               files: {
                 source: :prep__user,
-                destination: :review__user
+                destination: :review__user,
+                lookup: :target_system_lookup__user
               },
               transformer: [xforms, Ppwe::Review.final_xforms].compact
             )
@@ -21,6 +22,21 @@ module Kiba
             Kiba.job_segment do
               transform Ppwe::Transforms::DeleteTermSourceIndication,
                 table: "User"
+              transform Merge::MultiRowLookup,
+                lookup: target_system_lookup__user,
+                keycolumn: :userid,
+                fieldmap: {
+                  Ppwe::Splitting.item_type_field =>
+                    Ppwe::Splitting.item_type_field
+                }
+              transform Ppwe::Transforms::ReviewTargetFieldMerger
+              transform Deduplicate::FlagAll,
+                on_field: :fullname,
+                in_field: :duplicatefullname,
+                explicit_no: false
+              transform Sort::ByFieldValue,
+                field: :fullname,
+                mode: :string
             end
           end
         end
