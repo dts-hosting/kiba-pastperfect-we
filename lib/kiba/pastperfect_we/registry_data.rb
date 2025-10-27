@@ -594,7 +594,18 @@ module Kiba
           register :location, {
             path: File.join(dir, "location.csv"),
             creator: Ppwe::Jobs::Review::Location,
-            tags: %i[review location]
+            tags: %i[review location],
+            dest_special_opts: {
+              initial_headers: [
+                :location,
+                Ppwe::Splitting.item_type_field,
+                Ppwe.review_target_field,
+                :occurrences,
+                :displaylocation,
+                :duplicatedisplayloc,
+                :id
+              ]
+            }
           }
           register :location_history, {
             path: File.join(dir, "location_history.csv"),
