@@ -657,7 +657,12 @@ module Kiba
           register :site, {
             path: File.join(dir, "site.csv"),
             creator: Ppwe::Jobs::Review::Site,
-            tags: %i[review site]
+            tags: %i[review site],
+            dest_special_opts: {
+              initial_headers: [:id, Ppwe::Splitting.item_type_field,
+                Ppwe.review_target_field, :sitenumberandname,
+                :duplicatesitenumberandname]
+            }
           }
           register :url, {
             path: File.join(dir, "url.csv"),
