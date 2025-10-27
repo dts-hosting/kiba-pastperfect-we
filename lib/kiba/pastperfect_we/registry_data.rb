@@ -591,12 +591,26 @@ module Kiba
                 Ppwe.review_target_field]
             }
           }
+          register :location, {
+            path: File.join(dir, "location.csv"),
+            creator: Ppwe::Jobs::Review::Location,
+            tags: %i[review location]
+          }
           register :location_history, {
             path: File.join(dir, "location_history.csv"),
             creator: Ppwe::Jobs::Review::LocationHistory,
             tags: %i[review location_history_item],
             dest_special_opts: {
               initial_headers: Ppwe::Jobs::Review::LocationHistory.init_headers
+            }
+          }
+          register :outgoing_loan, {
+            path: File.join(dir, "outgoing_loan.csv"),
+            creator: Ppwe::Jobs::Review::OutgoingLoan,
+            tags: %i[review outgoing_loan],
+            dest_special_opts: {
+              initial_headers: [:id, Ppwe::Splitting.item_type_field,
+                Ppwe.review_target_field, :loannumber]
             }
           }
           register :outgoing_loan_activities, {
@@ -620,20 +634,6 @@ module Kiba
               ]
             }
           }
-          register :location, {
-            path: File.join(dir, "location.csv"),
-            creator: Ppwe::Jobs::Review::Location,
-            tags: %i[review location]
-          }
-          register :outgoing_loan, {
-            path: File.join(dir, "outgoing_loan.csv"),
-            creator: Ppwe::Jobs::Review::OutgoingLoan,
-            tags: %i[review outgoing_loan],
-            dest_special_opts: {
-              initial_headers: [:id, Ppwe::Splitting.item_type_field,
-                Ppwe.review_target_field, :loannumber]
-            }
-          }
           register :person, {
             path: File.join(dir, "person.csv"),
             creator: Ppwe::Jobs::Review::Person,
@@ -644,15 +644,15 @@ module Kiba
             creator: Ppwe::Jobs::Review::Site,
             tags: %i[review site]
           }
-          register :user, {
-            path: File.join(dir, "user.csv"),
-            creator: Ppwe::Jobs::Review::User,
-            tags: %i[review user]
-          }
           register :url, {
             path: File.join(dir, "url.csv"),
             creator: Ppwe::Jobs::Review::Url,
             tags: %i[review url]
+          }
+          register :user, {
+            path: File.join(dir, "user.csv"),
+            creator: Ppwe::Jobs::Review::User,
+            tags: %i[review user]
           }
         end
 
