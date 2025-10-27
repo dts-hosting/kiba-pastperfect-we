@@ -70,6 +70,9 @@ module Kiba
             {lkup: :review__catalog_list,
              lookup_on: :id}
           ],
+          "Contact" => [
+            {lkup: :target_system_lookup__contact}
+          ],
           "ContactAttachments" => [
             {
               lkup: :preprocess__contact_attachments,
@@ -94,6 +97,9 @@ module Kiba
             },
             {lkup: :catalog_item__base}
           ],
+          "Person" => [
+            {lkup: :target_system_lookup__person}
+          ],
           "PersonAttachment" => [
             {
               lkup: :preprocess__person_attachment,
@@ -107,6 +113,9 @@ module Kiba
               take: :imageid
             },
             {lkup: :target_system_lookup__image}
+          ],
+          "Url" => [
+            {lkup: :target_system_lookup__url}
           ]
         }
 
