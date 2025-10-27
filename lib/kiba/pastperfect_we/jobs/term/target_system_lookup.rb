@@ -18,14 +18,16 @@ module Kiba
                 source: sources,
                 destination: dest
               },
-              transformer: get_xforms(sources)
+              transformer: get_xforms(sources).compact
             )
           end
 
           def get_xforms(sources)
-            return single_source_xforms if sources.length == 1
+            if sources.length == 1
+              return [single_source_xforms, finalize_xforms]
+            end
 
-            multi_source_xforms
+            [multi_source_xforms, finalize_xforms]
           end
 
           def single_source_xforms = nil
@@ -35,12 +37,27 @@ module Kiba
               transform Deduplicate::Table,
                 field: :id,
                 compile_uniq_fieldvals: true
+            end
+          end
+
+          def finalize_xforms
+            Kiba.job_segment do
               transform Deduplicate::FieldValues,
                 fields: Ppwe::Splitting.item_type_field,
                 sep: Ppwe.delim
               transform Delete::EmptyFieldValues,
                 fields: Ppwe::Splitting.item_type_field,
                 delim: Ppwe.delim
+
+              transform do |row|
+                field = Ppwe::Splitting.item_type_field
+                val = row[field]
+                next row if val.blank?
+
+                row[field] = val.split(Ppwe.delim).sort.join(Ppwe.delim)
+                row
+              end
+
               transform Ppwe::Transforms::ReviewTargetFieldMerger
             end
           end
