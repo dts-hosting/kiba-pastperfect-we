@@ -529,7 +529,11 @@ module Kiba
           register :contact, {
             path: File.join(dir, "contact.csv"),
             creator: Ppwe::Jobs::Review::Contact,
-            tags: %i[review contact]
+            tags: %i[review contact],
+            dest_special_opts: {
+              initial_headers: [:id, Ppwe::Splitting.item_type_field,
+                Ppwe.review_target_field]
+            }
           }
           register :exhibit, {
             path: File.join(dir, "exhibit.csv"),
