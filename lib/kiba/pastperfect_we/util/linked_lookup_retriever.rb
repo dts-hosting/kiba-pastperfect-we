@@ -6,7 +6,8 @@ module Kiba
       class LinkedLookupRetriever
         def initialize(config)
           @config = config.map.with_index { |c, i| finalize_config(c, i) }
-          define_lookup_methods
+          @lookups = {}
+          define_lookups
         end
 
         def call(row)
@@ -16,32 +17,25 @@ module Kiba
 
         private
 
-        attr_reader :config
+        attr_reader :config, :lookups
 
         def retrieve(val, cfg)
-          send(:"lookup#{cfg[:idx]}")[val]
+          lookups[cfg[:idx]][val]
             &.map { |r| r[cfg[:take]] }
             &.join(Ppwe.delim)
         end
 
-        def define_lookup_methods
-          config.each { |hash| define_lookup_method(hash) }
+        def define_lookups
+          config.each { |hash| define_lookup(hash) }
         end
 
-        def define_lookup_method(hash)
+        def define_lookup(hash)
           i = hash[:idx]
-          self.class.define_method(:"lookup#{i}") do
-            if instance_variable_defined?(:"@lookup#{i}")
-              return instance_variable_get(:"@lookup#{i}")
-            end
-
-            path = Ppwe.registry.resolve(hash[:lkup]).path
-            result = Kiba::Extend::Utils::Lookup.csv_to_hash(
-              file: path, keycolumn: hash[:lookup_on]
-            )
-            instance_variable_set(:"@lookup#{i}", result)
-            result
-          end
+          path = Ppwe.registry.resolve(hash[:lkup]).path
+          result = Kiba::Extend::Utils::Lookup.csv_to_hash(
+            file: path, keycolumn: hash[:lookup_on]
+          )
+          lookups[i] = result
         end
 
         def finalize_config(hash, i)
