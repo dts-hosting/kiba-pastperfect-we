@@ -21,7 +21,8 @@ module Kiba
                   {
                     jobkey: :preprocess__contact_image,
                     lookup_on: :contactid
-                  }
+                  },
+                  :target_system_lookup__contact
                 ]
               },
               transformer: [xforms, Ppwe::Review.final_xforms].compact
@@ -62,6 +63,15 @@ module Kiba
                 lookup: preprocess__contact_image,
                 keycolumn: :id,
                 targetfield: :numberofimages
+
+              transform Merge::MultiRowLookup,
+                lookup: target_system_lookup__contact,
+                keycolumn: :id,
+                fieldmap: {
+                  Ppwe::Splitting.item_type_field =>
+                    Ppwe::Splitting.item_type_field
+                }
+              transform Ppwe::Transforms::ReviewTargetFieldMerger
             end
           end
         end
